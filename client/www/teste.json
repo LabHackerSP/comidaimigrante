@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "total_count": 1
+  },
+  "objects": [
+    {
+      "nome": "Baba Hassum",
+      "endereco": "Rua Rio Grande do Sul, 137",
+      "cidade": "São Caetano do Sul - SP",
+      "geopos": {
+        "lat": -23.6130881,
+        "lon": -46.5728499
+      },
+      "telefone": "(11) 4318 4509",
+      "horarios": [
+        {
+          "dia": "1",
+          "abre": "9:00",
+          "fecha": "20:00"
+        },
+        {
+          "dia": "2",
+          "abre": "9:00",
+          "fecha": "20:00"
+        },
+        {
+          "dia": "3",
+          "abre": "9:00",
+          "fecha": "20:00"
+        },
+        {
+          "dia": "4",
+          "abre": "9:00",
+          "fecha": "20:00"
+        },
+        {
+          "dia": "5",
+          "abre": "9:00",
+          "fecha": "20:00"
+        },
+        {
+          "dia": "6",
+          "abre": "10:00",
+          "fecha": "18:00"
+        }
+      ],
+      "origem": {
+        "nome": "Líbano",
+        "bandeira": "libano"
+      },
+      "foto": "http://",
+      "link": "http://",
+      "comida": [
+        {
+          "tag": "libanesa",
+          "id": 1
+        }
+      ],
+      "preco": 1,
+      "flags": {
+        "vegetariana": true,
+        "delivery": false,
+        "ao_vivo": false,
+        "em_pe": false,
+        "cafe_da_manha": false,
+        "self_service": false,
+        "cartoes": true,
+        "wifi": true,
+        "fumantes": false,
+        "estacionamento": false,
+        "acessibilidade": false
+      },
+      "sinopse": "texto"
+    }
+  ]
+}
