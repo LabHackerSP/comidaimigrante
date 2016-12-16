@@ -12,14 +12,15 @@ function d(s) {
 function mapInit() {
 	d("mapInit()");
 	map = new L.Map('map'); // global
-	$("#map").css( {"height": "200px"});
+	//$("#map").css( {"height": "200px"});
 
 	url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-	opt = {minZoom: 8, maxZoom: 12, attribution: "OSM"}
+	opt = {attribution: "<a href='https://www.openstreetmap.org/'>OSM</a>"}
 	var layer = new L.TileLayer(url, opt);
 
 	map.addLayer(layer);
-	map.setView(new L.LatLng(51.3, 0.7),9);
+	//map.setView(new L.LatLng(51.3, 0.7),9);
+	map.setView(new L.LatLng(-23.5, -46.6),9);
 }
 
 function mapPos(lat, lon) {
@@ -84,5 +85,3 @@ function main() {
 var watchGeo=null;
 var map=null;
 main();
-
-
