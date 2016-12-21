@@ -3,6 +3,26 @@
  * 2016 Labhacker
  */
 
+// Initialize your app
+var Frm7 = new Framework7();
+
+// Export selectors engine
+var $$ = Dom7;
+
+// Add view
+var mainView = Frm7.addView('.view-main', {
+    // Because we use fixed-through navbar we can enable dynamic navbar
+    dynamicNavbar: true
+});
+
+// Callbacks to run specific code for specific pages, for example for About page:
+Frm7.onPageInit('about', function (page) {
+    // run createContentPage func after link was clicked
+    $$('.create-page').on('click', function () {
+        createContentPage();
+    });
+});
+
 var app = {
   // Application Constructor
   initialize: function() {
@@ -25,7 +45,6 @@ var app = {
   },
 
   onDocumentReady: function() {
-    $("[data-role=panel]").panel().enhanceWithin();
     map.init();
   },
   // Update DOM on a Received Event
@@ -54,6 +73,10 @@ var map = {
   	map.object.addLayer(layer);
     // geopos de são paulo
   	map.object.setView(new L.LatLng(-23.5, -46.6),9);
+  },
+
+  centerOnGPS: function() {
+    map.object.locate({setView:true});
   }
 };
 
