@@ -100,4 +100,9 @@ var map = {
   }
 };
 
+var parser = {
+  // function to receive json and add markers to map
+  // json is stored and used to populate list
+};
+
 app.initialize();
