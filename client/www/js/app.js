@@ -24,6 +24,10 @@ Frm7.onPageInit('about', function (page) {
     });*/
 });
 
+var templates = {
+  picker: Template7.compile($$('#picker-template').html())
+};
+
 var app = {
   // Application Constructor
   initialize: function() {
@@ -51,6 +55,13 @@ var app = {
 
   onDocumentReady: function() {
     map.init();
+  },
+
+  // opens picker modal with restaurant info
+  loadRestaurant: function(uuid) {
+    var html = templates.picker(data.objects[uuid]);
+    $("#picker-info").html(html);
+    Frm7.pickerModal("#picker-info");
   }
 };
 
@@ -92,7 +103,11 @@ var map = {
   },
 
   clickMarker: function(e) {
-    console.log(e);
+    map.object.panTo(e.latlng);
+    console.log(e.target.uuid);
+
+    // open picker modal with restaurant info
+    app.loadRestaurant(e.target.uuid);
   }
 };
 
@@ -108,6 +123,7 @@ var data = {
       if(!(obj.uuid in data.objects)) {
         obj.marker = L.marker([obj.geopos.lat, obj.geopos.lon]).addTo(map.object);
         obj.marker.on('click', map.clickMarker);
+        obj.marker.uuid = obj.uuid;
         data.objects[obj.uuid] = obj;
       }
     }

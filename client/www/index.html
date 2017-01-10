@@ -63,26 +63,29 @@
           </div>
         </div>
         <!-- Picker Modal Container -->
-        <div class="picker-modal">
+        <div class="picker-modal" id="picker-info">
           <!-- Picker Modal Toolbar, optional -->
-          <div class="toolbar">
-            <div class="toolbar-inner">
-              <div class="left">
-                <p class="toolbar-padding">Restaurante</p>
+          <script id="picker-template" type="text/template7">
+            <div class="toolbar">
+              <div class="toolbar-inner">
+                <div class="left">
+                  <p class="toolbar-padding">{{nome}}</p>
+                </div>
+                <div class="right">
+                  <a href="#" class="link close-picker">Fechar</a>
+                </div>
               </div>
-              <div class="right">
-                <a href="#" class="link close-picker">Fechar</a>
+            </div>
+            <!-- Picker Modal Inner -->
+            <div class="picker-modal-inner">
+              <!-- Picker content -->
+              <div class="content-block">
+                <p>{{endereco}}</p>
+                <p>{{cidade}}</p>
               </div>
             </div>
           </div>
-          <!-- Picker Modal Inner -->
-          <div class="picker-modal-inner">
-            <!-- Picker content -->
-            <div class="content-block">
-              <p>Integer mollis nulla id nibh elementum finibus...</p>
-            </div>
-          </div>
-        </div>
+        </script>
       </div>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
