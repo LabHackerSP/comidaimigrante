@@ -21,9 +21,17 @@
     <div class="panel-overlay"></div>
     <!-- Left panel with reveal effect-->
     <div class="panel panel-left panel-reveal">
-      <div class="content-block">
-        <p>Left panel content goes here</p>
-      </div>
+          <div class="list-block">
+            <ul>
+              <li class="item-content">
+                <a href="#" onClick="data.download();" class="close-panel">
+                  <div class="item-inner">
+                    <div class="item-title">Recarregar nessa localização</div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
     </div>
     <!-- Views-->
     <div class="views">
@@ -54,9 +62,26 @@
             </div>
           </div>
         </div>
-        <!-- Bottom Toolbar-->
-        <div class="toolbar">
-          <div class="toolbar-inner"><a href="#" class="link">Link 1</a><a href="#" class="link">Link 2</a></div>
+        <!-- Picker Modal Container -->
+        <div class="picker-modal">
+          <!-- Picker Modal Toolbar, optional -->
+          <div class="toolbar">
+            <div class="toolbar-inner">
+              <div class="left">
+                <p class="toolbar-padding">Restaurante</p>
+              </div>
+              <div class="right">
+                <a href="#" class="link close-picker">Fechar</a>
+              </div>
+            </div>
+          </div>
+          <!-- Picker Modal Inner -->
+          <div class="picker-modal-inner">
+            <!-- Picker content -->
+            <div class="content-block">
+              <p>Integer mollis nulla id nibh elementum finibus...</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

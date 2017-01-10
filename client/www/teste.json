@@ -4,6 +4,7 @@
   },
   "objects": [
     {
+      "uuid": "aaaa",
       "nome": "Baba Hassum",
       "endereco": "Rua Rio Grande do Sul, 137",
       "cidade": "São Caetano do Sul - SP",

@@ -51,17 +51,6 @@ var app = {
 
   onDocumentReady: function() {
     map.init();
-  },
-  // Update DOM on a Received Event
-  receivedEvent: function(id) {
-    var parentElement = document.getElementById(id);
-    var listeningElement = parentElement.querySelector('.listening');
-    var receivedElement = parentElement.querySelector('.received');
-
-    listeningElement.setAttribute('style', 'display:none;');
-    receivedElement.setAttribute('style', 'display:block;');
-
-    console.log('Received Event: ' + id);
   }
 };
 
@@ -97,12 +86,41 @@ var map = {
   updateDot: function(e) {
     map.dot.setLatLng(e.latlng)
     map.dot.update();
+
+    // fetch closest restaurants when location is found
+    data.download();
+  },
+
+  clickMarker: function(e) {
+    console.log(e);
   }
 };
 
-var parser = {
-  // function to receive json and add markers to map
+var data = {
   // json is stored and used to populate list
+  objects: {},
+
+  // function to receive json and add markers to map
+  parse: function(json) {
+    // add to objects if not already loaded
+    for(var k in json.objects) {
+      var obj = json.objects[k];
+      if(!(obj.uuid in data.objects)) {
+        obj.marker = L.marker([obj.geopos.lat, obj.geopos.lon]).addTo(map.object);
+        obj.marker.on('click', map.clickMarker);
+        data.objects[obj.uuid] = obj;
+      }
+    }
+
+    Frm7.hideIndicator();
+  },
+
+  // fetch from server
+  download: function() {
+    // call to api with lat and long looking for restaurants in certain radius
+    Frm7.showIndicator();
+    $.getJSON("teste.json", data.parse);
+  }
 };
 
 app.initialize();

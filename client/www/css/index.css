@@ -1,8 +1,19 @@
 /* fixes broken padding for toolbar */
+
+.navbar-fixed .page-content {
+  padding-top: 56px;
+  padding-bottom: 0;
+}
+
 .navbar-fixed .tabbar-fixed .page-content, .navbar-fixed .toolbar-fixed .page-content, .navbar-fixed.tabbar-fixed .page-content, .navbar-fixed.toolbar-fixed .page-content, .tabbar-fixed .navbar-fixed .page-content, .toolbar-fixed .navbar-fixed .page-content {
   padding-top: 56px;
-  padding-bottom: 48px;
+  /*padding-bottom: 48px;*/
 }
 .tabbar-fixed .page-content, .toolbar-fixed .page-content {
-  padding-bottom: 48px;
+  /*padding-bottom: 48px;*/
+}
+
+
+.toolbar-padding {
+  padding: 0 16px;
 }
