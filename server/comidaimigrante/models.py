@@ -71,3 +71,10 @@ class Horario(models.Model):
 
     class Meta:
         unique_together = ('restaurante', 'weekday')
+
+    def __str__(self):
+        return _("%(weekday)s (%(from_hour)s - %(to_hour)s)") % {
+            'weekday': WEEKDAYS[self.weekday][1],
+            'from_hour': self.from_hour,
+            'to_hour': self.to_hour
+        }
