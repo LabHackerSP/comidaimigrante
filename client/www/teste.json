@@ -1,6 +1,6 @@
 {
   "meta": {
-    "total_count": 1
+    "total_count": 2
   },
   "objects": [
     {
@@ -72,6 +72,76 @@
         "acessibilidade": false
       },
       "sinopse": "texto"
+    },
+    {
+      "uuid": "bbbb",
+      "nome": "Bar Du Carlão",
+      "endereco": "Rua Dr. Rodrigo de Barros, 251",
+      "cidade": "São Paulo - SP",
+      "geopos": {
+        "lat": -23.529475,
+        "lon": -46.629004
+      },
+      "telefone": "(11) 3326 4793",
+      "horarios": [
+        {
+          "dia": "1",
+          "abre": "5:30",
+          "fecha": "21:30"
+        },
+        {
+          "dia": "2",
+          "abre": "5:30",
+          "fecha": "21:30"
+        },
+        {
+          "dia": "3",
+          "abre": "5:30",
+          "fecha": "21:30"
+        },
+        {
+          "dia": "4",
+          "abre": "5:30",
+          "fecha": "21:30"
+        },
+        {
+          "dia": "5",
+          "abre": "5:30",
+          "fecha": "21:30"
+        },
+        {
+          "dia": "6",
+          "abre": "5:30",
+          "fecha": "15:00"
+        }
+      ],
+      "origem": {
+        "nome": "Brasil",
+        "bandeira": "brasil"
+      },
+      "foto": "http://",
+      "link": "http://",
+      "comida": [
+        {
+          "tag": "brasileira",
+          "id": 1
+        }
+      ],
+      "preco": 1,
+      "flags": {
+        "vegetariana": true,
+        "delivery": false,
+        "ao_vivo": false,
+        "em_pe": false,
+        "cafe_da_manha": true,
+        "self_service": false,
+        "cartoes": true,
+        "wifi": true,
+        "fumantes": false,
+        "estacionamento": false,
+        "acessibilidade": false
+      },
+      "sinopse": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit tortor id mauris euismod mollis. Praesent vestibulum venenatis libero non semper. Pellentesque imperdiet libero vel urna commodo egestas. Sed in eleifend massa. Aliquam vulputate quam at elit fermentum, vel hendrerit justo venenatis. Morbi eu blandit diam."
     }
   ]
 }
