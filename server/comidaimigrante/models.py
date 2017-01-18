@@ -48,7 +48,7 @@ class Flag(models.Model):
 class Restaurante(models.Model):
     nome = StringField()
     endereco = StringField()
-    cidade = models.ManyToManyField(Cidade)
+    cidade = models.ForeignKey(Cidade)
     sinopse = models.TextField()
     lat = models.DecimalField(max_digits=9, decimal_places=6)
     long = models.DecimalField(max_digits=9, decimal_places=6)
@@ -58,7 +58,7 @@ class Restaurante(models.Model):
     link = models.URLField(blank=True)
     preco = models.IntegerField()
     comida = models.ManyToManyField(Comida)
-    flags = models.ManyToManyField(Flag)
+    flags = models.ManyToManyField(Flag, blank=True)
 
     def __str__(self):
         return self.nome
@@ -74,7 +74,7 @@ class Horario(models.Model):
 
     def __str__(self):
         return _("%(weekday)s (%(from_hour)s - %(to_hour)s)") % {
-            'weekday': WEEKDAYS[self.weekday][1],
+            'weekday': WEEKDAYS[self.weekday-1][1],
             'from_hour': self.from_hour,
             'to_hour': self.to_hour
         }
