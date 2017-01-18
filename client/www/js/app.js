@@ -107,7 +107,7 @@ var map = {
     console.log(e.target.uuid);
 
     // open picker modal with restaurant info
-    app.loadRestaurant(e.target.uuid);
+    app.loadRestaurant(e.target.id);
   }
 };
 
@@ -120,14 +120,20 @@ var data = {
     // add to objects if not already loaded
     for(var k in json.objects) {
       var obj = json.objects[k];
-      if(!(obj.uuid in data.objects)) {
-        obj.marker = L.marker([obj.geopos.lat, obj.geopos.lon]).addTo(map.object);
+      if(!(obj.id in data.objects)) {
+        obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
         obj.marker.on('click', map.clickMarker);
-        obj.marker.uuid = obj.uuid;
-        data.objects[obj.uuid] = obj;
+        obj.marker.id = obj.id;
+        data.objects[obj.id] = obj;
       }
     }
 
+    Frm7.hideIndicator();
+  },
+
+  // fetch failed
+  fail: function(e) {
+    console.log(e);
     Frm7.hideIndicator();
   },
 
@@ -135,7 +141,8 @@ var data = {
   download: function() {
     // call to api with lat and long looking for restaurants in certain radius
     Frm7.showIndicator();
-    $.getJSON("teste.json", data.parse);
+    url = "http://127.0.0.1:8000/api/restaurante/?format=json"
+    $.getJSON(url, data.parse, data.fail);
   }
 };
 
