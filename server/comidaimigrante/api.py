@@ -47,6 +47,12 @@ class RestauranteResource(ModelResource):
     class Meta:
         queryset = Restaurante.objects.all()
         resource_name = 'restaurante'
+        filtering = {
+            "lat": ('lte','gte',),
+            "long": ('lte','gte',),
+            "nome": ('like','contains',),
+            "origem": ('exact',),
+        }
 
     # encontra horários do restaurante
     def dehydrate_horarios(self, bundle):
