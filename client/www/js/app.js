@@ -28,7 +28,8 @@ Frm7.onPageInit('about', function (page) {
 });
 
 var templates = {
-  picker: Template7.compile($$('#picker-template').html())
+  picker: Template7.compile($$('#picker-template').html()),
+  searchName: Template7.compile($$('#search-name-template').html()),
 };
 
 var app = {
@@ -62,25 +63,55 @@ var app = {
 
   // opens picker modal with restaurant info
   loadRestaurant: function(uuid) {
-    var html = templates.picker(data.objects[uuid]);
+    var obj = data.objects[uuid];
+    var latlng = L.latLng(obj.lat, obj.long);
+    map.object.panTo(latlng);
+    var html = templates.picker(obj);
     $("#picker-info").html(html);
     Frm7.pickerModal("#picker-info");
   }
 };
+
+// botão gps
+var GPSButton = L.Control.extend({
+  onAdd: function(m) {
+    var a = L.DomUtil.create('a');
+    a.href = '#';
+    a.classList = 'floating-button gps-button';
+
+    var i = document.createElement('i');
+    i.classList = 'f7-icons'
+    i.appendChild(document.createTextNode('compass_fill'));
+    a.appendChild(i);
+    L.DomEvent.addListener(a, 'click', map.centerOnGPS);
+
+    return a;
+  },
+
+  onRemove: function(m) {
+    // Nothing to do here
+  }
+});
 
 var map = {
   object: null,
   dot: null,
 
   init: function() {
-    map.object = new L.Map('map');
-
-  	url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  	opt = {
-      attribution: "<a href='https://www.openstreetmap.org/'>OSM</a>",
+    var opt = {
       zoomControl: false,
     };
+    map.object = new L.Map('map', opt);
+
+  	var url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  	opt = {
+      attribution: "<a href='https://www.openstreetmap.org/'>OSM</a>",
+    };
   	var layer = new L.TileLayer(url, opt);
+
+    // botão gps
+    var button = new GPSButton({position:'topright'});
+    button.addTo(map.object);
 
   	map.object.addLayer(layer);
     map.dot = L.marker([0, 0]).addTo(map.object);
@@ -109,8 +140,6 @@ var map = {
   },
 
   clickMarker: function(e) {
-    map.object.panTo(e.latlng);
-
     // open picker modal with restaurant info
     app.loadRestaurant(e.target.id);
   }
@@ -121,7 +150,7 @@ var data = {
   objects: {},
 
   // function to receive json and add markers to map
-  parse: function(json) {
+  parseObjects: function(json) {
     // add to objects if not already loaded
     for(var k in json.objects) {
       var obj = json.objects[k];
@@ -136,25 +165,68 @@ var data = {
     Frm7.hideIndicator();
   },
 
+  // function to receive json and add markers to map
+  parseSingle: function(json) {
+    // add to objects if not already loaded
+    var obj = json;
+    if(!(obj.id in data.objects)) {
+      obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
+      obj.marker.on('click', map.clickMarker);
+      obj.marker.id = obj.id;
+      data.objects[obj.id] = obj;
+    }
+    //close search, show restaurant info
+    app.loadRestaurant(obj.id);
+
+    Frm7.hideIndicator();
+  },
+
+  // busca por nome
+  parseSearchName: function(json) {
+    var html = templates.searchName(json);
+    $("#search-name").html(html);
+
+    Frm7.hideIndicator();
+  },
+
   // fetch failed
   fail: function(e) {
     console.log(e);
     Frm7.hideIndicator();
+    alert("Não foi possível estabelecer conexão com o servidor.");
   },
 
-  // fetch from server
+  // fetch from server - uses leaflet view to limit results
   download: function() {
     // call to api with lat and long looking for restaurants in certain radius
     Frm7.showIndicator();
-    api = "/api/restaurante/?format=json";
-    lattop = map.object.getBounds()._southWest.lat;
-    longtop = map.object.getBounds()._southWest.lng;
-    latbottom = map.object.getBounds()._northEast.lat;
-    longbottom = map.object.getBounds()._northEast.lng;
-    query = "&lat__gte=" + lattop + "&long__gte=" + longtop + "&lat__lte=" + latbottom + "&long_lte=" + longbottom;
-    console.log();
-    url = SERVER + api + query;
-    $.getJSON(url, data.parse, data.fail);
+    var api = "/api/restaurante/?format=json";
+    var bounds = map.object.getBounds();
+    var lattop = bounds._southWest.lat;
+    var longtop = bounds._southWest.lng;
+    var latbottom = bounds._northEast.lat;
+    var longbottom = bounds._northEast.lng;
+    var query = "&lat__gte=" + lattop + "&long__gte=" + longtop + "&lat__lte=" + latbottom + "&long_lte=" + longbottom;
+    var url = SERVER + api + query;
+    $.getJSON(url, data.parseObjects, data.fail);
+  },
+
+  // fetch from server - single result from search
+  downloadSingle: function(id) {
+    Frm7.showIndicator();
+    var api = "/api/restaurante/" + id + "/?format=json";
+    var url = SERVER + api;
+    $.getJSON(url, data.parseSingle, data.fail);
+  },
+
+  // busca por nome
+  searchName: function() {
+    Frm7.showIndicator();
+    var api = "/api/restaurante/?format=json";
+    var nome = $("#search-name-input").val();
+    var query = "&nome__contains=" + nome;
+    var url = SERVER + api + query;
+    $.getJSON(url, data.parseSearchName, data.fail);
   }
 };
 

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/framework7-icons.css">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/easy-button.css">
     <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
@@ -78,7 +79,7 @@
             <div class="right">
               <!-- search and gps button right -->
               <a href="#" class="link icon-only open-panel" data-panel="right"><i class="f7-icons">search</i></a>
-              <a href="#" onClick="map.centerOnGPS();" class="link icon-only"><i class="f7-icons">compass_fill</i></a>
+              <!--<a href="#" onClick="map.centerOnGPS();" class="link icon-only"><i class="f7-icons">compass_fill</i></a>-->
               </div>
           </div>
         </div>
@@ -94,24 +95,42 @@
           <!-- busca por nome -->
           <div data-page="busca-nome" class="page cached">
             <!-- campo de busca -->
-            <form class="searchbar">
-              <a href="#index" class="link icon-only"><i class="f7-icons" style="padding-right:0.2em;">angle_down</i></a>
+            <form class="searchbar searchbar-init">
+              <a href="#index" class="link icon-only">
+                <i class="f7-icons" style="padding-right:0.2em;">angle_down</i>
+              </a>
               <div class="searchbar-input">
-                <input type="search" placeholder="Busca por nome">
+                <input id="search-name-input" type="search" placeholder="Busca por nome">
                 <a href="#" class="searchbar-clear"></a>
               </div>
-              <a href="#" class="data.searchName();"><i class="f7-icons" style="padding-left:0.2em;">arrow_right</i></a>
+              <a href="#" class="link icon-only" onClick="data.searchName();">
+                <i class="f7-icons" style="padding-left:0.2em;">arrow_right</i>
+              </a>
             </form>
             <!-- Search Bar overlay-->
             <div class="searchbar-overlay"></div>
-            <div class="page-content">
-              <div class="content-block searchbar-not-found">
-                Nothing found
-              </div>
-              <div class="list-block list-block-search searchbar-found">
-                <ul>
-                </ul>
-              </div>
+            <div id="search-name" class="page-content">
+              <script id="search-name-template" type="text/template7">
+                {{#if meta.total_count}}
+                <div class="list-block">
+                  <ul>
+                    {{#each objects}}
+                    <li class="item-content">
+                      <a href="#index" onClick="data.downloadSingle({{id}})">
+                        <div class="item-inner">
+                          <div class="item-title">{{nome}}</div>
+                        </div>
+                      </a>
+                    </li>
+                    {{/each}}
+                  </ul>
+                </div>
+                {{else}}
+                <div class="content-block">
+                  Não foram encontrados resultados
+                </div>
+                {{/if}}
+              </script>
             </div>
           </div>
         </div>
@@ -147,6 +166,7 @@
     <!-- Path to your app js-->
     <script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
     <script type="text/javascript" src="js/leaflet.js"></script>
+    <script type="text/javascript" src="js/easy-button.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
   </body>
 </html>

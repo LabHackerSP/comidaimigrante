@@ -17,3 +17,10 @@
 .toolbar-padding {
   padding: 0 16px;
 }
+
+.gps-button {
+  margin-top: 30px !important;
+  width: 48px;
+  height: 48px;
+  color: #fff !important;
+}
