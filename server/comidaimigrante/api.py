@@ -1,5 +1,5 @@
 from tastypie import fields
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag
 
 class HorarioResource(ModelResource):
@@ -15,20 +15,12 @@ class HorarioResource(ModelResource):
 class OrigemResource(ModelResource):
     class Meta:
         queryset = Origem.objects.all()
-
-    def dehydrate(self, bundle):
-        bundle.data['bandeira'] = bundle.obj.bandeira
-        bundle.data['nome'] = bundle.obj.nome
-        return bundle
+        include_resource_uri = False
 
 class CidadeResource(ModelResource):
     class Meta:
         queryset = Cidade.objects.all()
-
-    def dehydrate(self, bundle):
-        bundle.data['cidade'] = bundle.obj.cidade
-        bundle.data['estado'] = bundle.obj.estado
-        return bundle
+        include_resource_uri = False
 
 class ComidaResource(ModelResource):
     class Meta:
@@ -52,6 +44,7 @@ class RestauranteResource(ModelResource):
             "long": ('lte','gte',),
             "nome": ('like','contains',),
             "origem": ('exact',),
+            "flags": ALL_WITH_RELATIONS,
         }
 
     # encontra horários do restaurante
