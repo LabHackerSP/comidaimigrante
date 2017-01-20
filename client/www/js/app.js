@@ -3,6 +3,8 @@
  * 2016 Labhacker
  */
 
+SERVER = "http://comidaimigrante.labhacker.org.br/"
+
 // Initialize your app
 var Frm7 = new Framework7({
    //swipePanel: 'left'
@@ -73,7 +75,10 @@ var map = {
     map.object = new L.Map('map');
 
   	url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  	opt = {attribution: "<a href='https://www.openstreetmap.org/'>OSM</a>"};
+  	opt = {
+      attribution: "<a href='https://www.openstreetmap.org/'>OSM</a>",
+      zoomControl: false,
+    };
   	var layer = new L.TileLayer(url, opt);
 
   	map.object.addLayer(layer);
@@ -104,7 +109,6 @@ var map = {
 
   clickMarker: function(e) {
     map.object.panTo(e.latlng);
-    console.log(e.target.uuid);
 
     // open picker modal with restaurant info
     app.loadRestaurant(e.target.id);
@@ -141,7 +145,14 @@ var data = {
   download: function() {
     // call to api with lat and long looking for restaurants in certain radius
     Frm7.showIndicator();
-    url = "http://127.0.0.1:8000/api/restaurante/?format=json"
+    api = "/api/restaurante/?format=json";
+    lattop = map.object.getBounds()._southWest.lat;
+    longtop = map.object.getBounds()._southWest.lng;
+    latbottom = map.object.getBounds()._northEast.lat;
+    longbottom = map.object.getBounds()._northEast.lng;
+    query = "&lat__gte=" + lattop + "&long__gte=" + longtop + "&lat__lte=" + latbottom + "&long_lte=" + longbottom;
+    console.log();
+    url = SERVER + api + query;
     $.getJSON(url, data.parse, data.fail);
   }
 };
