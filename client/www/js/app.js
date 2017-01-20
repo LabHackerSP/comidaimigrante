@@ -186,6 +186,17 @@ var data = {
     var html = templates.searchName(json);
     $("#search-name").html(html);
 
+    // add to objects if not already loaded
+    for(var k in json.objects) {
+      var obj = json.objects[k];
+      if(!(obj.id in data.objects)) {
+        obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
+        obj.marker.on('click', map.clickMarker);
+        obj.marker.id = obj.id;
+        data.objects[obj.id] = obj;
+      }
+    }
+
     Frm7.hideIndicator();
   },
 
