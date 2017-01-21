@@ -106,6 +106,8 @@ var map = {
 
   	var url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   	opt = {
+      minZoom: 15,
+      maxZoom: 17,
       attribution: "<a href='https://www.openstreetmap.org/'>OSM</a>",
     };
   	var layer = new L.TileLayer(url, opt);
