@@ -39,9 +39,9 @@
       <div class="list-block">
         <ul>
           <li class="item-content">
-            <a href="#busca-nome" class="close-panel">
+            <a href="#" onClick="data.downloadMeta();" class="close-panel">
               <div class="item-inner">
-                <div class="item-title">Busca por nome</div>
+                <div class="item-title">Busca por restaurante</div>
               </div>
             </a>
           </li>
@@ -49,13 +49,6 @@
             <a href="#busca-end" class="close-panel">
               <div class="item-inner">
                 <div class="item-title">Busca por endereço</div>
-              </div>
-            </a>
-          </li>
-          <li class="item-content">
-            <a href="#busca-nacio" class="close-panel">
-              <div class="item-inner">
-                <div class="item-title">Busca por nacionalidade</div>
               </div>
             </a>
           </li>
@@ -109,28 +102,56 @@
             </form>
             <!-- Search Bar overlay-->
             <div class="searchbar-overlay"></div>
-            <div id="search-name" class="page-content">
-              <script id="search-name-template" type="text/template7">
-                {{#if meta.total_count}}
-                <div class="list-block">
-                  <ul>
-                    {{#each objects}}
-                    <li class="item-content">
-                      <a href="#index" onClick="app.loadRestaurant({{id}})">
-                        <div class="item-inner">
-                          <div class="item-title">{{nome}}</div>
+            <div class="page-content">
+              <div id="search-name-filters">
+                <script id="search-name-filters-template" type="text/template7">
+                  <div class="content-block-title">Filtros</div>
+                  <div class="list-block">
+                    <ul>
+                      <!-- origem -->
+                      <li>
+                        <div class="item-content">
+                          <div class="item-inner">
+                            <div class="item-title label">Origem</div>
+                            <div class="item-input">
+                              <select id="search-filter-origem">
+                                <option>----</option>
+                                {{#each origem}}
+                                <option>{{nome}}</option>
+                                {{/each}}
+                              </select>
+                            </div>
+                          </div>
                         </div>
-                      </a>
-                    </li>
-                    {{/each}}
-                  </ul>
-                </div>
-                {{else}}
-                <div class="content-block">
-                  Não foram encontrados resultados
-                </div>
-                {{/if}}
-              </script>
+                      </li>
+                    </ul>
+                  </div>
+                </script>
+              </div>
+              <div id="search-name-results">
+                <script id="search-name-results-template" type="text/template7">
+                  {{#if meta.total_count}}
+                  <div class="content-block-title">Resultados</div>
+                  <div class="list-block">
+                    <ul>
+                      {{#each objects}}
+                      <li class="item-content">
+                        <a href="#index" onClick="data.downloadSingle({{id}})">
+                          <div class="item-inner">
+                            <div class="item-title">{{nome}}</div>
+                          </div>
+                        </a>
+                      </li>
+                      {{/each}}
+                    </ul>
+                  </div>
+                  {{else}}
+                  <div class="content-block">
+                    Não foram encontrados resultados
+                  </div>
+                  {{/if}}
+                </script>
+              </div>
             </div>
           </div>
         </div>

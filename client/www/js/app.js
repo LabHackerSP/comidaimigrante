@@ -29,7 +29,8 @@ Frm7.onPageInit('about', function (page) {
 
 var templates = {
   picker: Template7.compile($$('#picker-template').html()),
-  searchName: Template7.compile($$('#search-name-template').html()),
+  searchFilters: Template7.compile($$('#search-name-filters-template').html()),
+  searchName: Template7.compile($$('#search-name-results-template').html()),
 };
 
 var app = {
@@ -148,6 +149,7 @@ var map = {
 var data = {
   // json is stored and used to populate list
   objects: {},
+  meta: {},
 
   // function to receive json and add markers to map
   parseObjects: function(json) {
@@ -181,21 +183,20 @@ var data = {
     Frm7.hideIndicator();
   },
 
+  // parser metadados
+  parseMeta: function(json) {
+    data.meta.origem = json.objects;
+    var html = templates.searchFilters(data.meta);
+    $("#search-name-filters").html(html);
+
+    mainView.router.loadPage('#busca-nome');
+    Frm7.hideIndicator();
+  },
+
   // busca por nome
   parseSearchName: function(json) {
     var html = templates.searchName(json);
-    $("#search-name").html(html);
-
-    // add to objects if not already loaded
-    for(var k in json.objects) {
-      var obj = json.objects[k];
-      if(!(obj.id in data.objects)) {
-        obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
-        obj.marker.on('click', map.clickMarker);
-        obj.marker.id = obj.id;
-        data.objects[obj.id] = obj;
-      }
-    }
+    $("#search-name-results").html(html);
 
     Frm7.hideIndicator();
   },
@@ -230,13 +231,30 @@ var data = {
     $.getJSON(url, data.parseSingle, data.fail);
   },
 
-  // busca por nome
+  // fetch metadata
+  downloadMeta: function() {
+    if($.isEmptyObject(data.meta)) {
+      Frm7.showIndicator();
+      // por enquanto só pega a lista de origens -- fazer api com todos metadados depois..
+      var api = "/api/origem/?format=json";
+      var url = SERVER + api;
+      $.getJSON(url, data.parseMeta, data.fail);
+    } else {
+      mainView.router.loadPage('#busca-nome');
+    }
+  },
+
+  // busca por nome e atributos
   searchName: function() {
     Frm7.showIndicator();
     var api = "/api/restaurante/?format=json";
     var nome = $("#search-name-input").val();
-    var query = "&nome__contains=" + nome;
+    var origem = $("#search-filter-origem").val();
+    var query = "";
+    if(nome != "") query += "&nome__contains=" + nome;
+    if(origem != "----") query += "&origem=" + origem;
     var url = SERVER + api + query;
+    console.log(url);
     $.getJSON(url, data.parseSearchName, data.fail);
   }
 };
