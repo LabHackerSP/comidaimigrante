@@ -78,13 +78,32 @@ var GPSButton = L.Control.extend({
   onAdd: function(m) {
     var a = L.DomUtil.create('a');
     a.href = '#';
-    a.classList = 'floating-button gps-button';
+    a.classList = 'floating-button map-top-button gps-button';
 
     var i = document.createElement('i');
     i.classList = 'f7-icons'
     i.appendChild(document.createTextNode('compass_fill'));
     a.appendChild(i);
     L.DomEvent.addListener(a, 'click', map.centerOnGPS);
+
+    return a;
+  },
+
+  onRemove: function(m) {
+    // Nothing to do here
+  }
+});
+
+// botão busca
+var SearchButton = L.Control.extend({
+  onAdd: function(m) {
+    var a = L.DomUtil.create('a');
+    a.href = '#';
+    a.id = 'map-search-button';
+    a.classList = 'map-top-button search-button search-button-hide';
+
+    a.appendChild(document.createTextNode('Buscar nesse local'));
+    L.DomEvent.addListener(a, 'click', data.download);
 
     return a;
   },
@@ -113,8 +132,12 @@ var map = {
   	var layer = new L.TileLayer(url, opt);
 
     // botão gps
-    var button = new GPSButton({position:'topright'});
-    button.addTo(map.object);
+    var gpsbutton = new GPSButton({position:'topright'});
+    gpsbutton.addTo(map.object);
+
+    // botão busca
+    var searchbutton = new SearchButton({position:'topleft'});
+    searchbutton.addTo(map.object);
 
   	map.object.addLayer(layer);
     map.dot = L.marker([0, 0]).addTo(map.object);
@@ -122,6 +145,10 @@ var map = {
   	map.object.setView(new L.LatLng(-23.5, -46.6),50);
 
     map.centerOnGPS();
+
+    map.object.on('moveend', function(e) {
+      map.showSearchButton();
+    });
   },
 
   // finds gps, sets marker and pans camera to it
@@ -150,6 +177,14 @@ var map = {
   panTo: function(lat, lng) {
     var latlng = L.latLng(lat, lng);
     map.object.panTo(latlng);
+  },
+
+  showSearchButton: function() {
+    $('#map-search-button').removeClass('search-button-hide');
+  },
+
+  hideSearchButton: function() {
+    $("#map-search-button").addClass('search-button-hide');
   }
 };
 
@@ -241,6 +276,7 @@ var data = {
 
   // fetch from server - uses leaflet view to limit results
   download: function() {
+    map.hideSearchButton();
     // call to api with lat and long looking for restaurants in certain radius
     Frm7.showIndicator();
     var api = "/api/restaurante/?format=json";
