@@ -154,6 +154,50 @@
               </div>
             </div>
           </div>
+          <!-- busca por endereço -->
+          <div data-page="busca-end" class="page cached">
+            <!-- campo de busca -->
+            <form class="searchbar searchbar-init">
+              <a href="#index" class="link icon-only">
+                <i class="f7-icons" style="padding-right:0.2em;">angle_down</i>
+              </a>
+              <div class="searchbar-input">
+                <input id="search-addr-input" type="search" placeholder="Busca por endereço">
+                <a href="#" class="searchbar-clear"></a>
+              </div>
+              <a href="#" class="link icon-only" onClick="data.searchAddress();">
+                <i class="f7-icons" style="padding-left:0.2em;">arrow_right</i>
+              </a>
+            </form>
+            <!-- Search Bar overlay-->
+            <div class="searchbar-overlay"></div>
+            <div class="page-content">
+              <div id="search-addr-results">
+                <script id="search-addr-results-template" type="text/template7">
+                  {{#if meta.total_count}}
+                  <div class="content-block-title">Resultados</div>
+                  <div class="list-block">
+                    <ul>
+                      {{#each objects}}
+                      <li class="item-content">
+                        <a href="#index" onClick="map.panTo({{lat}},{{lon}})">
+                          <div class="item-inner">
+                            <div class="item-title">{{display_name}}</div>
+                          </div>
+                        </a>
+                      </li>
+                      {{/each}}
+                    </ul>
+                  </div>
+                  {{else}}
+                  <div class="content-block">
+                    Não foram encontrados resultados
+                  </div>
+                  {{/if}}
+                </script>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Picker Modal Container -->
         <div class="picker-modal" id="picker-info">

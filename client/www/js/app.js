@@ -3,7 +3,7 @@
  * 2016 Labhacker
  */
 
-SERVER = "http://comidaimigrante.labhacker.org.br/"
+SERVER = "http://comidaimigrante.labhacker.org.br"
 
 // Initialize your app
 var Frm7 = new Framework7({
@@ -31,6 +31,7 @@ var templates = {
   picker: Template7.compile($$('#picker-template').html()),
   searchFilters: Template7.compile($$('#search-name-filters-template').html()),
   searchName: Template7.compile($$('#search-name-results-template').html()),
+  searchAddress: Template7.compile($$('#search-addr-results-template').html()),
 };
 
 var app = {
@@ -65,8 +66,7 @@ var app = {
   // opens picker modal with restaurant info
   loadRestaurant: function(uuid) {
     var obj = data.objects[uuid];
-    var latlng = L.latLng(obj.lat, obj.long);
-    map.object.panTo(latlng);
+    map.panTo(obj.lat, obj.long);
     var html = templates.picker(obj);
     $("#picker-info").html(html);
     Frm7.pickerModal("#picker-info");
@@ -143,6 +143,11 @@ var map = {
   clickMarker: function(e) {
     // open picker modal with restaurant info
     app.loadRestaurant(e.target.id);
+  },
+
+  panTo: function(lat, lng) {
+    var latlng = L.latLng(lat, lng);
+    map.object.panTo(latlng);
   }
 };
 
@@ -212,6 +217,19 @@ var data = {
     Frm7.hideIndicator();
   },
 
+  // busca por endereço
+  parseSearchAddress: function(json) {
+    var obj = {};
+    obj.meta = {
+      total_count: json.length,
+    };
+    obj.objects = json;
+    var html = templates.searchAddress(obj);
+    $("#search-addr-results").html(html);
+
+    Frm7.hideIndicator();
+  },
+
   // fetch failed
   fail: function(e) {
     console.log(e);
@@ -265,8 +283,18 @@ var data = {
     if(nome != "") query += "&nome__contains=" + nome;
     if(origem != "----") query += "&origem=" + origem;
     var url = SERVER + api + query;
-    console.log(url);
     $.getJSON(url, data.parseSearchName, data.fail);
+  },
+
+  // busca por endereço
+  searchAddress: function() {
+    Frm7.showIndicator();
+    var api = "http://open.mapquestapi.com/nominatim/v1/search.php?format=json";
+    var key = "&key=dH7TjIg1f9jP1Q2Ckom19sp8dOfWW1KD";
+    var search = $("#search-addr-input").val();
+    var query = "&osm_type=way&q=" + search;
+    var url = api + key + query;
+    $.getJSON(url, data.parseSearchAddress, data.fail);
   }
 };
 
