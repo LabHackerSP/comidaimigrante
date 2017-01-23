@@ -1,3 +1,4 @@
+from geopy.distance import vincenty
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag
@@ -47,6 +48,12 @@ class RestauranteResource(ModelResource):
             "flags": ALL_WITH_RELATIONS,
         }
 
+    def dehydrate(self, bundle):
+        local = (bundle.request.GET.get('local_lat'), bundle.request.GET.get('local_long'))
+        remote = (bundle.data['lat'], bundle.data['long'])
+        bundle.data['distance'] = vincenty(local, remote).meters
+        return bundle
+    
     # encontra horários do restaurante
     def dehydrate_horarios(self, bundle):
         res = HorarioResource()
