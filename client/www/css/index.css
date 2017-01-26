@@ -22,12 +22,12 @@
   width: 48px;
   height: 48px;
   color: #fff !important;
-  margin-top: 30px !important;
+  margin-top: 1em !important;
 }
 
 .search-button {
   position: absolute;
-  margin-top: -6em !important;
+  margin-top: -7em !important;
   width: 11em;
   height: 3em;
   border-radius: 2em;
@@ -54,4 +54,8 @@
 
 .search-button-hide {
   margin-top: 70px !important;
+}
+
+.searchbar a {
+  color: #fff;
 }
