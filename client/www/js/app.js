@@ -131,11 +131,11 @@ var map = {
   	var layer = new L.TileLayer(url, opt);
 
     // botão gps
-    var gpsbutton = new GPSButton({position:'topright'});
+    var gpsbutton = new GPSButton({position:'bottomright'});
     gpsbutton.addTo(map.object);
 
     // botão busca
-    var searchbutton = new SearchButton({position:'topleft'});
+    var searchbutton = new SearchButton({position:'bottomleft'});
     searchbutton.addTo(map.object);
 
   	map.object.addLayer(layer);

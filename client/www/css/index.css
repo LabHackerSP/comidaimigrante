@@ -27,7 +27,7 @@
 
 .search-button {
   position: absolute;
-  margin-top: 1.3em !important;
+  margin-top: -6em !important;
   width: 11em;
   height: 3em;
   border-radius: 2em;
@@ -53,5 +53,5 @@
 }
 
 .search-button-hide {
-  margin-top: -70px !important;
+  margin-top: 70px !important;
 }
