@@ -1,3 +1,7 @@
+.theme-comida .page-content {
+  background: #FFE4B7;
+}
+
 .theme-comida .button:not(.button-fill) {
   color: #8E3523;
 }
