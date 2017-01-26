@@ -31,7 +31,6 @@ var templates = {
   picker: Template7.compile($$('#picker-template').html()),
   searchFilters: Template7.compile($$('#search-name-filters-template').html()),
   searchName: Template7.compile($$('#search-name-results-template').html()),
-  searchAddress: Template7.compile($$('#search-addr-results-template').html()),
 };
 
 var app = {
