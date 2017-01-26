@@ -128,6 +128,20 @@
             </div>
           </div>
         </div>
+        <!-- Template for popover modal -->
+        <script id="popover-template" type="text/template">
+          <div class="popover">
+            <div class="popover-inner">
+              <div class="content-block">
+                <p>{{nome}}</p>
+                <p>{{origem.nome}}</p>
+                <p><strong>Endereço:</strong> {{endereco}}</p>
+                <p><strong>Preço:</strong> {{preco}}</p>
+                <a href="#" onClick="app.loadRestaurant({{id}});" class="button button-fill close-popover">Veja Mais</a>
+              </div>
+            </div>
+          </div>
+        </script>
         <!-- Picker Modal Container -->
         <div class="picker-modal" id="picker-info">
           <!-- Picker Modal Toolbar, optional -->

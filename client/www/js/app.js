@@ -8,6 +8,7 @@ SERVER = "http://comidaimigrante.labhacker.org.br"
 // Initialize your app
 var Frm7 = new Framework7({
    //swipePanel: 'left'
+   modalTemplate: $('#popover-template').html(),
 });
 // Export selectors engine
 var $$ = Dom7;
@@ -31,6 +32,7 @@ var templates = {
   picker: Template7.compile($$('#picker-template').html()),
   searchFilters: Template7.compile($$('#search-name-filters-template').html()),
   searchName: Template7.compile($$('#search-name-results-template').html()),
+  popover: Template7.compile($$('#popover-template').html()),
 };
 
 var app = {
@@ -69,6 +71,14 @@ var app = {
     var html = templates.picker(obj);
     $("#picker-info").html(html);
     Frm7.pickerModal("#picker-info");
+  },
+
+  loadRestaurantPopover: function(clicked, uuid) {
+    var obj = data.objects[uuid];
+    map.panTo(obj.lat, obj.long);
+    var html = templates.popover(obj);
+    var popover = Frm7.popover(html, clicked);
+    console.log(popover);
   }
 };
 
@@ -170,7 +180,8 @@ var map = {
 
   clickMarker: function(e) {
     // open picker modal with restaurant info
-    app.loadRestaurant(e.target.id);
+    //app.loadRestaurant(e.target.id);
+    app.loadRestaurantPopover(e.originalEvent.target, e.target.id);
   },
 
   panTo: function(lat, lng) {
@@ -204,6 +215,10 @@ var data = {
         data.objects[obj.id] = obj;
       }
     }
+
+    $$('.leaflet-marker-icon').on('click', function() {
+      console.log(this);
+    });
 
     Frm7.hideIndicator();
   },
