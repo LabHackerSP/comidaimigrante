@@ -99,7 +99,7 @@ var SearchButton = L.Control.extend({
     var a = L.DomUtil.create('a');
     a.href = '#';
     a.id = 'map-search-button';
-    a.classList = 'map-top-button search-button search-button-hide';
+    a.classList = 'map-top-button button-fill search-button search-button-hide';
 
     a.appendChild(document.createTextNode('Buscar nesse local'));
     L.DomEvent.addListener(a, 'click', data.download);

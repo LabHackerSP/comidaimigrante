@@ -33,7 +33,6 @@
   border-radius: 2em;
   z-index: 1500;
   box-shadow: 0 10px 20px rgba(0,0,0,.19),0 6px 6px rgba(0,0,0,.23);
-  background-color: #2196f3;
   color: #fff !important;
   overflow: hidden;
   -webkit-transition-duration: .3s;
