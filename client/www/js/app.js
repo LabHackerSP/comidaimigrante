@@ -55,6 +55,7 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   onDeviceReady: function() {
     //app.receivedEvent('deviceready');
+    document.addEventListener('backbutton', app.onBackKeyDown, false);
     if (cordova.platformId == 'android') {
       StatusBar.backgroundColorByHexString("#1C81CE");
       //StatusBar.backgroundColorByHexString("#1C81CE");
@@ -63,6 +64,26 @@ var app = {
 
   onDocumentReady: function() {
     map.init();
+  },
+
+  onBackKeyDown: function() {
+    // fecha modais se abertos
+    if($$('.modal-in').length > 0) {
+      Frm7.closeModal();
+      return false;
+    // fecha paineis se abertos
+    } else if($$('.panel.active').length > 0) {
+      Frm7.closePanel();
+      return false;
+    // fecha aplicativo se página é index
+    } else if(mainView.activePage.name == 'index') {
+      navigator.Backbutton.goBack();
+      return false;
+    // volta para index
+    } else {
+      mainView.router.back();
+    }
+    return true;
   },
 
   // opens picker modal with restaurant info
