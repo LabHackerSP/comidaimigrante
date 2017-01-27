@@ -8,6 +8,7 @@ SERVER = "http://comidaimigrante.labhacker.org.br"
 // Initialize your app
 var Frm7 = new Framework7({
    //swipePanel: 'left'
+   fastClicks: false,
    modalTemplate: $('#popover-template').html(),
 });
 // Export selectors engine
@@ -134,7 +135,7 @@ var map = {
 
   	var url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   	opt = {
-      minZoom: 15,
+      minZoom: 14,
       maxZoom: 17,
       attribution: "<a href='https://www.openstreetmap.org/'>OSM</a>",
     };

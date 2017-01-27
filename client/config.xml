@@ -18,7 +18,7 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
-        <preference name="android-minSdkVersion" value="14" />
+        <preference name="android-minSdkVersion" value="16" />
         <preference name="android-targetSdkVersion" value="21" />
     </platform>
     <platform name="ios">
