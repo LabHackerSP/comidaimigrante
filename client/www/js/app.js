@@ -90,9 +90,10 @@ var app = {
   loadRestaurant: function(uuid) {
     var obj = data.objects[uuid];
     map.panTo(obj.lat, obj.long);
-    var html = templates.picker(obj);
-    $("#picker-info").html(html);
-    Frm7.pickerModal("#picker-info");
+    //var html = templates.picker(obj);
+    //$("#picker-info").html(html);
+    //Frm7.pickerModal("#picker-info");
+    mainView.router.loadPage('restaurante.html');
   },
 
   loadRestaurantPopover: function(clicked, uuid) {

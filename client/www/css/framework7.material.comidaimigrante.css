@@ -76,6 +76,7 @@ i.icon-bars.theme-comida {
 .theme-comida .searchbar,
 .searchbar.theme-comida {
   background-color: #8E3523;
+  color: #fff;
 }
 .theme-comida .label-switch input[type="checkbox"]:checked + .checkbox,
 .label-switch.theme-comida input[type="checkbox"]:checked + .checkbox {
