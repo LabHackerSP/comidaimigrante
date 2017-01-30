@@ -58,3 +58,8 @@
 .searchbar a {
   color: #fff;
 }
+
+.item-desc {
+  white-space: normal;
+  font-size: 14px;
+}

@@ -10,6 +10,7 @@ var Frm7 = new Framework7({
    //swipePanel: 'left'
    fastClicks: false,
    modalTemplate: $('#popover-template').html(),
+   template7Pages: true,
 });
 // Export selectors engine
 var $$ = Dom7;
@@ -34,6 +35,52 @@ var templates = {
   searchFilters: Template7.compile($$('#search-name-filters-template').html()),
   searchName: Template7.compile($$('#search-name-results-template').html()),
   popover: Template7.compile($$('#popover-template').html()),
+
+  // hoje true = aberto/fechado hoje
+  // hoje false = lista de parágrafos com horários
+  formataHorario: function(horarios, hoje) {
+    var nhorarios = horarios.length;
+    var agora = new moment();
+    if(hoje) {
+      for(var i = 0; i < nhorarios; i++) {
+        if(horarios[i].weekday = agora.isoWeekday()) {
+          var abre = new moment(horarios[i].from_hour, "HH:mm:ss");
+          var fecha = new moment(horarios[i].to_hour, "HH:mm:ss");
+          var hora = abre.format("HH:mm") + " - " + fecha.format("HH:mm");
+          if(abre < agora && agora < fecha) return "Aberto hoje: " + hora;
+        }
+      }
+      return "Fechado hoje: " + hora;
+    } else {
+      var html = '';
+      for(var i = 0; i < nhorarios; i++) {
+        if(horarios[i].weekday != agora.isoWeekday()) {
+          var abre = new moment(horarios[i].from_hour, "HH:mm:ss");
+          var fecha = new moment(horarios[i].to_hour, "HH:mm:ss");
+          html += "<p>" +
+                  moment(horarios[i].weekday, 'E').format('dddd') +
+                  ": " +
+                  abre.format("HH:mm") + " - " + fecha.format("HH:mm") +
+                  "</p>";
+        }
+      }
+      return html;
+    }
+  },
+
+  formataPreco: function(preco) {
+    return Array(preco + 1).join('$');
+  },
+
+  formataTelefone: function(phone) {
+    var formatted = '(' + phone.substr(0, 2) + ') ';
+    if(phone.length < 11) {
+      formatted += phone.substr(2, 4) + '-' + phone.substr(6,4);
+    } else {
+      formatted += phone.substr(2, 5) + '-' + phone.substr(7,4);
+    }
+    return formatted;
+  },
 };
 
 var app = {
@@ -64,6 +111,7 @@ var app = {
 
   onDocumentReady: function() {
     map.init();
+    moment.locale('pt-br');
   },
 
   onBackKeyDown: function() {
@@ -89,11 +137,15 @@ var app = {
   // opens picker modal with restaurant info
   loadRestaurant: function(uuid) {
     var obj = data.objects[uuid];
-    map.panTo(obj.lat, obj.long);
+    //map.panTo(obj.lat, obj.long);
     //var html = templates.picker(obj);
     //$("#picker-info").html(html);
     //Frm7.pickerModal("#picker-info");
-    mainView.router.loadPage('restaurante.html');
+    console.log(obj);
+    mainView.router.load({
+      url: 'restaurante.html',
+      context: obj,
+    });
   },
 
   loadRestaurantPopover: function(clicked, uuid) {

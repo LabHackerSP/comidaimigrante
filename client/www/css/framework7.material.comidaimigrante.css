@@ -1,6 +1,9 @@
 .theme-comida .page-content {
   background: #FFE4B7;
 }
+.theme-comida .page-content .icon {
+  color: #8E3523;
+}
 
 .theme-comida .button:not(.button-fill) {
   color: #8E3523;

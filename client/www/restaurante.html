@@ -12,39 +12,64 @@
     <div class="list-block">
       <ul>
         <li class="item-content">
-          <div class="item-media"><i class="icon icon-f7"></i></div>
+          <div class="item-media"><i class="icon material-icons">flag</i></div>
           <div class="item-inner">
-            <div class="item-title">{{origem}}</div>
+            <div class="item-title">{{origem.nome}}</div>
           </div>
         </li>
         <li class="item-content">
-          <div class="item-media"><i class="icon icon-f7"></i></div>
+          <div class="item-media"><i class="icon material-icons">local_dining</i></div>
           <div class="item-inner">
-            <div class="item-title">{{telefone}}</div>
+            <div class="item-title">
+              {{#comida}}
+              {{this}}
+              {{/comida}}
+            </div>
           </div>
         </li>
         <li class="item-content">
-          <div class="item-media"><i class="icon icon-f7"></i></div>
+          <div class="item-media"><i class="icon material-icons">phone</i></div>
           <div class="item-inner">
-            <div class="item-title">{{endereço}}</div>
+            <div class="item-title">{{js "templates.formataTelefone(this.telefone)"}}</div>
           </div>
         </li>
         <li class="item-content">
-          <div class="item-media"><i class="icon icon-f7"></i></div>
+          <div class="item-media"><i class="icon material-icons">location_on</i></div>
           <div class="item-inner">
-            <div class="item-title">{{preco}}</div>
+            <div class="item-title">{{endereco}}</div>
           </div>
         </li>
         <li class="item-content">
-          <div class="item-media"><i class="icon icon-f7"></i></div>
+          <div class="item-media"><i class="icon material-icons">attach_money</i></div>
           <div class="item-inner">
-            <div class="item-title">horário aqui</div>
+            <div class="item-title">{{js "templates.formataPreco(this.preco)"}}</div>
+          </div>
+        </li>
+        <li class="accordion-item"><a href="#" class="item-content item-link">
+            <div class="item-media"><i class="icon material-icons">watch_later</i></div>
+            <div class="item-inner">
+              <div class="item-title">{{js "templates.formataHorario(this.horarios, true)"}}</div>
+            </div></a>
+          <div class="accordion-item-content">
+            <div class="content-block">
+              {{js "templates.formataHorario(this.horarios, false)"}}
+            </div>
           </div>
         </li>
         <li class="item-content">
-          <div class="item-media"><i class="icon icon-f7"></i></div>
+          <div class="item-media"><i class="icon material-icons">info</i></div>
+          <div class="item-inner item-desc">
+            {{sinopse}}
+          </div>
+        </li>
+        <li class="item-content">
+          <div class="item-media"><i class="icon material-icons">list</i></div>
           <div class="item-inner">
-            <div class="item-title">{{descricao}}</div>
+            <div class="item-title">
+              {{#each flags}}
+                {{this}}<br/>
+              {{/each}}
+            </div>
           </div>
         </li>
       </ul>
