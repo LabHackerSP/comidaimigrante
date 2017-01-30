@@ -113,8 +113,8 @@ var GPSButton = L.Control.extend({
     a.classList = 'floating-button map-top-button gps-button';
 
     var i = document.createElement('i');
-    i.classList = 'f7-icons'
-    i.appendChild(document.createTextNode('compass_fill'));
+    i.classList = 'material-icons'
+    i.appendChild(document.createTextNode('gps_fixed'));
     a.appendChild(i);
     L.DomEvent.addListener(a, 'click', map.centerOnGPS);
 
