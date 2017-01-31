@@ -52,7 +52,7 @@ class Restaurante(models.Model):
     sinopse = models.TextField()
     lat = models.DecimalField(max_digits=9, decimal_places=6)
     long = models.DecimalField(max_digits=9, decimal_places=6)
-    telefone = models.CharField(max_length=11)
+    telefone = models.CharField(blank=True, max_length=11)
     origem = models.ForeignKey(Origem)
     foto = models.ImageField(blank=True, upload_to='fotos')
     link = models.URLField(blank=True)
@@ -69,8 +69,9 @@ class Horario(models.Model):
     from_hour = models.TimeField()
     to_hour = models.TimeField()
 
-    class Meta:
-        unique_together = ('restaurante', 'weekday')
+    #removido para que um restaurante possa ter mais de um horário por dia
+    #class Meta:
+    #    unique_together = ('restaurante', 'weekday')
 
     def __str__(self):
         return _("%(weekday)s (%(from_hour)s - %(to_hour)s)") % {
