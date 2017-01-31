@@ -27,12 +27,14 @@
             </div>
           </div>
         </li>
+        {{#telefone}}
         <li class="item-content">
           <div class="item-media"><i class="icon material-icons">phone</i></div>
           <div class="item-inner">
-            <div class="item-title">{{js "templates.formataTelefone(this.telefone)"}}</div>
+            <div class="item-title">{{js "templates.formataTelefone(this)"}}</div>
           </div>
         </li>
+        {{/telefone}}
         <li class="item-content">
           <div class="item-media"><i class="icon material-icons">location_on</i></div>
           <div class="item-inner">
