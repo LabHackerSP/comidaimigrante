@@ -37,9 +37,9 @@
         {{/telefone}}
         <li class="item-content">
           <div class="item-media"><i class="icon material-icons">location_on</i></div>
-          <div class="item-inner">
+          <a href="geo:{{lat}},{{long}}?q={{endereco}}" class="external item-inner">
             <div class="item-title">{{endereco}}</div>
-          </div>
+          </a>
         </li>
         <li class="item-content">
           <div class="item-media"><i class="icon material-icons">attach_money</i></div>
@@ -74,6 +74,14 @@
             </div>
           </div>
         </li>
+        {{#link}}
+        <li class="item-content">
+          <div class="item-media"><i class="icon material-icons">link</i></div>
+          <a href="{{this}}" class="external item-inner">
+            <div class="item-title">{{this}}</div>
+          </a>
+        </li>
+        {{/link}}
       </ul>
     </div>
   </div>
