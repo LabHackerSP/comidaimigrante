@@ -31,7 +31,6 @@ Frm7.onPageInit('about', function (page) {
 });
 
 var templates = {
-  picker: Template7.compile($$('#picker-template').html()),
   searchFilters: Template7.compile($$('#search-name-filters-template').html()),
   searchName: Template7.compile($$('#search-name-results-template').html()),
   popover: Template7.compile($$('#popover-template').html()),
@@ -152,7 +151,7 @@ var app = {
     var obj = data.objects[uuid];
     map.panTo(obj.lat, obj.long);
     var html = templates.popover(obj);
-    var popover = Frm7.popover(html, clicked);
+    var popover = Frm7.popover(html, $$('#center'));
     console.log(popover);
   }
 };

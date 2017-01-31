@@ -63,3 +63,10 @@
   white-space: normal;
   font-size: 14px;
 }
+
+.centerthing {
+  position: absolute;
+  margin: 0 auto;
+  top: 0;
+  left: 50%;
+}
