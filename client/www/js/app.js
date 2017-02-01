@@ -147,8 +147,8 @@ var app = {
     });
   },
 
-  loadRestaurantPopover: function(clicked, uuid) {
-    var obj = data.objects[uuid];
+  loadRestaurantPopover: function(uuid) {
+    var obj = data.list[uuid];
     map.panTo(obj.lat, obj.long);
     var html = templates.popover(obj);
     var popover = Frm7.popover(html, $$('#center'));
@@ -255,7 +255,7 @@ var map = {
   clickMarker: function(e) {
     // open picker modal with restaurant info
     //app.loadRestaurant(e.target.id);
-    app.loadRestaurantPopover(e.originalEvent.target, e.target.id);
+    app.loadRestaurantPopover(e.target.id);
   },
 
   panTo: function(lat, lng) {
@@ -274,19 +274,20 @@ var map = {
 
 var data = {
   // json is stored and used to populate list
+  list: {},
   objects: {},
   meta: {},
 
   // function to receive json and add markers to map
-  parseObjects: function(json) {
+  parseList: function(json) {
     // add to objects if not already loaded
     for(var k in json.objects) {
       var obj = json.objects[k];
-      if(!(obj.id in data.objects)) {
+      if(!(obj.id in data.list)) {
         obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
         obj.marker.on('click', map.clickMarker);
         obj.marker.id = obj.id;
-        data.objects[obj.id] = obj;
+        data.list[obj.id] = obj;
       }
     }
 
@@ -331,11 +332,11 @@ var data = {
     // add to objects if not already loaded
     for(var k in json.objects) {
       var obj = json.objects[k];
-      if(!(obj.id in data.objects)) {
+      if(!(obj.id in data.list)) {
         obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
         obj.marker.on('click', map.clickMarker);
         obj.marker.id = obj.id;
-        data.objects[obj.id] = obj;
+        data.list[obj.id] = obj;
       }
     }
 
@@ -365,12 +366,17 @@ var data = {
     $.getJSON(url, data.parseObjects, data.fail);
   },
 
-  // fetch from server - single result from search
+  // fetch from server - "view more" downloads full detail
   downloadSingle: function(id) {
-    Frm7.showIndicator();
-    var api = "/api/restaurante/" + id + "/?format=json";
-    var url = SERVER + api;
-    $.getJSON(url, data.parseSingle, data.fail);
+    // if we already have the restaurant detail don't download it
+    if(id in data.objects) {
+      app.loadRestaurant(id);
+    } else {
+      Frm7.showIndicator();
+      var api = "/api/restaurante/" + id + "/?format=json";
+      var url = SERVER + api;
+      $.getJSON(url, data.parseSingle, data.fail);
+    }
   },
 
   // fetch metadata

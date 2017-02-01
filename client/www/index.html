@@ -109,7 +109,7 @@
                     <ul>
                       {{#each objects}}
                       <li class="item-content">
-                        <a href="#index" onClick="app.loadRestaurant({{id}})">
+                        <a href="#index" onClick="app.loadRestaurantPopover({{id}})">
                           <div class="item-inner">
                             <div class="item-title">{{nome}}</div>
                           </div>
@@ -137,7 +137,7 @@
                 <p>{{origem.nome}}</p>
                 <p><strong>Endereço:</strong> {{endereco}}</p>
                 <p><strong>Preço:</strong> {{preco}}</p>
-                <a href="#" onClick="app.loadRestaurant({{id}});" class="button button-fill close-popover">Veja Mais</a>
+                <a href="#" onClick="data.downloadSingle({{id}});" class="button button-fill close-popover">Veja Mais</a>
               </div>
             </div>
           </div>
