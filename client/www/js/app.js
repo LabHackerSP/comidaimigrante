@@ -342,19 +342,6 @@ var data = {
     Frm7.hideIndicator();
   },
 
-  // busca por endereço
-  parseSearchAddress: function(json) {
-    var obj = {};
-    obj.meta = {
-      total_count: json.length,
-    };
-    obj.objects = json;
-    var html = templates.searchAddress(obj);
-    $("#search-addr-results").html(html);
-
-    Frm7.hideIndicator();
-  },
-
   // fetch failed
   fail: function(e) {
     console.log(e);
@@ -411,17 +398,6 @@ var data = {
     var url = SERVER + api + query;
     $.getJSON(url, data.parseSearchName, data.fail);
   },
-
-  // busca por endereço
-  searchAddress: function() {
-    Frm7.showIndicator();
-    var api = "http://open.mapquestapi.com/nominatim/v1/search.php?format=json";
-    var key = "&key=dH7TjIg1f9jP1Q2Ckom19sp8dOfWW1KD";
-    var search = $("#search-addr-input").val();
-    var query = "&osm_type=way&q=" + search;
-    var url = api + key + query;
-    $.getJSON(url, data.parseSearchAddress, data.fail);
-  }
 };
 
 app.initialize();
