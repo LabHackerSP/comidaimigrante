@@ -47,7 +47,7 @@
             <div class="item-title">{{js "templates.formataPreco(this.preco)"}}</div>
           </div>
         </li>
-        {{#if horarios}}
+        {{#js_compare "this.horarios.length > 0"}}
         <li class="accordion-item"><a href="#" class="item-content item-link">
             <div class="item-media"><i class="icon material-icons">watch_later</i></div>
             <div class="item-inner">
@@ -59,7 +59,7 @@
             </div>
           </div>
         </li>
-        {{/if}}
+        {{/js_compare}}
         <li class="item-content">
           <div class="item-media"><i class="icon material-icons">info</i></div>
           <div class="item-inner item-desc">

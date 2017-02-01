@@ -40,16 +40,17 @@ var templates = {
   formataHorario: function(horarios, hoje) {
     var nhorarios = horarios.length;
     var agora = new moment();
+    var hora = "";
     if(hoje) {
       for(var i = 0; i < nhorarios; i++) {
         if(horarios[i].weekday == agora.isoWeekday()) {
           var abre = new moment(horarios[i].from_hour, "HH:mm:ss");
           var fecha = new moment(horarios[i].to_hour, "HH:mm:ss");
-          var hora = abre.format("HH:mm") + " - " + fecha.format("HH:mm");
-          if(abre < agora && agora < fecha) return "Aberto hoje: " + hora;
+          var hora = ": " + abre.format("HH:mm") + " - " + fecha.format("HH:mm");
+          if(abre < agora && agora < fecha) return "Aberto hoje" + hora;
         }
       }
-      return "Fechado hoje: " + hora;
+      return "Fechado hoje" + hora;
     } else {
       var html = '';
       for(var i = 0; i < nhorarios; i++) {
