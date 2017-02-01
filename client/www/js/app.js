@@ -318,7 +318,7 @@ var data = {
 
   // parser metadados
   parseMeta: function(json) {
-    data.meta.origem = json.objects;
+    data.meta = json;
     var html = templates.searchFilters(data.meta);
     $("#search-name-filters").html(html);
 
@@ -385,8 +385,7 @@ var data = {
   downloadMeta: function() {
     if($.isEmptyObject(data.meta)) {
       Frm7.showIndicator();
-      // por enquanto só pega a lista de origens -- fazer api com todos metadados depois..
-      var api = "/api/origem/?format=json";
+      var api = "/api/meta";
       var url = SERVER + api;
       $.getJSON(url, data.parseMeta, data.fail);
     } else {
