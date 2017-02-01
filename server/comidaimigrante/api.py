@@ -32,7 +32,6 @@ class FlagResource(ModelResource):
         queryset = Flag.objects.all()
 
 class RestauranteResource(ModelResource):
-    preco = fields.IntegerField(attribute='preco', use_in='detail')
     link = fields.CharField(attribute='link', use_in='detail')
     sinopse = fields.CharField(attribute='sinopse', use_in='detail')
     telefone = fields.CharField(attribute='telefone', use_in='detail')
