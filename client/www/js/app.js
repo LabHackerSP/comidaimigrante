@@ -11,6 +11,7 @@ var Frm7 = new Framework7({
    fastClicks: false,
    modalTemplate: $('#popover-template').html(),
    template7Pages: true,
+   material: true,
 });
 // Export selectors engine
 var $$ = Dom7;
@@ -364,7 +365,7 @@ var data = {
     var longbottom = bounds._northEast.lng;
     var query = "&lat__gte=" + lattop + "&long__gte=" + longtop + "&lat__lte=" + latbottom + "&long_lte=" + longbottom;
     var url = SERVER + api + query;
-    $.getJSON(url, data.parseObjects, data.fail);
+    $.getJSON(url, data.parseList, data.fail);
   },
 
   // fetch from server - "view more" downloads full detail
