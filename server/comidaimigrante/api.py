@@ -53,7 +53,7 @@ class RestauranteResource(ModelResource):
         remote = (bundle.data['lat'], bundle.data['long'])
         bundle.data['distance'] = vincenty(local, remote).meters
         return bundle
-    
+
     # encontra horários do restaurante
     def dehydrate_horarios(self, bundle):
         res = HorarioResource()
@@ -66,6 +66,7 @@ class RestauranteResource(ModelResource):
         flags = bundle.data['flags']
         return [flag.data['flag'] for flag in flags]
 
-    # exibe apenas nome, não objeto
+    # exibe lista de nomes sem objetos
     def dehydrate_comida(self, bundle):
-        return bundle.data['comida'][0].data['tag']
+        comidas = bundle.data['comida']
+        return [comida.data['tag'] for comida in comidas]
