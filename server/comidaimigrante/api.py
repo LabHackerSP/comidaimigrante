@@ -32,11 +32,15 @@ class FlagResource(ModelResource):
         queryset = Flag.objects.all()
 
 class RestauranteResource(ModelResource):
+    preco = fields.IntegerField(attribute='preco', use_in='detail')
+    link = fields.CharField(attribute='link', use_in='detail')
+    sinopse = fields.CharField(attribute='sinopse', use_in='detail')
+    telefone = fields.CharField(attribute='telefone', use_in='detail')
     origem = fields.ForeignKey(OrigemResource, 'origem', full=True)
-    cidade = fields.ForeignKey(CidadeResource, 'cidade', full=True)
-    comida = fields.ManyToManyField(ComidaResource, 'comida', full=True)
-    flags = fields.ManyToManyField(FlagResource, 'flags', full=True)
-    horarios = fields.ToManyField(HorarioResource, attribute='restaurante', full=True, null=True)
+    cidade = fields.ForeignKey(CidadeResource, 'cidade', full=True, use_in='detail')
+    comida = fields.ManyToManyField(ComidaResource, 'comida', full=True, use_in='detail')
+    flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
+    horarios = fields.ToManyField(HorarioResource, attribute='restaurante', full=True, null=True, use_in='detail')
     class Meta:
         queryset = Restaurante.objects.all()
         resource_name = 'restaurante'
