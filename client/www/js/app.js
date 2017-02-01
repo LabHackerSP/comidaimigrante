@@ -42,7 +42,7 @@ var templates = {
     var agora = new moment();
     if(hoje) {
       for(var i = 0; i < nhorarios; i++) {
-        if(horarios[i].weekday = agora.isoWeekday()) {
+        if(horarios[i].weekday == agora.isoWeekday()) {
           var abre = new moment(horarios[i].from_hour, "HH:mm:ss");
           var fecha = new moment(horarios[i].to_hour, "HH:mm:ss");
           var hora = abre.format("HH:mm") + " - " + fecha.format("HH:mm");
