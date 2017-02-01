@@ -64,9 +64,17 @@
   font-size: 14px;
 }
 
-.centerthing {
+.popover-center {
   position: absolute;
   margin: 0 auto;
-  top: 0;
+  top: 50%;
   left: 50%;
+}
+.popover {
+  transform: scale(.85,.6) translateX(-50%) translateY(-50%) !important;
+  -moz-transform: scale(.85,.6) translateX(-50%) translateY(-50%) !important;
+}
+.popover.modal-in {
+  transform: scale(1) translateX(-50%) translateY(-50%) !important;
+  -moz-transform: scale(1) translateX(-50%) translateY(-50%) !important;
 }

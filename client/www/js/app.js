@@ -153,7 +153,7 @@ var app = {
     var obj = data.list[uuid];
     map.panTo(obj.lat, obj.long);
     var html = templates.popover(obj);
-    var popover = Frm7.popover(html, $$('#center'));
+    var popover = Frm7.popover(html, $$('#popover-center'));
     console.log(popover);
   }
 };
