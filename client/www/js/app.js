@@ -198,7 +198,20 @@ var SearchButton = L.Control.extend({
   }
 });
 
+// marker com bandeira
+var FlagIcon = L.Icon.extend({
+    options: {
+//        shadowUrl: 'leaf-shadow.png',
+        iconSize:     [24, 24],
+        //shadowSize:   [0, 0],
+        iconAnchor:   [12, 12],
+        //shadowAnchor: [0, 0],
+        popupAnchor:  [12, -4]
+    }
+});
+
 var map = {
+  flag: {},
   object: null,
   dot: null,
 
@@ -271,6 +284,14 @@ var map = {
 
   hideSearchButton: function() {
     $("#map-search-button").addClass('search-button-hide');
+  },
+
+  // caching de ícones
+  flagIcon: function(flag) {
+    if(!(flag in map.flag)) {
+      map.flag[flag] = new FlagIcon({iconUrl: 'css/images/flags/'+flag+'.png'})
+    }
+    return map.flag[flag];
   }
 };
 
@@ -280,17 +301,26 @@ var data = {
   objects: {},
   meta: {},
 
+  addObject: function(obj) {
+    if(!(obj.id in data.objects)) {
+      data.objects[obj.id] = obj;
+    }
+  },
+
+  addList: function(obj) {
+    if(!(obj.id in data.list)) {
+      obj.marker = L.marker([obj.lat, obj.long], {icon: map.flagIcon(obj.origem.bandeira)}).addTo(map.object);
+      obj.marker.on('click', map.clickMarker);
+      obj.marker.id = obj.id;
+      data.list[obj.id] = obj;
+    }
+  },
+
   // function to receive json and add markers to map
   parseList: function(json) {
     // add to objects if not already loaded
     for(var k in json.objects) {
-      var obj = json.objects[k];
-      if(!(obj.id in data.list)) {
-        obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
-        obj.marker.on('click', map.clickMarker);
-        obj.marker.id = obj.id;
-        data.list[obj.id] = obj;
-      }
+      data.addList(json.objects[k]);
     }
 
     $$('.leaflet-marker-icon').on('click', function() {
@@ -303,15 +333,9 @@ var data = {
   // function to receive json and add markers to map
   parseSingle: function(json) {
     // add to objects if not already loaded
-    var obj = json;
-    if(!(obj.id in data.objects)) {
-      obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
-      obj.marker.on('click', map.clickMarker);
-      obj.marker.id = obj.id;
-      data.objects[obj.id] = obj;
-    }
+    data.addObject(json);
     //close search, show restaurant info
-    app.loadRestaurant(obj.id);
+    app.loadRestaurant(json.id);
 
     Frm7.hideIndicator();
   },
@@ -333,13 +357,7 @@ var data = {
 
     // add to objects if not already loaded
     for(var k in json.objects) {
-      var obj = json.objects[k];
-      if(!(obj.id in data.list)) {
-        obj.marker = L.marker([obj.lat, obj.long]).addTo(map.object);
-        obj.marker.on('click', map.clickMarker);
-        obj.marker.id = obj.id;
-        data.list[obj.id] = obj;
-      }
+      data.addList(json.objects[k]);
     }
 
     Frm7.hideIndicator();
