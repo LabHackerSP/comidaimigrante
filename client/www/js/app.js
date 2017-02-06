@@ -155,7 +155,26 @@ var app = {
     var html = templates.popover(obj);
     var popover = Frm7.popover(html, $$('#popover-center'));
     console.log(popover);
-  }
+  },
+
+  openAddForm: function() {
+    if($.isEmptyObject(data.meta)) { data.downloadMeta(app.openAddForm); }
+    else {
+      mainView.router.load({
+        url: 'adicionar.html',
+        context: data.meta,
+      });
+    }
+  },
+
+  openSearch: function() {
+    if($.isEmptyObject(data.meta)) data.downloadMeta(app.openSearch);
+    else {
+      var html = templates.searchFilters(data.meta);
+      $("#search-name-filters").html(html);
+      mainView.router.loadPage('#busca-nome');
+    }
+  },
 };
 
 // botão gps
@@ -341,13 +360,12 @@ var data = {
   },
 
   // parser metadados
-  parseMeta: function(json) {
-    data.meta = json;
-    var html = templates.searchFilters(data.meta);
-    $("#search-name-filters").html(html);
-
-    mainView.router.loadPage('#busca-nome');
-    Frm7.hideIndicator();
+  parseMeta: function(callback) {
+    return function(json) {
+      data.meta = json;
+      callback();
+      Frm7.hideIndicator();
+    }
   },
 
   // busca por nome
@@ -400,14 +418,14 @@ var data = {
   },
 
   // fetch metadata
-  downloadMeta: function() {
+  downloadMeta: function(callback) {
     if($.isEmptyObject(data.meta)) {
       Frm7.showIndicator();
       var api = "/api/meta";
       var url = SERVER + api;
-      $.getJSON(url, data.parseMeta, data.fail);
+      $.getJSON(url, data.parseMeta(callback), data.fail);
     } else {
-      mainView.router.loadPage('#busca-nome');
+      callback();
     }
   },
 
