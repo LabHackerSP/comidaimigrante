@@ -9,6 +9,10 @@ class HorariosInline(admin.TabularInline):
 class RestauranteAdmin(admin.ModelAdmin):
     inlines = [HorariosInline]
 
+    def save_model(self, request, obj, form, change): 
+        obj.user = request.user
+        obj.save()
+
 admin.site.register(Restaurante, RestauranteAdmin)
 admin.site.register(Origem)
 admin.site.register(Comida)
