@@ -1,0 +1,87 @@
+<div class="page no-navbar" data-page="adicionar">
+  <div class="subnavbar">
+    <div class="left">
+      <a href="#" class="link icon-only back"><i class="icon icon-back"></i></a>
+      <div>Adicionar novo restaurante</div>
+    </div>
+  </div>
+  <div class="page-content" style="height:100%;">
+    <div class="list-block">
+      <ul>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon material-icons"></i></div>
+            <div class="item-inner">
+              <div class="item-title label">Nome</div>
+              <div class="item-input">
+                <input id="add-nome" type="text">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon material-icons"></i></div>
+            <div class="item-inner">
+              <div class="item-title label">Endereço</div>
+              <div class="item-input"> <!--abre picker com busca -->
+                <input id="add-endereco" type="text" disabled>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon f7-icons"></i></div>
+            <div class="item-inner">
+              <div class="item-title label">Preço</div>
+              <div class="item-input">
+                <div class="range-slider">
+                  <input id="add-preco" type="range" min="1" max="5" value="1" step="1">
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon material-icons"></i></div>
+            <div class="item-inner">
+              <div class="item-title label">Telefone</div>
+              <div class="item-input">
+                <input id="add-tel" type="tel">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon material-icons"></i></div>
+            <div class="item-inner">
+              <div class="item-title label">Origem</div>
+              <div class="item-input">
+                <select id="add-origem">
+                  {{#origem}}
+                  <option>{{this}}</option>
+                  {{/origem}}
+                </select>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="align-top">
+          <div class="item-content">
+            <div class="item-media"><i class="icon material-icons"></i></div>
+            <div class="item-inner">
+              <div class="item-title label">Descrição</div>
+              <div class="item-input">
+                <textarea id="add-desc" class="resizable"></textarea>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <script type="text/javascript" src="js/adicionar.js"></script>
+</div>

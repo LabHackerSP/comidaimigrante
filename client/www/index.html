@@ -24,9 +24,16 @@
       <div class="list-block">
         <ul>
           <li class="item-content">
-            <a href="#" onClick="data.downloadMeta();" class="close-panel">
+            <a href="#" onClick="app.openSearch();" class="close-panel">
               <div class="item-inner">
                 <div class="item-title">Busca</div>
+              </div>
+            </a>
+          </li>
+          <li class="item-content">
+            <a href="#" onClick="app.openAddForm();" class="close-panel">
+              <div class="item-inner">
+                <div class="item-title">Adicionar restaurante</div>
               </div>
             </a>
           </li>
@@ -132,11 +139,20 @@
         <script id="popover-template" type="text/template">
           <div class="popover">
             <div class="popover-inner">
-              <div class="content-block">
-                <p>{{nome}}</p>
-                <p>{{origem.nome}}</p>
-                <p><strong>Endereço:</strong> {{endereco}}</p>
-                <p><strong>Preço:</strong> {{preco}}</p>
+              <div class="content-block info-content">
+                <div class="info-left">
+                  <img src="css/images/flags/{{origem.bandeira}}.png"/>
+                </div>
+                <div class="info-left">
+                  <p class="info-nome">{{nome}}</p>
+                  <p class="info-origem">{{origem.nome}}</p>
+                </div>
+                <div class="info-texto">
+                  <p>
+                    <strong>Endereço:</strong> {{endereco}}<br/>
+                    <strong>Preço:</strong> {{js "templates.formataPreco(this.preco)"}}
+                  </p>
+                </div>
                 <a href="#" onClick="data.downloadSingle({{id}});" class="button button-fill close-popover">Veja Mais</a>
               </div>
             </div>

@@ -78,3 +78,26 @@
   transform: scale(1) translateX(-50%) translateY(-50%) !important;
   -moz-transform: scale(1) translateX(-50%) translateY(-50%) !important;
 }
+
+.info-left {
+  float: left;
+}
+.info-content > * > img {
+  margin-right: 0.2em;
+}
+.info-texto {
+  clear: both;
+}
+.info-texto > p {
+  margin: 0;
+  padding: 0.5em 0;
+}
+.info-nome {
+  font-size: 18px;
+  margin: 0;
+}
+.info-origem {
+  font-size: 10px;
+  color: #bbb;
+  margin: 0;
+}
