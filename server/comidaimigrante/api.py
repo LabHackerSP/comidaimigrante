@@ -3,6 +3,24 @@ from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag
 
+from tastypie.authentication import BasicAuthentication
+from tastypie.authorization import DjangoAuthorization
+from tastypie.validation import FormValidation
+from django import forms
+
+
+class CustomAuthentication(BasicAuthentication):
+    """
+    Authenticates everyone if the request is GET otherwise performs
+    BasicAuthentication.
+    """
+
+    def is_authenticated(self, request, **kwargs):
+        if request.method == 'GET': # Permite leitura sem autenticação
+            return True
+        return super(CustomAuthentication, self).is_authenticated(request, **kwargs)
+
+
 class HorarioResource(ModelResource):
     class Meta:
         queryset = Horario.objects.all()
@@ -23,9 +41,18 @@ class CidadeResource(ModelResource):
         queryset = Cidade.objects.all()
         include_resource_uri = False
 
+class ComidaForm(forms.Form):
+    comida = forms.CharField(max_length=20)
+
 class ComidaResource(ModelResource):
     class Meta:
         queryset = Comida.objects.all()
+        authentication = CustomAuthentication()
+        authorization = DjangoAuthorization()
+        validation=FormValidation(form_class=ComidaForm)
+
+class FlagForm(forms.Form):
+    flag = forms.CharField(max_length=20)
 
 class FlagResource(ModelResource):
     class Meta:
@@ -33,7 +60,13 @@ class FlagResource(ModelResource):
         filtering = {
             'flag': ALL
         }
+        authentication = CustomAuthentication()
+        authorization = DjangoAuthorization()
+        validation=FormValidation(form_class=FlagForm)
 
+class RestauranteForm(forms.Form):
+    nome = forms.CharField(min_length=20)
+    ## Definir outras regras de validacao
 
 class RestauranteResource(ModelResource):
     link = fields.CharField(attribute='link', use_in='detail')
@@ -45,6 +78,9 @@ class RestauranteResource(ModelResource):
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
     horarios = fields.ToManyField(HorarioResource, attribute='restaurante', full=True, null=True, use_in='detail')
     class Meta:
+        authentication = CustomAuthentication()
+        authorization = DjangoAuthorization()
+        validation=FormValidation(form_class=RestauranteForm)
         queryset = Restaurante.objects.all()
         resource_name = 'restaurante'
         filtering = {
@@ -92,4 +128,5 @@ class RestauranteResource(ModelResource):
     def dehydrate_comida(self, bundle):
         comidas = bundle.data['comida']
         return [comida.data['tag'] for comida in comidas]
+
 
