@@ -3,6 +3,7 @@ from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag
 
+
 from tastypie.authentication import BasicAuthentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.validation import FormValidation
@@ -81,8 +82,9 @@ class RestauranteResource(ModelResource):
         authentication = CustomAuthentication()
         authorization = DjangoAuthorization()
         validation=FormValidation(form_class=RestauranteForm)
-        queryset = Restaurante.objects.all()
+        queryset = Restaurante.objects.filter(autorizado = True)
         resource_name = 'restaurante'
+        excludes = ('autorizado')
         filtering = {
             "lat": ('lte','gte',),
             "long": ('lte','gte',),
