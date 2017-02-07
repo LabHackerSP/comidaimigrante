@@ -30,6 +30,10 @@ class ComidaResource(ModelResource):
 class FlagResource(ModelResource):
     class Meta:
         queryset = Flag.objects.all()
+        filtering = {
+            'flag': ALL
+        }
+
 
 class RestauranteResource(ModelResource):
     link = fields.CharField(attribute='link', use_in='detail')
@@ -50,6 +54,21 @@ class RestauranteResource(ModelResource):
             "origem": ('exact',),
             "flags": ALL_WITH_RELATIONS,
         }
+    
+    def apply_filters(self, request, applicable_filters):
+        """
+        Implementando filtro de maneira hackish por multiplos valores sem ter que zoar o core do django.
+        """
+        last_filter = self.get_object_list(request)
+        if hasattr(request, 'GET'):
+            filters = dict(request.GET.copy()) #Os metodos do Django pegam apenas o último valor de uma lista
+
+        for filter_name in filters.keys():
+            filter_values = filters[filter_name]
+            if isinstance(filter_values,list) and '__exact' in filter_name:
+                for value in filter_values:
+                    last_filter = last_filter.filter(**{ filter_name : value })
+        return last_filter.filter(**applicable_filters)
 
     def dehydrate(self, bundle):
         local = (bundle.request.GET.get('local_lat'), bundle.request.GET.get('local_long'))
@@ -73,3 +92,4 @@ class RestauranteResource(ModelResource):
     def dehydrate_comida(self, bundle):
         comidas = bundle.data['comida']
         return [comida.data['tag'] for comida in comidas]
+
