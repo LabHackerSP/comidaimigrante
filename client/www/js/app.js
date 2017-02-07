@@ -158,17 +158,17 @@ var app = {
   },
 
   openAddForm: function() {
-    if($.isEmptyObject(data.meta)) { data.downloadMeta(app.openAddForm); }
+    if($.isEmptyObject(data.forms)) { data.downloadGeneric(app.openAddForm, 'forms'); }
     else {
       mainView.router.load({
         url: 'adicionar.html',
-        context: data.meta,
+        context: data.forms,
       });
     }
   },
 
   openSearch: function() {
-    if($.isEmptyObject(data.meta)) data.downloadMeta(app.openSearch);
+    if($.isEmptyObject(data.meta)) data.downloadGeneric(app.openSearch, 'meta');
     else {
       var html = templates.searchFilters(data.meta);
       $("#search-name-filters").html(html);
@@ -319,6 +319,7 @@ var data = {
   list: {},
   objects: {},
   meta: {},
+  forms: {},
 
   addObject: function(obj) {
     if(!(obj.id in data.objects)) {
@@ -360,9 +361,9 @@ var data = {
   },
 
   // parser metadados
-  parseMeta: function(callback) {
+  parseGeneric: function(callback, target) {
     return function(json) {
-      data.meta = json;
+      data[target] = json;
       callback();
       Frm7.hideIndicator();
     }
@@ -418,12 +419,12 @@ var data = {
   },
 
   // fetch metadata
-  downloadMeta: function(callback) {
-    if($.isEmptyObject(data.meta)) {
+  downloadGeneric: function(callback, target) {
+    if($.isEmptyObject(data[target])) {
       Frm7.showIndicator();
-      var api = "/api/meta";
+      var api = "/api/" + target;
       var url = SERVER + api;
-      $.getJSON(url, data.parseMeta(callback), data.fail);
+      $.getJSON(url, data.parseGeneric(callback, target), data.fail);
     } else {
       callback();
     }
