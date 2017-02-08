@@ -8,7 +8,7 @@ from tastypie.authentication import BasicAuthentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.validation import FormValidation
 from django import forms
-
+from django.contrib.auth.models import Permission
 
 class CustomAuthentication(BasicAuthentication):
     """
@@ -21,6 +21,14 @@ class CustomAuthentication(BasicAuthentication):
             return True
         return super(CustomAuthentication, self).is_authenticated(request, **kwargs)
 
+class CustomAuthorization(DjangoAuthorization):
+    # sempre deixa ler lista
+    def read_list(self, object_list, bundle):
+        return object_list
+
+    # sempre deixa ler objeto
+    def read_detail(self, object_list, bundle):
+        return True
 
 class HorarioResource(ModelResource):
     class Meta:
@@ -49,7 +57,7 @@ class ComidaResource(ModelResource):
     class Meta:
         queryset = Comida.objects.all()
         authentication = CustomAuthentication()
-        authorization = DjangoAuthorization()
+        authorization = CustomAuthorization()
         validation=FormValidation(form_class=ComidaForm)
 
 class FlagForm(forms.Form):
@@ -62,7 +70,7 @@ class FlagResource(ModelResource):
             'flag': ALL
         }
         authentication = CustomAuthentication()
-        authorization = DjangoAuthorization()
+        authorization = CustomAuthorization()
         validation=FormValidation(form_class=FlagForm)
 
 class RestauranteForm(forms.Form):
@@ -80,7 +88,7 @@ class RestauranteResource(ModelResource):
     horarios = fields.ToManyField(HorarioResource, attribute='restaurante', full=True, null=True, use_in='detail')
     class Meta:
         authentication = CustomAuthentication()
-        authorization = DjangoAuthorization()
+        authorization = CustomAuthorization()
         validation=FormValidation(form_class=RestauranteForm)
         queryset = Restaurante.objects.filter(autorizado = True)
         resource_name = 'restaurante'
@@ -92,7 +100,7 @@ class RestauranteResource(ModelResource):
             "origem": ('exact',),
             "flags": ALL_WITH_RELATIONS,
         }
-    
+
     def apply_filters(self, request, applicable_filters):
         """
         Implementando filtro de maneira hackish por multiplos valores sem ter que zoar o core do django.
@@ -130,5 +138,3 @@ class RestauranteResource(ModelResource):
     def dehydrate_comida(self, bundle):
         comidas = bundle.data['comida']
         return [comida.data['tag'] for comida in comidas]
-
-
