@@ -39,16 +39,16 @@ def forms(request):
 
     data = {
         'forms' : [
-            formObject('nome', 'Nome', '', 'string'),
-            formObject('endereco', 'Endereço', '', 'address'),
-            formObject('telefone', 'Telefone', '', 'tel'),
-            formObject('origem', 'Origem', '', 'select', [origem.nome for origem in origens]),
+            formObject('nome', 'Nome', 'info', 'string'),
+            formObject('endereco', 'Endereço', 'location_on', 'address'),
+            formObject('telefone', 'Telefone', 'phone', 'tel'),
+            formObject('origem', 'Origem', 'flag', 'select', [origem.nome for origem in origens]),
             formObject('comida', 'Tipo de comida', '', 'multiple', [comida.tag for comida in comidas]),
-            formObject('preco', 'Preço', '', 'slider', min = 1, max = 5),
-            formObject('link', 'Link', '', 'url'),
-            formObject('sinopse', 'Sinopse', '', 'resizable'),
-            formObject('foto', 'Foto', '', 'image'),
-            formObject('flags', 'Flags', '', 'multiple', [flag.flag for flag in flags])
+            formObject('preco', 'Preço', 'attach_money', 'slider', min = 1, max = 5),
+            formObject('link', 'Link', 'link', 'url'),
+            formObject('sinopse', 'Sinopse', 'info', 'resizable'),
+            formObject('foto', 'Foto', 'add_a_photo', 'image'),
+            formObject('flags', 'Flags', 'list', 'multiple', [flag.flag for flag in flags])
         ]
     }
 
