@@ -23,12 +23,16 @@ var mainView = Frm7.addView('.view-main', {
     domCache: true, // enable inline pages
 });
 
-// Callbacks to run specific code for specific pages, for example for About page:
-Frm7.onPageInit('about', function (page) {
-    // run createContentPage func after link was clicked
-    /*$$('.create-page').on('click', function () {
-        createContentPage();
-    });*/
+// carrega scripts de outras páginas
+$$(document).on('pageInit', function(e) {
+  var page = e.detail.page;
+  $$(page.container).find("script").each(function(el) {
+      if ($(this).attr('src')) {
+          jQuery.getScript($(this).attr('src'));
+      } else {
+          eval($(this).text());
+      }
+  });
 });
 
 var templates = {
@@ -373,7 +377,7 @@ var data = {
   parseSearchName: function(json) {
     var html = templates.searchName(json);
     $("#search-name-results").html(html);
-
+    console.log(json);
     // add to objects if not already loaded
     for(var k in json.objects) {
       data.addList(json.objects[k]);
@@ -433,12 +437,12 @@ var data = {
   // busca por nome e atributos
   searchName: function() {
     Frm7.showIndicator();
-    var api = "/api/restaurante/?format=json";
+    var api = "/api/restaurante/";
     var nome = $("#search-name-input").val();
     var origem = $("#search-filter-origem").val();
     var query = "";
-    if(nome != "") query += "&nome__contains=" + nome;
-    if(origem != "----") query += "&origem=" + origem;
+    if(nome != "") query += "?nome__contains=" + nome + "&";
+    if(origem != "----") query += "origem=" + origem;
     var url = SERVER + api + query;
     $.getJSON(url, data.parseSearchName, data.fail);
   },
