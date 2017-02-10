@@ -2,11 +2,11 @@ var searchAddrTemplate = '{{#if meta.total_count}}\
         <div class="content-block-title">Resultados</div>\
         <div class="list-block">\
           <ul>\
-            {{#each objects}}\
+            {{#each results}}\
             <li class="item-content">\
-              <a href="#index" onClick="map.panTo({{lat}},{{lon}})">\
+              <a href="#" onClick="addForm.resultAddress({{@index}})">\
                 <div class="item-inner">\
-                  <div class="item-title">{{display_name}}</div>\
+                  <div class="item-title">{{formatted_address}}</div>\
                 </div>\
               </a>\
             </li>\
@@ -24,6 +24,8 @@ Frm7.onPageInit('busca-end', function (page) {
 });
 
 var addForm = {
+  results: [],
+
   openStreetSearch: function() {
     mainView.router.load({
       url: 'busca-end.html'
@@ -32,9 +34,10 @@ var addForm = {
 
   // busca por endereço
   parseSearchAddress: function(json) {
-    var obj = {};
+    var obj = json;
+    addForm.results = json.results;
     obj.meta = {
-      total_count: json.length,
+      total_count: json.results.length,
     };
     obj.objects = json;
     var html = templates.searchAddr(obj);
@@ -46,11 +49,20 @@ var addForm = {
   // busca por endereço
   searchAddress: function() {
     Frm7.showIndicator();
-    var api = "http://open.mapquestapi.com/nominatim/v1/search.php?format=json";
-    var key = "&key=dH7TjIg1f9jP1Q2Ckom19sp8dOfWW1KD";
+    var api = "https://maps.googleapis.com/maps/api/geocode/json?region=br";
+    var key = "&key=" + keys.gmaps;
     var search = $("#search-addr-input").val();
-    var query = "&osm_type=way&q=" + search;
+    var query = "&address=" + search;
     var url = api + key + query;
     $.getJSON(url, addForm.parseSearchAddress, data.fail);
+  },
+
+  // seleciona resultado e coloca no form
+  resultAddress: function(id) {
+    var obj = addForm.results[id];
+    console.log(obj);
+    console.log(obj.formatted_address);
+    console.log(obj.geometry.location.lat);
+    console.log(obj.geometry.location.lng);
   },
 };
