@@ -27,6 +27,7 @@ def formObject(name, display, icon, type, choices = None, min = None, max = None
     if(choices != None): obj['choices'] = choices
     if(min != None): obj['min'] = min
     if(max != None): obj['max'] = max
+    if(hidden): obj['hidden'] = hidden
 
     return obj
 
@@ -41,8 +42,8 @@ def forms(request):
         'forms' : [
             formObject('nome', 'Nome', 'info', 'string'),
             formObject('endereco', 'Endereço', 'location_on', 'address'),
-            formObject('lat', '', '', 'hidden_float'),
-            formObject('long', '', '', 'hidden_float'),
+            formObject('lat', '', '', 'float', hidden = True),
+            formObject('long', '', '', 'float', hiddden = True),
             formObject('telefone', 'Telefone', 'phone', 'tel'),
             formObject('origem', 'Origem', 'flag', 'select', [origem.nome for origem in origens]),
             formObject('comida', 'Tipo de comida', 'local_dining', 'multiple', [comida.tag for comida in comidas]),
