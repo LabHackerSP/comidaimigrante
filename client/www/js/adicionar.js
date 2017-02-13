@@ -19,7 +19,28 @@ var searchAddrTemplate = '{{#if meta.total_count}}\
         </div>\
         {{/if}}';
 
-Frm7.onPageInit('busca-end', function (page) {
+Frm7.onPageInit('adicionar', function(page) {
+  // input mask para telefone
+  $('#add-telefone').inputmask({
+    'mask': '(99) [X]9999-9999',
+    'greedy': false,
+    'autoUnmask': true,
+    'definitions': {
+      'X': {
+        validator: '[9]',
+        cardinality: 1,
+        casing: 'upper'
+      }
+    }
+  });
+
+  // atualiza valor visual de slider
+  $$('input[type="range"]').on('input change', function(){
+    $('#badge-'+this.name).html(this.value);
+  });
+});
+
+Frm7.onPageInit('busca-end', function(page) {
     templates.searchAddr = Template7.compile(searchAddrTemplate);
 });
 
@@ -61,8 +82,19 @@ var addForm = {
   resultAddress: function(id) {
     var obj = addForm.results[id];
     console.log(obj);
-    console.log(obj.formatted_address);
+    var rua = $.grep(obj.address_components, function(e){ return e.types.indexOf('route') >= 0; })[0].long_name;
+    var num = $.grep(obj.address_components, function(e){ return e.types.indexOf('street_number') >= 0; })[0].long_name;
+    var bairro = $.grep(obj.address_components, function(e){ return e.types.indexOf('sublocality') >= 0; })[0].long_name;
+    var formatted_address = rua + ", " + num + " - " + bairro;
+    console.log(formatted_address);
     console.log(obj.geometry.location.lat);
     console.log(obj.geometry.location.lng);
+    formData = {
+      'lat': obj.geometry.location.lat,
+      'long': obj.geometry.location.lng,
+      'endereco': formatted_address
+    };
+    Frm7.formFromData("#add-form", formData);
+    mainView.router.back();
   },
 };

@@ -9,65 +9,78 @@
     <form id="add-form" class="list-block">
       <ul>
         {{#each forms}}
-        <li>
+        <li
+          {{#js_compare "this.hidden == true"}}
+          class="hidden"
+          {{/js_compare}}
+        >
           {{#js_compare "this.type == 'multiple'"}}
           <a href="#" class="item-link smart-select">
-            <select name="car" multiple>
+            <select name="{{name}}" id="add-{{name}}" multiple>
               {{#choices}}
               <option>{{this}}</option>
               {{/choices}}
             </select>
           {{/js_compare}}
-          <div class="item-content">
-            <div class="item-media"><i class="icon material-icons">{{icon}}</i></div>
-            <div class="item-inner"
-              {{#js_compare "this.type == 'address'"}}
-              onClick="addForm.openStreetSearch();"
-              {{/js_compare}}
-              {{#js_compare "this.type == 'image'"}}
-              onClick="addForm.openGallery();"
-              {{/js_compare}}
-            >
-              <div class="item-title label">{{display}}</div>
-              {{#js_compare "this.type != 'multiple'"}}
-              <div class="item-input">
-              {{/js_compare}}
-                {{#js_compare "this.type == 'string'"}}
-                <input name="{{name}}" id="add-{{name}}" type="text">
-                {{/js_compare}}
+            <div class="item-content">
+              <div class="item-media"><i class="icon material-icons">{{icon}}</i></div>
+              <div class="item-inner"
                 {{#js_compare "this.type == 'address'"}}
-                <input name="{{name}}" id="add-{{name}}" type="text" disabled>
+                onClick="addForm.openStreetSearch();"
                 {{/js_compare}}
-                {{#js_compare "this.type == 'slider'"}}
-                <div class="range-slider">
-                  <input name="{{name}}" id="add-{{name}}" type="range" min="{{min}}" max="{{max}}" value="{{min}}" step="1">
+                {{#js_compare "this.type == 'image'"}}
+                onClick="addForm.openGallery();"
+                {{/js_compare}}
+              >
+                <div class="item-title label">{{display}}
+                  {{#js_compare "this.type == 'slider'"}}
+                  <span class="badge" id="badge-{{name}}">{{min}}</span>
+                  {{/js_compare}}
+                </div>
+                {{#js_compare "this.type != 'multiple'"}}
+                <div class="item-input">
+                {{/js_compare}}
+                  {{#js_compare "this.type == 'string'"}}
+                  <input name="{{name}}" id="add-{{name}}" type="text">
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'address'"}}
+                  <input name="{{name}}" id="add-{{name}}" type="text" disabled>
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'slider'"}}
+                  <div class="range-slider">
+                    <input name="{{name}}" id="add-{{name}}" type="range" min="{{min}}" max="{{max}}" value="{{min}}" step="1">
+                  </div>
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'resizable'"}}
+                  <textarea name="{{name}}" id="add-{{name}}" class="resizable"></textarea>
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'tel'"}}
+                  <input name="{{name}}" id="add-{{name}}" type="tel">
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'select'"}}
+                  <select name="{{name}}" id="add-{{name}}">
+                    {{#choices}}
+                    <option>{{this}}</option>
+                    {{/choices}}
+                  </select>
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'float'"}}
+                  <input name="{{name}}" id="add-{{name}}" type="number" step="any">
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'url'"}}
+                  <input name="{{name}}" id="add-{{name}}" type="url">
+                  {{/js_compare}}
+                {{#js_compare "this.type != 'multiple'"}}
                 </div>
                 {{/js_compare}}
-                {{#js_compare "this.type == 'resizable'"}}
-                <textarea name="{{name}}" id="add-{{name}}" class="resizable"></textarea>
-                {{/js_compare}}
-                {{#js_compare "this.type == 'tel'"}}
-                <input name="{{name}}" id="add-{{name}}" type="tel">
-                {{/js_compare}}
-                {{#js_compare "this.type == 'select'"}}
-                <select name="{{name}}" id="add-{{name}}">
-                  {{#choices}}
-                  <option>{{this}}</option>
-                  {{/choices}}
-                </select>
-                {{/js_compare}}
-              {{#js_compare "this.type != 'multiple'"}}
               </div>
-              {{/js_compare}}
             </div>
-          </div>
+          {{#js_compare "this.type == 'multiple'"}}
+          </a>
+          {{/js_compare}}
         </li>
-        {{#js_compare "this.type == 'multiple'"}}
-        </a>
-        {{/js_compare}}
       {{/each}}
       </ul>
     </form>
   </div>
-  <script type="text/javascript" src="js/adicionar.js"></script>
 </div>

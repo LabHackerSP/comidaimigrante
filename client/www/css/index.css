@@ -101,3 +101,7 @@
   color: #bbb;
   margin: 0;
 }
+
+.hidden {
+  display: none;
+}
