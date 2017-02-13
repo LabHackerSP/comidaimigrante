@@ -41,6 +41,8 @@ def forms(request):
         'forms' : [
             formObject('nome', 'Nome', 'info', 'string'),
             formObject('endereco', 'Endereço', 'location_on', 'address'),
+            formObject('lat', '', '', 'hidden_float'),
+            formObject('long', '', '', 'hidden_float'),
             formObject('telefone', 'Telefone', 'phone', 'tel'),
             formObject('origem', 'Origem', 'flag', 'select', [origem.nome for origem in origens]),
             formObject('comida', 'Tipo de comida', 'local_dining', 'multiple', [comida.tag for comida in comidas]),
