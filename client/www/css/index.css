@@ -65,10 +65,10 @@
 }
 
 .popover-center {
-  position: absolute;
-  margin: 0 auto;
-  top: 50%;
-  left: 50%;
+  top: 50% !important;
+  left: 50% !important;
+  transform-origin: left top !important;
+  -webkit-transform-origin: left top !important;
 }
 .popover {
   transform: scale(.85,.6) translateX(-50%) translateY(-50%) !important;
