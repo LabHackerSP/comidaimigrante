@@ -16,7 +16,7 @@ def meta(request):
 
     return HttpResponse(json.dumps(data), content_type="application/json")
 
-def formObject(name, display, icon, type, choices = None, min = None, max = None):
+def formObject(name, display, icon, type, choices = None, min = None, max = None, hidden = False):
     obj = {
         'name': name,
         'display': display,
