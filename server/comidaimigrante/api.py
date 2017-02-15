@@ -3,12 +3,34 @@ from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag
 
-
+from tastypie.authorization import Authorization
 from tastypie.authentication import BasicAuthentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.validation import FormValidation
 from django import forms
 from django.contrib.auth.models import Permission
+
+from urllib.parse import parse_qs
+from tastypie.serializers import Serializer
+
+class urlencodeSerializer(Serializer):
+    formats = ['json', 'xml', 'yaml', 'plist', 'urlencode']
+    content_types = {
+        'json': 'application/json',
+        'xml': 'application/xml',
+        'yaml': 'text/yaml',
+        'plist': 'application/x-plist',
+        'urlencode': 'application/x-www-form-urlencoded',
+        }
+
+    def from_urlencode(self, data,options=None):
+        """ handles basic formencoded url posts """
+        qs = dict((k, v if len(v)>1 else v[0] )
+            for k, v in parse_qs(data).items())
+        return qs
+
+    def to_urlencode(self,content):
+        pass
 
 class CustomAuthentication(BasicAuthentication):
     """
@@ -29,6 +51,9 @@ class CustomAuthorization(DjangoAuthorization):
     # sempre deixa ler objeto
     def read_detail(self, object_list, bundle):
         return True
+
+    def create_list(self, object_list, bundle):
+        return object_list
 
 class HorarioResource(ModelResource):
     class Meta:
@@ -87,8 +112,8 @@ class RestauranteResource(ModelResource):
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
     horarios = fields.ToManyField(HorarioResource, attribute='restaurante', full=True, null=True, use_in='detail')
     class Meta:
-        authentication = CustomAuthentication()
-        authorization = CustomAuthorization()
+        #authentication = CustomAuthentication()
+        authorization = Authorization()
         validation=FormValidation(form_class=RestauranteForm)
         queryset = Restaurante.objects.filter(autorizado = True)
         resource_name = 'restaurante'
@@ -100,6 +125,7 @@ class RestauranteResource(ModelResource):
             "origem": ('exact',),
             "flags": ALL_WITH_RELATIONS,
         }
+        serializer = urlencodeSerializer()
 
     def apply_filters(self, request, applicable_filters):
         """
@@ -115,6 +141,12 @@ class RestauranteResource(ModelResource):
                 for value in filter_values:
                     last_filter = last_filter.filter(**{ filter_name : value })
         return last_filter.filter(**applicable_filters)
+
+    def hydrate(self, bundle):
+        # POST sempre não autorizado, necessita moderação
+        print(bundle)
+        bundle.data['autorizado'] = False
+        return bundle
 
     def dehydrate(self, bundle):
         local = (bundle.request.GET.get('local_lat'), bundle.request.GET.get('local_long'))

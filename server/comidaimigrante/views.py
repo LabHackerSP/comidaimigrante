@@ -48,10 +48,10 @@ def forms(request):
             formObject('origem', 'Origem', 'flag', 'select', [origem.nome for origem in origens]),
             formObject('comida', 'Tipo de comida', 'local_dining', 'multiple', [comida.tag for comida in comidas]),
             formObject('preco', 'Preço', 'attach_money', 'slider', min = 1, max = 5),
-            formObject('link', 'Link', 'link', 'url'),
+            formObject('link', 'Link (opcional)', 'link', 'url'),
             formObject('sinopse', 'Sinopse', 'info', 'resizable'),
-            formObject('foto', 'Foto', 'add_a_photo', 'image'),
-            formObject('flags', 'Flags', 'list', 'multiple', [flag.flag for flag in flags])
+            formObject('foto', 'Foto (opcional)', 'add_a_photo', 'image'),
+            formObject('flags', 'Flags (opcional)', 'list', 'multiple', [flag.flag for flag in flags])
         ]
     }
 
