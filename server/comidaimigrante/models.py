@@ -49,7 +49,7 @@ class Flag(models.Model):
 class Restaurante(models.Model):
     nome = StringField()
     endereco = StringField()
-    cidade = models.ForeignKey(Cidade)
+    cidade = models.ForeignKey(Cidade, default=1)
     sinopse = models.TextField()
     lat = models.DecimalField(max_digits=9, decimal_places=7)
     long = models.DecimalField(max_digits=9, decimal_places=7)
@@ -61,7 +61,7 @@ class Restaurante(models.Model):
     comida = models.ManyToManyField(Comida)
     flags = models.ManyToManyField(Flag, blank=True)
     user = models.ForeignKey(User, default=1)
-    autorizado = models.BooleanField()
+    autorizado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome
