@@ -19,6 +19,10 @@ var searchAddrTemplate = '{{#if meta.total_count}}\
         </div>\
         {{/if}}';
 
+var resourcize = function(name, resource) {
+  return '/api/' + resource + '/' + encodeURIComponent(name) + '/';
+};
+
 Frm7.onPageInit('adicionar', function(page) {
   // input mask para telefone
   $('#add-telefone').inputmask({
@@ -37,6 +41,20 @@ Frm7.onPageInit('adicionar', function(page) {
   // atualiza valor visual de slider
   $$('input[type="range"]').on('input change', function(){
     $('#badge-'+this.name).html(this.value);
+  });
+
+  // form validation
+  $('#add-form').validate({
+    rules: {
+      'nome': 'required',
+      'endereco': 'required',
+      'telefone': {
+        'required': true,
+        'minlength': 10,
+      },
+      'comida': 'required',
+      'sinopse': 'required',
+    },
   });
 });
 
@@ -82,13 +100,11 @@ var addForm = {
   resultAddress: function(id) {
     var obj = addForm.results[id];
     console.log(obj);
+    // TODO: fix this
     var rua = $.grep(obj.address_components, function(e){ return e.types.indexOf('route') >= 0; })[0].long_name;
     var num = $.grep(obj.address_components, function(e){ return e.types.indexOf('street_number') >= 0; })[0].long_name;
     var bairro = $.grep(obj.address_components, function(e){ return e.types.indexOf('sublocality') >= 0; })[0].long_name;
     var formatted_address = rua + ", " + num + " - " + bairro;
-    console.log(formatted_address);
-    console.log(obj.geometry.location.lat);
-    console.log(obj.geometry.location.lng);
     formData = {
       'lat': obj.geometry.location.lat,
       'long': obj.geometry.location.lng,
@@ -96,5 +112,36 @@ var addForm = {
     };
     Frm7.formFromData("#add-form", formData);
     mainView.router.back();
+  },
+
+  // POST
+  sendData: function() {
+    var api = "/api/restaurante/";
+    var url = SERVER + api;
+    var data = Frm7.formToData('#add-form');
+    data.origem = resourcize(data.origem, 'origem');
+    data.comida.forEach(function(part, index, arr) {
+      arr[index] = resourcize(part, 'comida');
+    });
+    data.flags.forEach(function(part, index, arr) {
+      arr[index] = resourcize(part, 'flags');
+    });
+    console.log(data);
+
+    /*$.post(url, data,
+      function(data) {
+        console.log("success");
+        console.log(data)
+      },
+      "json"
+    );*/
+    $.ajax({
+      url: url,
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(data),
+      dataType: 'json',
+      processData: false
+    })
   },
 };
