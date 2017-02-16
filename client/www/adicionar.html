@@ -16,7 +16,7 @@
         >
           {{#js_compare "this.type == 'multiple'"}}
           <a href="#" class="item-link smart-select">
-            <select name="{{name}}" id="add-{{name}}" multiple>
+            <select name="{{name}}" id="add-{{name}}" multiple data-error="error-{{name}}">
               {{#choices}}
               <option>{{this}}</option>
               {{/choices}}
@@ -36,39 +36,40 @@
                   {{#js_compare "this.type == 'slider'"}}
                   <span class="badge" id="badge-{{name}}">{{min}}</span>
                   {{/js_compare}}
+                  <span class="error" id="error-{{name}}"></span>
                 </div>
                 {{#js_compare "this.type != 'multiple'"}}
                 <div class="item-input">
                 {{/js_compare}}
                   {{#js_compare "this.type == 'string'"}}
-                  <input name="{{name}}" id="add-{{name}}" type="text">
+                  <input name="{{name}}" id="add-{{name}}" type="text" data-error="error-{{name}}">
                   {{/js_compare}}
                   {{#js_compare "this.type == 'address'"}}
-                  <input name="{{name}}" id="add-{{name}}" type="text" disabled>
+                  <input name="{{name}}" id="add-{{name}}" type="text" data-error="error-{{name}}" readonly="readonly">
                   {{/js_compare}}
                   {{#js_compare "this.type == 'slider'"}}
                   <div class="range-slider">
-                    <input name="{{name}}" id="add-{{name}}" type="range" min="{{min}}" max="{{max}}" value="{{min}}" step="1">
+                    <input name="{{name}}" id="add-{{name}}" type="range" min="{{min}}" max="{{max}}" value="{{min}}" step="1" data-error="error-{{name}}">
                   </div>
                   {{/js_compare}}
                   {{#js_compare "this.type == 'resizable'"}}
-                  <textarea name="{{name}}" id="add-{{name}}" class="resizable"></textarea>
+                  <textarea name="{{name}}" id="add-{{name}}" class="resizable" data-error="error-{{name}}"></textarea>
                   {{/js_compare}}
                   {{#js_compare "this.type == 'tel'"}}
-                  <input name="{{name}}" id="add-{{name}}" type="tel">
+                  <input name="{{name}}" id="add-{{name}}" type="tel" data-error="error-{{name}}">
                   {{/js_compare}}
                   {{#js_compare "this.type == 'select'"}}
-                  <select name="{{name}}" id="add-{{name}}">
+                  <select name="{{name}}" id="add-{{name}}" data-error="error-{{name}}">
                     {{#choices}}
                     <option>{{this}}</option>
                     {{/choices}}
                   </select>
                   {{/js_compare}}
                   {{#js_compare "this.type == 'float'"}}
-                  <input name="{{name}}" id="add-{{name}}" type="number" step="any">
+                  <input name="{{name}}" id="add-{{name}}" type="number" step="any" data-error="error-{{name}}">
                   {{/js_compare}}
                   {{#js_compare "this.type == 'url'"}}
-                  <input name="{{name}}" id="add-{{name}}" type="url">
+                  <input name="{{name}}" id="add-{{name}}" type="url" data-error="error-{{name}}">
                   {{/js_compare}}
                 {{#js_compare "this.type != 'multiple'"}}
                 </div>

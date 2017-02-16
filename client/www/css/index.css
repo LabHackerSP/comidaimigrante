@@ -105,3 +105,8 @@
 .hidden {
   display: none;
 }
+.error {
+  color: #EE0000;
+  font-weight: bold;
+  padding-left: 2em;
+}

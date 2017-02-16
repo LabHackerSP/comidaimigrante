@@ -44,6 +44,10 @@ Frm7.onPageInit('adicionar', function(page) {
   });
 
   // form validation
+  jQuery.validator.addMethod("notNull", function(value, element, param) {
+    return this.optional(element) || value != null;
+  }, "Este campo é requerido.");
+
   $('#add-form').validate({
     rules: {
       'nome': 'required',
@@ -52,8 +56,19 @@ Frm7.onPageInit('adicionar', function(page) {
         'required': true,
         'minlength': 10,
       },
-      'comida': 'required',
+      'comida': {
+        'required': true,
+        'notNull': true,
+      },
       'sinopse': 'required',
+    },
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if ('#'+placement) {
+        $('#'+placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
     },
   });
 });
@@ -116,6 +131,7 @@ var addForm = {
 
   // POST
   sendData: function() {
+    if (!$('#add-form').valid()) return false
     var api = "/api/restaurante/";
     var url = SERVER + api;
     var data = Frm7.formToData('#add-form');
