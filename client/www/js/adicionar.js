@@ -44,23 +44,23 @@ Frm7.onPageInit('adicionar', function(page) {
   });
 
   // form validation
-  jQuery.validator.addMethod("notNull", function(value, element, param) {
-    return this.optional(element) || value != null;
+  $.validator.addMethod("notNull", function(value, element) {
+    return value != null;
   }, "Este campo é requerido.");
 
   $('#add-form').validate({
+    ignore: false,
     rules: {
-      'nome': 'required',
-      'endereco': 'required',
-      'telefone': {
-        'required': true,
-        'minlength': 10,
+      nome: 'required',
+      endereco: 'required',
+      telefone: {
+        required: true,
+        minlength: 10,
       },
-      'comida': {
-        'required': true,
-        'notNull': true,
+      comida: {
+        notNull: true,
       },
-      'sinopse': 'required',
+      sinopse: 'required',
     },
     errorPlacement: function(error, element) {
       var placement = $(element).data('error');

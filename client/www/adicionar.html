@@ -16,7 +16,7 @@
         >
           {{#js_compare "this.type == 'multiple'"}}
           <a href="#" class="item-link smart-select">
-            <select name="{{name}}" id="add-{{name}}" multiple data-error="error-{{name}}">
+            <select name="{{name}}" id="add-{{name}}" multiple="multiple" data-error="error-{{name}}">
               {{#choices}}
               <option>{{this}}</option>
               {{/choices}}
