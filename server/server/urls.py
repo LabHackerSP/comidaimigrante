@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from comidaimigrante.api import RestauranteResource, FlagResource, ComidaResource, OrigemResource
+from comidaimigrante.api import RestauranteResource, FlagResource, ComidaResource, OrigemResource, UserResource
 
 restaurante = RestauranteResource()
 flags = FlagResource()
 comida = ComidaResource()
 origem = OrigemResource()
+user = UserResource()
 
 urlpatterns = [
     url(r'^', include('comidaimigrante.urls')),
@@ -29,4 +30,5 @@ urlpatterns = [
     url(r'^api/', include(flags.urls)),
     url(r'^api/', include(comida.urls)),
     url(r'^api/', include(origem.urls)),
+    url(r'^api/', include(user.urls)),
 ]
