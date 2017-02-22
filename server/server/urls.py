@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^api/', include(comida.urls)),
     url(r'^api/', include(origem.urls)),
     url(r'^api/', include(user.urls)),
+    url(r'^facebook/', include('django_facebook.urls')),
 ]

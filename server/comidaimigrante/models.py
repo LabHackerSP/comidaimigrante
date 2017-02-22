@@ -2,6 +2,7 @@ from django.utils.translation import ugettext as _
 from django.db import models
 from django.contrib.admin import widgets
 from django.contrib.auth.models import User
+from server import settings
 
 # Create your models here.
 
@@ -60,7 +61,7 @@ class Restaurante(models.Model):
     preco = models.IntegerField()
     comida = models.ManyToManyField(Comida)
     flags = models.ManyToManyField(Flag, blank=True)
-    user = models.ForeignKey(User, default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     autorizado = models.BooleanField(default=False)
 
     def __str__(self):

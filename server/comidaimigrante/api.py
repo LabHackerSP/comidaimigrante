@@ -20,12 +20,35 @@ from tastypie.http import HttpUnauthorized, HttpForbidden
 from django.conf.urls import url
 from tastypie.utils import trailing_slash
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+class urlencodeSerializer(Serializer):
+    formats = ['json', 'xml', 'yaml', 'plist', 'urlencode']
+    content_types = {
+    'json': 'application/json',
+    'xml': 'application/xml',
+    'yaml': 'text/yaml',
+    'plist': 'application/x-plist',
+    'urlencode': 'application/x-www-form-urlencoded',
+    }
+
+    def from_urlencode(self, data,options=None):
+        """ handles basic formencoded url posts """
+        qs = dict((k, v if len(v)>1 else v[0] )
+        for k, v in parse_qs(data).items())
+        return qs
+
+        def to_urlencode(self,content):
+            pass
+
 class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         fields = ['first_name', 'last_name', 'email']
         allowed_methods = ['get', 'post']
         resource_name = 'user'
+        serializer = urlencodeSerializer()
 
     def override_urls(self):
         return [
@@ -40,7 +63,7 @@ class UserResource(ModelResource):
     def login(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
 
-        data = self.deserialize(request, request.raw_post_data, format=request.META.get('CONTENT_TYPE', 'application/json'))
+        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
 
         username = data.get('username', '')
         password = data.get('password', '')
@@ -69,26 +92,7 @@ class UserResource(ModelResource):
             logout(request)
             return self.create_response(request, { 'success': True })
         else:
-            return self.create_response(request, { 'success': False }, HttpUnauthorized)    
-
-class urlencodeSerializer(Serializer):
-    formats = ['json', 'xml', 'yaml', 'plist', 'urlencode']
-    content_types = {
-        'json': 'application/json',
-        'xml': 'application/xml',
-        'yaml': 'text/yaml',
-        'plist': 'application/x-plist',
-        'urlencode': 'application/x-www-form-urlencoded',
-        }
-
-    def from_urlencode(self, data,options=None):
-        """ handles basic formencoded url posts """
-        qs = dict((k, v if len(v)>1 else v[0] )
-            for k, v in parse_qs(data).items())
-        return qs
-
-    def to_urlencode(self,content):
-        pass
+            return self.create_response(request, { 'success': False }, HttpUnauthorized)
 
 class CustomAuthentication(BasicAuthentication):
     """
