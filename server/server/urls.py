@@ -32,7 +32,5 @@ urlpatterns = [
     url(r'^api/', include(comida.urls)),
     url(r'^api/', include(origem.urls)),
     url(r'^api/', include(user.urls)),
-    url(r'^accounts/login/$', auth_views.login),
-    url(r'^accounts/logout/$', auth_views.logout),
-    url(r'^accounts/', include('allaccess.urls')),
+    url(r'^accounts/', include('allauth.urls')),
 ]
