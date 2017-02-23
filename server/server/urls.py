@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from comidaimigrante.api import RestauranteResource, FlagResource, ComidaResource, OrigemResource, UserResource
+from django.contrib.auth import views as auth_views
 
 restaurante = RestauranteResource()
 flags = FlagResource()
@@ -31,5 +32,7 @@ urlpatterns = [
     url(r'^api/', include(comida.urls)),
     url(r'^api/', include(origem.urls)),
     url(r'^api/', include(user.urls)),
+    url(r'^accounts/login/$', auth_views.login),
+    url(r'^accounts/logout/$', auth_views.logout),
     url(r'^accounts/', include('allaccess.urls')),
 ]
