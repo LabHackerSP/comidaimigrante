@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tastypie',
     'corsheaders',
-    'django_facebook',
+    'allaccess',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +60,9 @@ ROOT_URLCONF = 'server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,7 +70,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django_facebook.context_processors.facebook',
             ],
         },
     },
@@ -107,13 +108,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'django_facebook.auth_backends.FacebookBackend',
+    'allaccess.backends.AuthorizedServiceBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
-
-AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
-AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

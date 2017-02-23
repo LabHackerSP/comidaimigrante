@@ -61,7 +61,7 @@ class Restaurante(models.Model):
     preco = models.IntegerField()
     comida = models.ManyToManyField(Comida)
     flags = models.ManyToManyField(Flag, blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(User, default=1)
     autorizado = models.BooleanField(default=False)
 
     def __str__(self):

@@ -31,6 +31,5 @@ urlpatterns = [
     url(r'^api/', include(comida.urls)),
     url(r'^api/', include(origem.urls)),
     url(r'^api/', include(user.urls)),
-    url(r'^facebook/', include('django_facebook.urls')),
-    url(r'^accounts/', include('django_facebook.auth_urls')), #Don't add this line if you use django registration or userena for registration and auth.
+    url(r'^accounts/', include('allaccess.urls')),
 ]
