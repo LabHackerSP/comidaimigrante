@@ -1,0 +1,61 @@
+[
+  {
+    "model": "comidaimigrante.comida",
+    "pk": 1,
+    "fields": {
+      "tag": "Brasileira"
+    }
+  },
+  {
+    "model": "comidaimigrante.comida",
+    "pk": 2,
+    "fields": {
+      "tag": "Chinesa"
+    }
+  },
+  {
+    "model": "comidaimigrante.comida",
+    "pk": 3,
+    "fields": {
+      "tag": "Indiana"
+    }
+  },
+  {
+    "model": "comidaimigrante.comida",
+    "pk": 4,
+    "fields": {
+      "tag": "Japonesa"
+    }
+  },
+  {
+    "model": "comidaimigrante.comida",
+    "pk": 5,
+    "fields": {
+      "tag": "Árabe"
+    }
+  },
+  {
+    "model": "comidaimigrante.origem",
+    "pk": 1,
+    "fields": {
+      "nome": "Brasil",
+      "bandeira": "BR"
+    }
+  },
+  {
+    "model": "comidaimigrante.origem",
+    "pk": 2,
+    "fields": {
+      "nome": "China",
+      "bandeira": "CN"
+    }
+  },
+  {
+    "model": "comidaimigrante.origem",
+    "pk": 3,
+    "fields": {
+      "nome": "Palestina",
+      "bandeira": "PS"
+    }
+  }
+]
