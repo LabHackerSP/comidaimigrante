@@ -1,10 +1,12 @@
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from comidaimigrante.models import Cidade, Origem, Comida, Flag
 import json
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Index do Comida de Imigrante. Oi!")
+    return render(request, 'views/home.html')
 
 def meta(request):
     origens = Origem.objects.all()
@@ -13,6 +15,23 @@ def meta(request):
         'origem' : [origem.nome for origem in origens],
         'flag' : [flag.flag for flag in flags]
     }
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+def profile(request):
+    user = request.user
+    data = {
+        'id': user.id,
+        'user': user.username,
+        'authenticated': user.is_authenticated(),
+    }
+
+    try:
+        data['first_name'] = user.first_name
+        data['last_name'] = user.last_name
+        data['avatar_url'] = user.socialaccount_set.all[0].get_avatar_url
+    except:
+        pass
 
     return HttpResponse(json.dumps(data), content_type="application/json")
 
