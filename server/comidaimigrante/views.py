@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.clickjacking import xframe_options_exempt
 from django.shortcuts import render
 from comidaimigrante.models import Cidade, Origem, Comida, Flag
 import json
