@@ -18,6 +18,7 @@ def meta(request):
 
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+@xframe_options_exempt
 def profile(request):
     user = request.user
     data = {
