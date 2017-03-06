@@ -3,96 +3,12 @@ from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag
 
-from tastypie.authorization import Authorization
+
 from tastypie.authentication import BasicAuthentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.validation import FormValidation
 from django import forms
-from django.contrib.auth.models import Permission
 
-from urllib.parse import parse_qs
-from tastypie.serializers import Serializer
-
-
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from tastypie.http import HttpUnauthorized, HttpForbidden
-from django.conf.urls import url
-from tastypie.utils import trailing_slash
-
-from django.contrib.auth import get_user_model
-User = get_user_model()
-
-class urlencodeSerializer(Serializer):
-    formats = ['json', 'xml', 'yaml', 'plist', 'urlencode']
-    content_types = {
-    'json': 'application/json',
-    'xml': 'application/xml',
-    'yaml': 'text/yaml',
-    'plist': 'application/x-plist',
-    'urlencode': 'application/x-www-form-urlencoded',
-    }
-
-    def from_urlencode(self, data,options=None):
-        """ handles basic formencoded url posts """
-        qs = dict((k, v if len(v)>1 else v[0] )
-        for k, v in parse_qs(data).items())
-        return qs
-
-        def to_urlencode(self,content):
-            pass
-
-class UserResource(ModelResource):
-    class Meta:
-        queryset = User.objects.all()
-        fields = ['first_name', 'last_name', 'email']
-        allowed_methods = ['get', 'post']
-        resource_name = 'user'
-        serializer = urlencodeSerializer()
-
-    def override_urls(self):
-        return [
-            url(r"^(?P<resource_name>%s)/login%s$" %
-                (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('login'), name="api_login"),
-            url(r'^(?P<resource_name>%s)/logout%s$' %
-                (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('logout'), name='api_logout'),
-        ]
-
-    def login(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
-
-        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
-
-        username = data.get('username', '')
-        password = data.get('password', '')
-
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                return self.create_response(request, {
-                    'success': True
-                })
-            else:
-                return self.create_response(request, {
-                    'success': False,
-                    'reason': 'disabled',
-                    }, HttpForbidden )
-        else:
-            return self.create_response(request, {
-                'success': False,
-                'reason': 'incorrect',
-                }, HttpUnauthorized )
-
-    def logout(self, request, **kwargs):
-        self.method_check(request, allowed=['get'])
-        if request.user and request.user.is_authenticated():
-            logout(request)
-            return self.create_response(request, { 'success': True })
-        else:
-            return self.create_response(request, { 'success': False }, HttpUnauthorized)
 
 class CustomAuthentication(BasicAuthentication):
     """
@@ -105,17 +21,6 @@ class CustomAuthentication(BasicAuthentication):
             return True
         return super(CustomAuthentication, self).is_authenticated(request, **kwargs)
 
-class CustomAuthorization(DjangoAuthorization):
-    # sempre deixa ler lista
-    def read_list(self, object_list, bundle):
-        return object_list
-
-    # sempre deixa ler objeto
-    def read_detail(self, object_list, bundle):
-        return True
-
-    def create_list(self, object_list, bundle):
-        return object_list
 
 class HorarioResource(ModelResource):
     class Meta:
@@ -144,7 +49,7 @@ class ComidaResource(ModelResource):
     class Meta:
         queryset = Comida.objects.all()
         authentication = CustomAuthentication()
-        authorization = CustomAuthorization()
+        authorization = DjangoAuthorization()
         validation=FormValidation(form_class=ComidaForm)
 
 class FlagForm(forms.Form):
@@ -157,14 +62,16 @@ class FlagResource(ModelResource):
             'flag': ALL
         }
         authentication = CustomAuthentication()
-        authorization = CustomAuthorization()
+        authorization = DjangoAuthorization()
         validation=FormValidation(form_class=FlagForm)
 
 class RestauranteForm(forms.Form):
-    nome = forms.CharField(min_length=20)
-    ## Definir outras regras de validacao
+    ## TODO: Definir outras regras de validacao
+    ## nome = forms.CharField(min_length=20)
+    
 
 class RestauranteResource(ModelResource):
+    nome = fields.CharField(attribute='nome', use_in='detail')
     link = fields.CharField(attribute='link', use_in='detail')
     sinopse = fields.CharField(attribute='sinopse', use_in='detail')
     telefone = fields.CharField(attribute='telefone', use_in='detail')
@@ -173,10 +80,9 @@ class RestauranteResource(ModelResource):
     comida = fields.ManyToManyField(ComidaResource, 'comida', full=True, use_in='detail')
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
     horarios = fields.ToManyField(HorarioResource, attribute='restaurante', full=True, null=True, use_in='detail')
-    user = fields.ForeignKey(UserResource, 'user', use_in='detail')
     class Meta:
-        #authentication = CustomAuthentication()
-        authorization = Authorization()
+        authentication = CustomAuthentication()
+        authorization = DjangoAuthorization()
         validation=FormValidation(form_class=RestauranteForm)
         queryset = Restaurante.objects.filter(autorizado = True)
         resource_name = 'restaurante'
@@ -188,8 +94,7 @@ class RestauranteResource(ModelResource):
             "origem": ('exact',),
             "flags": ALL_WITH_RELATIONS,
         }
-        serializer = urlencodeSerializer()
-
+    
     def apply_filters(self, request, applicable_filters):
         """
         Implementando filtro de maneira hackish por multiplos valores sem ter que zoar o core do django.
@@ -204,12 +109,6 @@ class RestauranteResource(ModelResource):
                 for value in filter_values:
                     last_filter = last_filter.filter(**{ filter_name : value })
         return last_filter.filter(**applicable_filters)
-
-    def hydrate(self, bundle):
-        # POST sempre não autorizado, necessita moderação
-        print(bundle)
-        bundle.data['autorizado'] = False
-        return bundle
 
     def dehydrate(self, bundle):
         local = (bundle.request.GET.get('local_lat'), bundle.request.GET.get('local_long'))
