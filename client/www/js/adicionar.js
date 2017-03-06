@@ -20,7 +20,8 @@ var searchAddrTemplate = '{{#if meta.total_count}}\
         {{/if}}';
 
 var resourcize = function(name, resource) {
-  return '/api/' + resource + '/' + encodeURIComponent(name) + '/';
+  //return '/api/' + resource + '/' + encodeURIComponent(name) + '/';
+  return '/api/' + resource + '/' + name + '/';
 };
 
 Frm7.onPageInit('adicionar', function(page) {

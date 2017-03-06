@@ -4,6 +4,7 @@
  */
 
 SERVER = "http://comidaimigrante.labhacker.org.br"
+//SERVER = "http://127.0.0.1:8000"
 
 // Initialize your app
 var Frm7 = new Framework7({
@@ -445,6 +446,24 @@ var data = {
     if(origem != "----") query += "origem=" + origem;
     var url = SERVER + api + query;
     $.getJSON(url, data.parseSearchName, data.fail);
+  },
+};
+
+// funções de usuário e login
+var user = {
+  browser: null,
+  options: {
+    toolbarColor: '#8E3523',
+    toolbarHeight: '45',
+    closeButtonText: 'X',
+    closeButtonSize: '20',
+    closeButtonColor: '#FFFFFF',
+    openHidden: false
+  },
+
+  loginFacebook: function() {
+    var url = 'http://comidaimigrante.labhacker.org.br/accounts/facebook/login/';
+    var browser = window.inAppBrowserXwalk.open(url, user.options);
   },
 };
 
