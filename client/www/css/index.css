@@ -110,3 +110,19 @@
   font-weight: bold;
   padding-left: 2em;
 }
+
+.panel-header {
+  padding: 1em;
+}
+
+.item-media img {
+  height: 29px;
+  width: 29px;
+}
+.item-darker {
+  background: #eee;
+}
+
+.no-margin {
+  margin: 0;
+}

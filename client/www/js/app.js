@@ -3,8 +3,8 @@
  * 2016 Labhacker
  */
 
-SERVER = "http://comidaimigrante.labhacker.org.br"
-//SERVER = "http://127.0.0.1:8000"
+//SERVER = "http://comidaimigrante.labhacker.org.br"
+SERVER = "http://127.0.0.1:8000"
 
 // Initialize your app
 var Frm7 = new Framework7({
@@ -163,6 +163,10 @@ var app = {
   },
 
   openAddForm: function() {
+    if(!user.profile.admin) {
+      alert("Você não pode executar essa ação!");
+      return;
+    }
     if($.isEmptyObject(data.forms)) { data.downloadGeneric(app.openAddForm, 'forms'); }
     else {
       mainView.router.load({
@@ -451,19 +455,30 @@ var data = {
 
 // funções de usuário e login
 var user = {
+  profile: {
+    authenticated: false,
+  },
   browser: null,
   options: {
     toolbarColor: '#8E3523',
-    toolbarHeight: '45',
-    closeButtonText: 'X',
+    toolbarHeight: '50',
+    closeButtonText: 'Fechar',
     closeButtonSize: '20',
     closeButtonColor: '#FFFFFF',
     openHidden: false
   },
 
-  loginFacebook: function() {
-    var url = 'http://comidaimigrante.labhacker.org.br/accounts/facebook/login/';
+  login: function(app) {
+    var url = SERVER + '/accounts/'+app+'/login/';
     var browser = window.inAppBrowserXwalk.open(url, user.options);
+  },
+
+  updateProfile: function() {
+    // requests currently logged in profile from server
+  },
+
+  parseProfile: function() {
+    // receive profile and change templates accordingly
   },
 };
 
