@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
-from django.middleware.csrf import _get_new_csrf_key as get_new_csrf_key
+from django.middleware.csrf import rotate_token
 from django.shortcuts import render
 from comidaimigrante.models import Cidade, Origem, Comida, Flag
 import json
@@ -39,7 +39,7 @@ def profile(request):
         pass
 
     response = HttpResponse(json.dumps(data), content_type="application/json")
-    response.set_cookie("csrftoken", get_new_csrf_key())
+    rotate_token(request)
     return response
 
 def formObject(name, display, icon, type, choices = None, min = None, max = None, hidden = False):
