@@ -1,6 +1,9 @@
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.csrf import csrf_exempt
+from django.middleware.csrf import _get_new_csrf_key as get_new_csrf_key
 from django.shortcuts import render
 from comidaimigrante.models import Cidade, Origem, Comida, Flag
 import json
@@ -16,7 +19,6 @@ def meta(request):
         'origem' : [origem.nome for origem in origens],
         'flag' : [flag.flag for flag in flags]
     }
-
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 @xframe_options_exempt
@@ -26,6 +28,7 @@ def profile(request):
         'id': user.id,
         'user': user.username,
         'authenticated': user.is_authenticated(),
+        'admin': user.is_staff,
     }
 
     try:
@@ -35,7 +38,9 @@ def profile(request):
     except:
         pass
 
-    return HttpResponse(json.dumps(data), content_type="application/json")
+    response = HttpResponse(json.dumps(data), content_type="application/json")
+    response.set_cookie("csrftoken", get_new_csrf_key())
+    return response
 
 def formObject(name, display, icon, type, choices = None, min = None, max = None, hidden = False):
     obj = {
