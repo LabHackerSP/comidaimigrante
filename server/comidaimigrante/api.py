@@ -115,7 +115,12 @@ class CustomAuthorization(DjangoAuthorization):
         return True
 
     def create_list(self, object_list, bundle):
+        # aqui o objeto é criado, deve estar logado
         return object_list
+
+    def update_detail(self, object_list, bundle):
+        # aqui o objeto é editado, deve ser admin ou mesmo usuário que criou
+        return True
 
 class HorarioResource(ModelResource):
     class Meta:
@@ -164,7 +169,7 @@ class RestauranteForm(forms.Form):
     ## TODO: Definir outras regras de validacao
     ## nome = forms.CharField(min_length=20)
     pass
-    
+
 class RestauranteResource(ModelResource):
     link = fields.CharField(attribute='link', use_in='detail')
     sinopse = fields.CharField(attribute='sinopse', use_in='detail')
@@ -208,8 +213,15 @@ class RestauranteResource(ModelResource):
 
     def hydrate(self, bundle):
         # POST sempre não autorizado, necessita moderação
-        print(bundle)
         bundle.data['autorizado'] = False
+        return bundle
+
+    def hydrate_user(self, bundle):
+        # grava qual usuário criou o restaurante
+        print(bundle.request)
+        user = User.objects.get(pk=bundle.request.user.pk)
+        print(user)
+        bundle.obj.user = user
         return bundle
 
     def dehydrate(self, bundle):
