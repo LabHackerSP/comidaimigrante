@@ -20,67 +20,85 @@
     <!-- Panels overlay-->
     <div class="panel-overlay"></div>
     <!-- Left panel with reveal effect-->
-    <div class="panel panel-left panel-cover">
-      <div class="panel-header item-darker">
-        <img src="css/images/logo.svg"/>
-      </div>
-      <div class="list-block media-list no-margin">
-        <ul>
-          <li>
-            <div class="item-content item-darker">
-              <!-- eventualmente foto de perfil aqui
-              <div class="item-media">
-                <img src="path/to/img.jpg">
-              </div>
-              -->
-              <div class="item-inner">
-                <div class="item-title-row">
-                  <div class="item-title">Saudações!</div>
+    <div class="panel panel-left panel-cover" id="left-panel">
+      <script id="left-panel-template" type="text/template7">
+        <div class="panel-header item-darker">
+          <img src="css/images/logo.svg"/>
+        </div>
+        <div class="list-block media-list no-margin">
+          <ul>
+            <li>
+              <div class="item-content item-darker">
+                <!-- eventualmente foto de perfil aqui
+                <div class="item-media">
+                  <img src="path/to/img.jpg">
                 </div>
-                <div class="item-subtitle">Você não está logado no sistema.</div>
+                -->
+                <div class="item-inner">
+                  {{#if authenticated}}
+                    <div class="item-title-row">
+                      <div class="item-title">Saudações {{first_name}}!</div>
+                    </div>
+                  {{else}}
+                    <div class="item-title-row">
+                      <div class="item-title">Saudações!</div>
+                    </div>
+                    <div class="item-subtitle">Você não está logado no sistema.</div>
+                  {{/if}}
+                </div>
               </div>
-            </div>
-          </li>
-          <li class="item-content">
-            <a href="#" onClick="app.openSearch();" class="close-panel">
-              <div class="item-inner">
-                <div class="item-title">Buscar restaurantes</div>
-              </div>
-            </a>
-          </li>
-          <li class="item-content">
-            <a href="#" onClick="app.openAddForm();" class="close-panel">
-              <div class="item-inner">
-                <div class="item-title">Adicionar restaurante</div>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="list-block">
-        <ul>
-          <li>
-            <a href="#" class="item-content" onClick="user.login('facebook');">
-            <!--<a href="#" onClick="user.login('facebook');" class="close-panel">-->
-              <div class="item-media"><img src="css/images/facebook.png"/></div>
-              <div class="item-inner">
-                <div class="item-title">Login via Facebook</div>
-              </div>
-            <!--</a>-->
-            </a>
-          </li>
-          <li>
-            <a href="#" class="item-content" onClick="user.login('google');">
-            <!--<a href="#" onClick="user.login('facebook');" class="close-panel">-->
-              <div class="item-media"><img src="css/images/google.png"/></div>
-              <div class="item-inner">
-                <div class="item-title">Login via Google</div>
-              </div>
-            <!--</a>-->
-            </a>
-          </li>
-        </ul>
-      </div>
+            </li>
+            <li class="item-content">
+              <a href="#" onClick="app.openSearch();" class="close-panel">
+                <div class="item-inner">
+                  <div class="item-title">Buscar restaurantes</div>
+                </div>
+              </a>
+            </li>
+            {{#if admin}}
+              <li class="item-content">
+                <a href="#" onClick="app.openAddForm();" class="close-panel">
+                  <div class="item-inner">
+                    <div class="item-title">Adicionar restaurante</div>
+                  </div>
+                </a>
+              </li>
+            {{/if}}
+          </ul>
+        </div>
+        <div class="list-block">
+          <ul>
+            {{#if authenticated}}
+              <li>
+                <a href="#" class="item-content close-panel" onClick="user.logout();">
+                  <div class="item-inner">
+                    <div class="item-title">Logout</div>
+                  </div>
+                </a>
+              </li>
+            {{else}}
+              <li>
+                <a href="#" class="item-content close-panel" onClick="user.login('facebook');">
+                <!--<a href="#" onClick="user.login('facebook');" class="close-panel">-->
+                  <div class="item-media"><img src="css/images/facebook.png"/></div>
+                  <div class="item-inner">
+                    <div class="item-title">Login via Facebook</div>
+                  </div>
+                <!--</a>-->
+                </a>
+              </li>
+              <li>
+                <a href="#" class="item-content" onClick="user.login('google');">
+                  <div class="item-media"><img src="css/images/google.png"/></div>
+                  <div class="item-inner">
+                    <div class="item-title">Login via Google</div>
+                  </div>
+                </a>
+              </li>
+            {{/if}}
+          </ul>
+        </div>
+      </script>
     </div>
     <!-- Views-->
     <div class="views">

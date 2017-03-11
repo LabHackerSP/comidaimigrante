@@ -3,8 +3,8 @@
  * 2016 Labhacker
  */
 
-//SERVER = "http://comidaimigrante.labhacker.org.br"
-SERVER = "http://127.0.0.1:8000"
+SERVER = "http://comidaimigrante.labhacker.org.br"
+//SERVER = "http://127.0.0.1:8000"
 
 // Initialize your app
 var Frm7 = new Framework7({
@@ -40,6 +40,7 @@ var templates = {
   searchFilters: Template7.compile($$('#search-name-filters-template').html()),
   searchName: Template7.compile($$('#search-name-results-template').html()),
   popover: Template7.compile($$('#popover-template').html()),
+  leftPanel: Template7.compile($$('#left-panel-template').html()),
 
   // hoje true = aberto/fechado hoje
   // hoje false = lista de parágrafos com horários
@@ -89,6 +90,11 @@ var templates = {
   },
 };
 
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
 var app = {
   // Application Constructor
   initialize: function() {
@@ -113,11 +119,20 @@ var app = {
       StatusBar.backgroundColorByHexString("#1C81CE");
       //StatusBar.backgroundColorByHexString("#1C81CE");
     }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+            }
+        }
+    });
   },
 
   onDocumentReady: function() {
-    map.init();
     moment.locale('pt-br');
+    map.init();
+    user.downloadProfile();
   },
 
   onBackKeyDown: function() {
@@ -470,15 +485,50 @@ var user = {
 
   login: function(app) {
     var url = SERVER + '/accounts/'+app+'/login/';
-    var browser = window.inAppBrowserXwalk.open(url, user.options);
+    user.browser = window.inAppBrowserXwalk.open(url, user.options);
+    user.browser.addEventListener("loadstop", function (e) {
+      // if the user is redirected to the profile page, close this window and update info
+      if(e.url.search("/accounts/profile") > 0) {
+        user.browser.close();
+        user.downloadProfile();
+      }
+    });
   },
 
-  updateProfile: function() {
+  logout: function() {
+    var url = SERVER + '/accounts/logout/';
+    $.ajax({
+      url: url,
+      type: 'POST',
+      crossDomain: true,
+      beforeSend: function(request) {
+        request.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+      },
+      xhrFields: { withCredentials: true },
+      complete: user.downloadProfile
+    });
+  },
+
+  downloadProfile: function() {
     // requests currently logged in profile from server
+    Frm7.showIndicator();
+    var api = '/accounts/profile';
+    var url = SERVER + api;
+    //$.getJSON(url, user.parseProfile, data.fail);
+    $.ajax({
+      url: url,
+      method: 'GET',
+      crossDomain: true,
+      success: user.parseProfile,
+    })
   },
 
-  parseProfile: function() {
+  parseProfile: function(json) {
     // receive profile and change templates accordingly
+    user.profile = json;
+    var html = templates.leftPanel(user.profile);
+    $("#left-panel").html(html);
+    Frm7.hideIndicator();
   },
 };
 
