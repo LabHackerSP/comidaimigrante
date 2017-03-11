@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
-from django.middleware.csrf import rotate_token
+from django.middleware.csrf import rotate_token, get_token
 from django.shortcuts import render
 from comidaimigrante.models import Cidade, Origem, Comida, Flag
 import json
@@ -31,6 +31,10 @@ def profile(request):
         'admin': user.is_staff,
     }
 
+    if data['authenticated']:
+        rotate_token(request)
+        data['csrf_token'] = get_token(request)
+
     try:
         data['first_name'] = user.first_name
         data['last_name'] = user.last_name
@@ -39,7 +43,6 @@ def profile(request):
         pass
 
     response = HttpResponse(json.dumps(data), content_type="application/json")
-    rotate_token(request)
     return response
 
 def formObject(name, display, icon, type, choices = None, min = None, max = None, hidden = False):
