@@ -211,18 +211,32 @@ class RestauranteResource(ModelResource):
                     last_filter = last_filter.filter(**{ filter_name : value })
         return last_filter.filter(**applicable_filters)
 
+    # POST sempre não autorizado, necessita moderação
     def hydrate(self, bundle):
-        # POST sempre não autorizado, necessita moderação
         bundle.data['autorizado'] = False
         return bundle
 
+    # grava qual usuário criou o restaurante
     def hydrate_user(self, bundle):
-        # grava qual usuário criou o restaurante
         print(bundle.request)
         user = User.objects.get(pk=bundle.request.user.pk)
         print(user)
         bundle.obj.user = user
         return bundle
+
+    # recebe tipos de comida do post
+    def hydrate_comida(self,bundle):
+        if bundle.data.get("comida"):
+            for comida in bundle.data["comida"]:
+                comida_obj = User.objects.get(tag=comida)
+                bundle.obj.users.add(comida_obj)
+
+    # recebe flags do post
+    def hydrate_flags(self,bundle):
+        if bundle.data.get("flags"):
+            for flag in bundle.data["flags"]:
+                flag_obj = User.objects.get(tag=flag)
+                bundle.obj.users.add(flag_obj)
 
     def dehydrate(self, bundle):
         local = (bundle.request.GET.get('local_lat'), bundle.request.GET.get('local_long'))
