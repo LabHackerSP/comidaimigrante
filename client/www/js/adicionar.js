@@ -55,7 +55,7 @@ Frm7.onPageInit('adicionar', function(page) {
       nome: 'required',
       endereco: 'required',
       telefone: {
-        required: true,
+        required: false,
         minlength: 10,
       },
       comida: {
@@ -117,10 +117,14 @@ var addForm = {
     var obj = addForm.results[id];
     console.log(obj);
     // TODO: fix this
-    var rua = $.grep(obj.address_components, function(e){ return e.types.indexOf('route') >= 0; })[0].long_name;
-    var num = $.grep(obj.address_components, function(e){ return e.types.indexOf('street_number') >= 0; })[0].long_name;
-    var bairro = $.grep(obj.address_components, function(e){ return e.types.indexOf('sublocality') >= 0; })[0].long_name;
-    var formatted_address = rua + ", " + num + " - " + bairro;
+    try {
+      var rua = $.grep(obj.address_components, function(e){ return e.types.indexOf('route') >= 0; })[0].long_name;
+      var num = $.grep(obj.address_components, function(e){ return e.types.indexOf('street_number') >= 0; })[0].long_name;
+      var bairro = $.grep(obj.address_components, function(e){ return e.types.indexOf('sublocality') >= 0; })[0].long_name;
+      var formatted_address = rua + ", " + num + " - " + bairro;
+    } catch (e) {
+      var formatted_address = obj.formatted_address;
+    }
     formData = {
       'lat': obj.geometry.location.lat,
       'long': obj.geometry.location.lng,
