@@ -457,16 +457,32 @@ var data = {
   // busca por nome e atributos
   searchName: function() {
     Frm7.showIndicator();
-    var api = "/api/restaurante/";
+    var api = "/api/restaurante/?";
     var nome = $("#search-name-input").val();
     var origem = $("#search-filter-origem").val();
-    var query = "";
-    if(nome != "") query += "?nome__contains=" + nome + "&";
-    if(origem != "----") query += "origem=" + origem;
+    var flags = $("#search-filter-flags").val();
+    var query = $.param(cleanupParam({
+      'nome__contains': nome,
+      'origem': origem,
+      'flags': flags,
+    }));
     var url = SERVER + api + query;
     $.getJSON(url, data.parseSearchName, data.fail);
   },
 };
+
+// detecta valor vazio
+function isEmpty(value) {
+  return value == null || value == "";
+}
+
+// apaga atributos vazios
+function cleanupParam(queryParams) {
+  for(key in queryParams)
+    if(isEmpty(queryParams[key]))
+       delete queryParams[key];
+  return queryParams;
+}
 
 // funções de usuário e login
 var user = {
@@ -497,7 +513,7 @@ var user = {
 
   logout: function() {
     var url = SERVER + '/accounts/logout/';
-    $.ajax({
+    /*$.ajax({
       url: url,
       type: 'POST',
       crossDomain: true,
@@ -506,6 +522,15 @@ var user = {
       },
       xhrFields: { withCredentials: true },
       complete: user.downloadProfile
+    });*/
+    // O POST NÃO FUNCIONA POR CAUSA DO CSRF
+    user.browser = window.inAppBrowserXwalk.open(url, user.options);
+    user.browser.addEventListener("loadstop", function (e) {
+      // if the user is redirected to the main page, close this window and update info
+      if(e.url == SERVER + "/") {
+        user.browser.close();
+        user.downloadProfile();
+      }
     });
   },
 

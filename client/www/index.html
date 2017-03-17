@@ -114,7 +114,7 @@
           </div>
         </div>
         <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-fixed toolbar-fixed">
+        <div class="pages">
           <!-- Page, data-page contains page name-->
           <div data-page="index" class="page">
             <!-- Scrollable page content-->
@@ -123,7 +123,7 @@
             </div>
           </div>
           <!-- busca por nome -->
-          <div data-page="busca-nome" class="page cached">
+          <div data-page="busca-nome" class="page no-navbar cached">
             <!-- campo de busca -->
             <form class="searchbar searchbar-init">
               <a href="#index" class="link icon-only">
@@ -152,7 +152,7 @@
                             <div class="item-title label">Origem</div>
                             <div class="item-input">
                               <select id="search-filter-origem">
-                                <option>----</option>
+                                <option value="">----</option>
                                 {{#origem}}
                                 <option>{{this}}</option>
                                 {{/origem}}
@@ -161,6 +161,21 @@
                           </div>
                         </div>
                       </li>
+                      <!-- flags -->
+                      <!--<li><a href="#" class="item-link smart-select">
+                        <select id="search-filter-flags" multiple>
+                          {{#flag}}
+                          <option>{{this}}</option>
+                          {{/flag}}
+                        </select>
+                        <div class="item-content">
+                          <div class="item-inner">
+                            <div class="item-title label">Flags</div>
+                            <div class="item-input">
+                            </div>
+                          </div>
+                        </div>
+                      </a></li>-->
                     </ul>
                   </div>
                 </script>
@@ -169,13 +184,15 @@
                 <script id="search-name-results-template" type="text/template7">
                   {{#if meta.total_count}}
                   <div class="content-block-title">Resultados</div>
-                  <div class="list-block">
+                  <div class="list-block media-list">
                     <ul>
                       {{#each objects}}
-                      <li class="item-content">
-                        <a href="#index" onClick="app.loadRestaurantPopover({{id}})">
+                      <li>
+                        <a class="item-content" href="#index" onClick="app.loadRestaurantPopover({{id}})">
+                          <div class="item-media"><img src="css/images/flags/{{origem.bandeira}}.png"/></div>
                           <div class="item-inner">
                             <div class="item-title">{{nome}}</div>
+                            <div class="item-subtitle">{{endereco}}</div>
                           </div>
                         </a>
                       </li>
