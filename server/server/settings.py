@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 try:
     from server.local_settings import *
 except ImportError as e:
