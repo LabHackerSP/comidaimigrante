@@ -224,20 +224,6 @@ class RestauranteResource(ModelResource):
         bundle.obj.user = user
         return bundle
 
-    # recebe tipos de comida do post
-    def hydrate_comida(self,bundle):
-        if bundle.data.get("comida"):
-            for comida in bundle.data["comida"]:
-                comida_obj = Comida.objects.get(tag=comida)
-                bundle.obj.comida.add(comida_obj)
-
-    # recebe flags do post
-    def hydrate_flags(self,bundle):
-        if bundle.data.get("flags"):
-            for flag in bundle.data["flags"]:
-                flag_obj = Flag.objects.get(tag=flag)
-                bundle.obj.flags.add(flag_obj)
-
     #dá a distância de cada resultado comparado a um ponto
     def dehydrate(self, bundle):
         local = (bundle.request.GET.get('local_lat'), bundle.request.GET.get('local_long'))

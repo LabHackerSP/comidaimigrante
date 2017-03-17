@@ -3,7 +3,7 @@
  * 2016 Labhacker
  */
 
-SERVER = "http://comidaimigrante.labhacker.org.br"
+SERVER = "https://comidaimigrante.labhacker.org.br"
 //SERVER = "http://127.0.0.1:8000"
 
 // Initialize your app
