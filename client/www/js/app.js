@@ -3,7 +3,7 @@
  * 2016 Labhacker
  */
 
-DEBUG = true;
+DEBUG = false;
 SERVER = "https://comidaimigrante.labhacker.org.br"
 if(DEBUG) SERVER = "http://127.0.0.1:8000"
 
