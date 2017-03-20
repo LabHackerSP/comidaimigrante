@@ -3,8 +3,9 @@
  * 2016 Labhacker
  */
 
+DEBUG = false;
 SERVER = "https://comidaimigrante.labhacker.org.br"
-//SERVER = "http://127.0.0.1:8000"
+if(DEBUG) SERVER = "http://127.0.0.1:8000"
 
 // Initialize your app
 var Frm7 = new Framework7({
@@ -75,8 +76,8 @@ var templates = {
     }
   },
 
-  formataPreco: function(preco) {
-    return Array(preco + 1).join('$');
+  formataPreco: function(preco_min, preco_max) {
+    return "R$" + preco_min.toFixed(2) + " - R$" + preco_max.toFixed(2);
   },
 
   formataTelefone: function(phone) {
@@ -242,16 +243,14 @@ var SearchButton = L.Control.extend({
 });
 
 // marker com bandeira
-var FlagIcon = L.Icon.extend({
-    options: {
-//        shadowUrl: 'leaf-shadow.png',
-        iconSize:     [24, 24],
-        //shadowSize:   [0, 0],
-        iconAnchor:   [12, 12],
-        //shadowAnchor: [0, 0],
-        popupAnchor:  [12, -4]
-    }
-});
+var FlagIcon = function(flag, size) {
+  return new L.Icon({
+    iconUrl: 'css/images/flags/'+flag+'.png',
+    iconSize:     [size, size],
+    iconAnchor:   [size/2, size/2],
+    popupAnchor:  [size/2, -4]
+  });
+};
 
 var map = {
   flag: {},
@@ -333,7 +332,8 @@ var map = {
   // caching de ícones
   flagIcon: function(flag) {
     if(!(flag in map.flag)) {
-      map.flag[flag] = new FlagIcon({iconUrl: 'css/images/flags/'+flag+'.png'})
+      var size = 48;
+      map.flag[flag] = FlagIcon(flag, size);
     }
     return map.flag[flag];
   }
@@ -552,6 +552,7 @@ var user = {
   parseProfile: function(json) {
     // receive profile and change templates accordingly
     user.profile = json;
+    if(DEBUG) user.profile.admin = true;
     var html = templates.leftPanel(user.profile);
     $("#left-panel").html(html);
     Frm7.hideIndicator();

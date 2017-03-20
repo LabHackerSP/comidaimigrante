@@ -84,6 +84,7 @@
 }
 .info-content > * > img {
   margin-right: 0.2em;
+  max-width: 48px;
 }
 .info-texto {
   clear: both;
@@ -115,7 +116,8 @@
   padding: 1em;
 }
 
-.item-media img {
+.item-media img,
+.item-title img {
   height: 29px;
   width: 29px;
 }

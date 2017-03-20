@@ -12,9 +12,11 @@
     <div class="list-block">
       <ul>
         <li class="item-content">
-          <div class="item-media"><i class="icon material-icons">flag</i></div>
+          <div class="item-media"><img src="css/images/flags/{{origem.bandeira}}.png"/></div>
           <div class="item-inner">
-            <div class="item-title">{{origem.nome}}</div>
+            <div class="item-title">
+              {{origem.nome}}
+            </div>
           </div>
         </li>
         <li class="item-content">
@@ -44,7 +46,7 @@
         <li class="item-content">
           <div class="item-media"><i class="icon material-icons">attach_money</i></div>
           <div class="item-inner">
-            <div class="item-title">{{js "templates.formataPreco(this.preco)"}}</div>
+            <div class="item-title">{{js "templates.formataPreco(this.preco_min, this.preco_max)"}}</div>
           </div>
         </li>
         {{#js_compare "this.horarios.length > 0"}}
@@ -66,7 +68,7 @@
             {{sinopse}}
           </div>
         </li>
-        {{#if flags}}
+        {{#if flags.length}}
         <li class="item-content">
           <div class="item-media"><i class="icon material-icons">list</i></div>
           <div class="item-inner">
