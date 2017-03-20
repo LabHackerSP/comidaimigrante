@@ -224,7 +224,7 @@
                 <div class="info-texto">
                   <p>
                     <strong>Endereço:</strong> {{endereco}}<br/>
-                    <strong>Preço:</strong> {{js "templates.formataPreco(this.preco)"}}
+                    <strong>Preço:</strong> {{js "templates.formataPreco(this.preco_min, this.preco_max)"}}
                   </p>
                 </div>
                 <a href="#" onClick="data.downloadSingle({{id}});" class="button button-fill close-popover">Veja Mais</a>
