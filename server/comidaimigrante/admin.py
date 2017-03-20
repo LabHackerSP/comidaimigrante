@@ -16,14 +16,17 @@ class RestauranteResource(resources.ModelResource):
 class OrigemResource(resources.ModelResource):
     class Meta:
         model = Origem
+        import_id_fields = ('nome',)
 
 class FlagResource(resources.ModelResource):
     class Meta:
         model = Flag
+        import_id_fields = ('flag',)
 
 class ComidaResource(resources.ModelResource):
     class Meta:
         model = Comida
+        import_id_fields = ('tag',)
 
 class RestauranteAdmin(ImportExportModelAdmin):
     inlines = [HorariosInline]
