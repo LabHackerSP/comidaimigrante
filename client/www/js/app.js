@@ -243,16 +243,14 @@ var SearchButton = L.Control.extend({
 });
 
 // marker com bandeira
-var FlagIcon = L.Icon.extend({
-    options: {
-//        shadowUrl: 'leaf-shadow.png',
-        iconSize:     [24, 24],
-        //shadowSize:   [0, 0],
-        iconAnchor:   [12, 12],
-        //shadowAnchor: [0, 0],
-        popupAnchor:  [12, -4]
-    }
-});
+var FlagIcon = function(flag, size) {
+  return new L.Icon({
+    iconUrl: 'css/images/flags/'+flag+'.png',
+    iconSize:     [size, size],
+    iconAnchor:   [size/2, size/2],
+    popupAnchor:  [size/2, -4]
+  });
+};
 
 var map = {
   flag: {},
@@ -334,7 +332,8 @@ var map = {
   // caching de ícones
   flagIcon: function(flag) {
     if(!(flag in map.flag)) {
-      map.flag[flag] = new FlagIcon({iconUrl: 'css/images/flags/'+flag+'.png'})
+      var size = 48;
+      map.flag[flag] = FlagIcon(flag, size);
     }
     return map.flag[flag];
   }
