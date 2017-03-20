@@ -264,11 +264,12 @@ var map = {
     };
     map.object = new L.Map('map', opt);
 
-  	var url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  	opt = {
+  	var url = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'
+
+    opt = {
       minZoom: 14,
       maxZoom: 17,
-      attribution: "<a href='https://www.openstreetmap.org/'>OSM</a>",
+      attribution: "Tiles &copy; Esri &mdash;",
     };
   	var layer = new L.TileLayer(url, opt);
 
