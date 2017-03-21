@@ -17,16 +17,19 @@ class OrigemResource(resources.ModelResource):
     class Meta:
         model = Origem
         import_id_fields = ('nome',)
+        exclude = ('id',)
 
 class FlagResource(resources.ModelResource):
     class Meta:
         model = Flag
         import_id_fields = ('flag',)
+        exclude = ('id',)
 
 class ComidaResource(resources.ModelResource):
     class Meta:
         model = Comida
         import_id_fields = ('tag',)
+        exclude = ('id',)
 
 class RestauranteAdmin(ImportExportModelAdmin):
     inlines = [HorariosInline]
@@ -37,13 +40,14 @@ class RestauranteAdmin(ImportExportModelAdmin):
         obj.save()
 
 class ComidaAdmin(ImportExportModelAdmin):
-	pass
+	resource_class = ComidaResource
 
 class OrigemAdmin(ImportExportModelAdmin):
-	pass
+	resource_class = OrigemResource
+
 
 class FlagAdmin(ImportExportModelAdmin):
-	pass
+    resource_class = FlagResource
 
 admin.site.register(Restaurante, RestauranteAdmin)
 admin.site.register(Origem, OrigemAdmin)
