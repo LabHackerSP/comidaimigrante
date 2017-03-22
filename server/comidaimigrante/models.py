@@ -79,7 +79,8 @@ class Horario(models.Model):
     #    unique_together = ('restaurante', 'weekday')
 
     def __str__(self):
-        return _("%(weekday)s (%(from_hour)s - %(to_hour)s)") % {
+        return _("%(restaurante)s: %(weekday)s (%(from_hour)s - %(to_hour)s)") % {
+            'restaurante': self.restaurante,
             'weekday': WEEKDAYS[self.weekday-1][1],
             'from_hour': self.from_hour,
             'to_hour': self.to_hour
