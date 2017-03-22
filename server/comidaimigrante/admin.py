@@ -33,6 +33,9 @@ class ComidaResource(resources.ModelResource):
         exclude = ('id',)
 
 class RestauranteAdmin(ImportExportModelAdmin):
+    list_display = ('nome', 'user', 'origem', 'regiao', 'autorizado')
+    list_editable = ('autorizado',)
+    list_filter = ('origem', 'regiao', 'autorizado')
     inlines = [HorariosInline]
     resource_class = RestauranteResource
 
