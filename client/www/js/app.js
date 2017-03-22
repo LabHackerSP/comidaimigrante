@@ -3,7 +3,7 @@
  * 2016 Labhacker
  */
 
-DEBUG = false;
+DEBUG = true;
 SERVER = "https://comidaimigrante.labhacker.org.br"
 if(DEBUG) SERVER = "http://127.0.0.1:8000"
 
@@ -56,7 +56,7 @@ var templates = {
           var abre = new moment(horarios[i].from_hour, "HH:mm:ss");
           var fecha = new moment(horarios[i].to_hour, "HH:mm:ss");
           var hora = ": " + abre.format("HH:mm") + " - " + fecha.format("HH:mm");
-          if(abre < agora && agora < fecha) return "Aberto hoje" + hora;
+          if(abre < agora && agora < fecha) return "Aberto agora" + hora;
         }
       }
       return "Fechado agora" + hora;
