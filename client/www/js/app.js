@@ -484,11 +484,13 @@ var data = {
     var api = "/api/restaurante/?";
     var nome = $("#search-name-input").val();
     var origem = $("#search-filter-origem").val();
-    var flags = $("#search-filter-flags").val();
+    var comida = $("#search-filter-comida").val();
+    var regiao = $("#search-filter-regiao").val();
     var query = $.param(cleanupParam({
       'nome__contains': nome,
       'origem': origem,
-      'flags': flags,
+      'comida': comida,
+      'regiao': regiao,
     }));
     var url = SERVER + api + query;
     $.getJSON(url, data.parseSearchName, data.fail);

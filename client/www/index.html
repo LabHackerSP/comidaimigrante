@@ -161,6 +161,38 @@
                           </div>
                         </div>
                       </li>
+                      <!-- comida -->
+                      <li>
+                        <div class="item-content">
+                          <div class="item-inner">
+                            <div class="item-title label">Tipo de comida</div>
+                            <div class="item-input">
+                              <select id="search-filter-comida">
+                                <option value="">----</option>
+                                {{#comida}}
+                                <option>{{this}}</option>
+                                {{/comida}}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <!-- região -->
+                      <li>
+                        <div class="item-content">
+                          <div class="item-inner">
+                            <div class="item-title label">Região</div>
+                            <div class="item-input">
+                              <select id="search-filter-regiao">
+                                <option value="">----</option>
+                                {{#regiao}}
+                                <option>{{this}}</option>
+                                {{/regiao}}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
                       <!-- flags -->
                       <!--<li><a href="#" class="item-link smart-select">
                         <select id="search-filter-flags" multiple>

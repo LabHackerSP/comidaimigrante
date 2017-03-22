@@ -5,7 +5,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import rotate_token, get_token
 from django.shortcuts import render
-from comidaimigrante.models import Cidade, Origem, Comida, Flag
+from comidaimigrante.models import Cidade, Origem, Comida, Flag, Regiao
 import json
 
 # Create your views here.
@@ -14,9 +14,13 @@ def index(request):
 
 def meta(request):
     origens = Origem.objects.all()
+    comidas = Comida.objects.all()
+    regioes = Regiao.objects.all()
     flags = Flag.objects.all()
     data = {
         'origem' : [origem.nome for origem in origens],
+        'comida' : [comida.tag for comida in comidas],
+        'regiao' : [regiao.regiao for regiao in regioes],
         'flag' : [flag.flag for flag in flags]
     }
     return HttpResponse(json.dumps(data), content_type="application/json")
