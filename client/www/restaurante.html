@@ -43,12 +43,14 @@
             <div class="item-title">{{endereco}}</div>
           </a>
         </li>
+        {{#js_compare "templates.temPreco(this.preco_min, this.preco_max)"}}
         <li class="item-content">
           <div class="item-media"><i class="icon material-icons">attach_money</i></div>
           <div class="item-inner">
             <div class="item-title">{{js "templates.formataPreco(this.preco_min, this.preco_max)"}}</div>
           </div>
         </li>
+        {{/js_compare}}
         {{#js_compare "this.horarios.length > 0"}}
         <li class="accordion-item"><a href="#" class="item-content item-link">
             <div class="item-media"><i class="icon material-icons">watch_later</i></div>

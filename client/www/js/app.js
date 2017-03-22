@@ -76,7 +76,14 @@ var templates = {
     }
   },
 
+  temPreco: function(preco_min, preco_max) {
+    if(!preco_min && !preco_max) return false;
+    return true;
+  },
+
   formataPreco: function(preco_min, preco_max) {
+    if(!preco_min) return "R$" + preco_max.toFixed(2);
+    if(!preco_max) return "R$" + preco_min.toFixed(2);
     return "R$" + preco_min.toFixed(2) + " - R$" + preco_max.toFixed(2);
   },
 
