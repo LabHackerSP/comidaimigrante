@@ -29,7 +29,7 @@ class RestauranteAdmin(ImportExportModelAdmin):
     inlines = [HorariosInline]
     resource_class = RestauranteResource
 
-    def save_model(self, request, obj, form, change): 
+    def save_model(self, request, obj, form, change):
         obj.user = request.user
         obj.save()
 
@@ -42,8 +42,12 @@ class OrigemAdmin(ImportExportModelAdmin):
 class FlagAdmin(ImportExportModelAdmin):
 	pass
 
+class HorarioAdmin(ImportExportModelAdmin):
+    pass
+
 admin.site.register(Restaurante, RestauranteAdmin)
 admin.site.register(Origem, OrigemAdmin)
 admin.site.register(Comida, ComidaAdmin)
 admin.site.register(Flag, FlagAdmin)
+admin.site.register(Horario, HorarioAdmin)
 admin.site.register(Cidade)
