@@ -1,7 +1,7 @@
 from geopy.distance import vincenty
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag, Regiao
+from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag, Regiao, Evento
 
 from tastypie.authorization import Authorization
 from tastypie.authentication import BasicAuthentication
@@ -132,6 +132,14 @@ class HorarioResource(ModelResource):
         bundle.data['to_hour'] = bundle.obj.to_hour
         return bundle
 
+class EventoResource(ModelResource):
+    restaurante = fields.ForeignKey('comidaimigrante.api.RestauranteResource', 'restaurante')
+
+    class Meta:
+        queryset = Evento.objects.all()
+        include_resource_uri = False
+
+
 class OrigemResource(ModelResource):
     class Meta:
         queryset = Origem.objects.all()
@@ -185,6 +193,7 @@ class RestauranteResource(ModelResource):
     comida = fields.ManyToManyField(ComidaResource, 'comida', full=True, use_in='detail')
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
     horarios = fields.ToManyField(HorarioResource, attribute='restaurante', full=True, null=True, use_in='detail')
+    eventos = fields.ToManyField(EventoResource, attribute='evento_set', full=True, null=True, use_in='detail')
     user = fields.ForeignKey(UserResource, 'user', use_in='detail')
     class Meta:
         #authentication = CustomAuthentication()

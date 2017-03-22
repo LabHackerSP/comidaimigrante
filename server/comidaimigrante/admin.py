@@ -3,11 +3,12 @@ from import_export import resources
 
 from import_export.admin import ImportExportModelAdmin
 
-from comidaimigrante.models import Origem, Comida, Flag, Restaurante, Horario, Cidade, Regiao
+from comidaimigrante.models import Origem, Comida, Flag, Restaurante, Horario, Cidade, Regiao, Evento
 # Register your models here.
 
 class HorariosInline(admin.TabularInline):
     model = Horario
+
 
 class RestauranteResource(resources.ModelResource):
     class Meta:
@@ -59,3 +60,4 @@ admin.site.register(Flag, FlagAdmin)
 admin.site.register(Horario, HorarioAdmin)
 admin.site.register(Regiao)
 admin.site.register(Cidade)
+admin.site.register(Evento)

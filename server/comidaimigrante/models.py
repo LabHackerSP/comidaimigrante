@@ -75,6 +75,17 @@ class Restaurante(models.Model):
     def __str__(self):
         return self.nome
 
+class Evento(models.Model):
+    nome = StringField()
+    restaurante = models.ForeignKey(Restaurante)
+    sinopse = models.TextField()
+    user = models.ForeignKey(User, default=1)
+    data = models.DateTimeField(auto_now=True)
+    autorizado = models.BooleanField(default=False)    
+    
+    def __str__(self):
+        return self.nome
+
 class Horario(models.Model):
     restaurante = models.ForeignKey(Restaurante)
     weekday = models.IntegerField(choices=WEEKDAYS)
