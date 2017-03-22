@@ -59,7 +59,7 @@ var templates = {
           if(abre < agora && agora < fecha) return "Aberto hoje" + hora;
         }
       }
-      return "Fechado hoje" + hora;
+      return "Fechado agora" + hora;
     } else {
       var html = '';
       for(var i = 0; i < nhorarios; i++) {
