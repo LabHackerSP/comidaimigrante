@@ -32,7 +32,7 @@ class Distrito(models.Model):
     distrito = StringField(primary_key=True)
     
     def __str__(self):
-        return self.tag
+        return self.distrito
 
 class Origem(models.Model):
     nome = StringField(primary_key=True)
