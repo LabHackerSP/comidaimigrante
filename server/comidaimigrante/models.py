@@ -28,11 +28,11 @@ class Cidade(models.Model):
     def __str__(self):
         return self.cidade + ' - ' + self.estado
 
-class Distrito(models.Model):
-    distrito = StringField(primary_key=True)
+class Regiao(models.Model):
+    regiao = StringField(primary_key=True)
     
     def __str__(self):
-        return self.distrito
+        return self.regiao
 
 class Origem(models.Model):
     nome = StringField(primary_key=True)
@@ -56,7 +56,7 @@ class Flag(models.Model):
 class Restaurante(models.Model):
     nome = StringField()
     endereco = StringField()
-    distrito = models.ForeignKey(Distrito, blank=True)
+    regiao = models.ForeignKey(Regiao, blank=True)
     cidade = models.ForeignKey(Cidade, default=1)
     sinopse = models.TextField()
     lat = models.DecimalField(max_digits=9, decimal_places=7)

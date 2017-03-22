@@ -3,7 +3,7 @@ from import_export import resources
 
 from import_export.admin import ImportExportModelAdmin
 
-from comidaimigrante.models import Origem, Comida, Flag, Restaurante, Horario, Cidade
+from comidaimigrante.models import Origem, Comida, Flag, Restaurante, Horario, Cidade, Regiao
 # Register your models here.
 
 class HorariosInline(admin.TabularInline):
@@ -57,4 +57,5 @@ admin.site.register(Origem, OrigemAdmin)
 admin.site.register(Comida, ComidaAdmin)
 admin.site.register(Flag, FlagAdmin)
 admin.site.register(Horario, HorarioAdmin)
+admin.site.register(Regiao)
 admin.site.register(Cidade)
