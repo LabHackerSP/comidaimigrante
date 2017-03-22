@@ -70,6 +70,7 @@ def forms(request):
     origens = Origem.objects.all()
     flags = Flag.objects.all()
     comidas = Comida.objects.all()
+    regioes = Regiao.objects.all()
 
     data = {
         'forms' : [
@@ -80,6 +81,7 @@ def forms(request):
             formObject('telefone', 'Telefone', 'phone', 'tel'),
             formObject('origem', 'Origem', 'flag', 'select', [origem.nome for origem in origens]),
             formObject('comida', 'Tipo de comida', 'local_dining', 'multiple', [comida.tag for comida in comidas]),
+            formObject('regiao', 'Região', 'regiao', 'select', [regiao.regiao for regiao in regioes]),
             formObject('preco_min', 'Preço mínimo', 'attach_money', 'float'),
             formObject('preco_max', 'Preço máximo', 'attach_money', 'float'),
             formObject('link', 'Link (opcional)', 'link', 'url'),

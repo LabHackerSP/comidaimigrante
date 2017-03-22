@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from comidaimigrante.api import RestauranteResource, FlagResource, ComidaResource, OrigemResource, UserResource, EventoResource
+from comidaimigrante.api import RestauranteResource, FlagResource, ComidaResource, OrigemResource, UserResource, EventoResource, RegiaoResource
 from django.contrib.auth import views as auth_views
 
 restaurante = RestauranteResource()
@@ -24,6 +24,7 @@ comida = ComidaResource()
 origem = OrigemResource()
 user = UserResource()
 evento = EventoResource()
+regiao = RegiaoResource()
 
 urlpatterns = [
     url(r'^', include('comidaimigrante.urls')),
@@ -34,5 +35,6 @@ urlpatterns = [
     url(r'^api/', include(origem.urls)),
     url(r'^api/', include(user.urls)),
     url(r'^api/', include(evento.urls)),
+    url(r'^api/', include(regiao.urls)),
     url(r'^accounts/', include('allauth.urls')),
 ]
