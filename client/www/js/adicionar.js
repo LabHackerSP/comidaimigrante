@@ -141,12 +141,14 @@ var addForm = {
     var url = SERVER + api;
     var data = Frm7.formToData('#add-form');
     data.origem = resourcize(data.origem, 'origem');
+    data.regiao = resourcize(data.regiao, 'regiao');
     data.comida.forEach(function(part, index, arr) {
       arr[index] = resourcize(part, 'comida');
     });
     data.flags.forEach(function(part, index, arr) {
       arr[index] = resourcize(part, 'flags');
     });
+
     console.log(data);
 
     /*$.post(url, data,
