@@ -1,7 +1,7 @@
 from geopy.distance import vincenty
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag
+from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag, Regiao
 
 from tastypie.authorization import Authorization
 from tastypie.authentication import BasicAuthentication
@@ -137,6 +137,11 @@ class OrigemResource(ModelResource):
         queryset = Origem.objects.all()
         include_resource_uri = False
 
+class RegiaoResource(ModelResource):
+    class Meta:
+        queryset = Regiao.objects.all()
+        include_resource_uri = False
+
 class CidadeResource(ModelResource):
     class Meta:
         queryset = Cidade.objects.all()
@@ -175,6 +180,7 @@ class RestauranteResource(ModelResource):
     sinopse = fields.CharField(attribute='sinopse', use_in='detail')
     telefone = fields.CharField(attribute='telefone', use_in='detail')
     origem = fields.ForeignKey(OrigemResource, 'origem', full=True)
+    regiao = fields.ForeignKey(RegiaoResource, 'regiao', full=True)
     cidade = fields.ForeignKey(CidadeResource, 'cidade', full=True, use_in='detail')
     comida = fields.ManyToManyField(ComidaResource, 'comida', full=True, use_in='detail')
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
@@ -192,7 +198,8 @@ class RestauranteResource(ModelResource):
             "long": ('lte','gte',),
             "nome": ('like','contains',),
             "origem": ('exact',),
-            "flags": ALL_WITH_RELATIONS,
+            "regiao": ('exact',),
+            "flags": ('exact',),
         }
         serializer = urlencodeSerializer()
 
@@ -220,7 +227,6 @@ class RestauranteResource(ModelResource):
     def hydrate_user(self, bundle):
         print(bundle.request)
         user = User.objects.get(pk=bundle.request.user.pk)
-        print(user)
         bundle.obj.user = user
         return bundle
 
@@ -247,3 +253,6 @@ class RestauranteResource(ModelResource):
     def dehydrate_comida(self, bundle):
         comidas = bundle.data['comida']
         return [comida.data['tag'] for comida in comidas]
+
+    def dehydrate_regiao(self, bundle):
+        return bundle.data['regiao'].data['regiao']
