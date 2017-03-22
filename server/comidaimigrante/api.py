@@ -211,9 +211,16 @@ class RestauranteResource(ModelResource):
         last_filter = self.get_object_list(request)
         if hasattr(request, 'GET'):
             filters = dict(request.GET.copy()) #Os metodos do Django pegam apenas o último valor de uma lista
-
         for filter_name in filters.keys():
             filter_values = filters[filter_name]
+            if isinstance(filter_values,list) and '[]' in filter_name:
+                for value in filter_values:
+                    fn = filter_name.replace('[]','__in')
+                    if fn not in applicable_filters:
+                        applicable_filters[fn] = [value]
+                    else:
+                        applicable_filters[fn].append(value)
+
             if isinstance(filter_values,list) and '__exact' in filter_name:
                 for value in filter_values:
                     last_filter = last_filter.filter(**{ filter_name : value })
