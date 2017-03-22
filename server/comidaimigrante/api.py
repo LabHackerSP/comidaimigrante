@@ -197,9 +197,10 @@ class RestauranteResource(ModelResource):
             "lat": ('lte','gte',),
             "long": ('lte','gte',),
             "nome": ('like','contains',),
-            "origem": ('exact',),
-            "regiao": ('exact',),
-            "flags": ('exact',),
+            "origem": ('exact', 'in'),
+            "regiao": ('exact','in'),
+            "flags": ('exact', 'in'),
+            "comida" : ('exact', 'in'),
         }
         serializer = urlencodeSerializer()
 
