@@ -56,7 +56,7 @@ class Flag(models.Model):
 class Restaurante(models.Model):
     nome = StringField()
     endereco = StringField()
-    regiao = models.ForeignKey(Regiao, blank=True)
+    regiao = models.ForeignKey(Regiao)
     cidade = models.ForeignKey(Cidade, default=1)
     sinopse = models.TextField()
     lat = models.DecimalField(max_digits=9, decimal_places=7)
