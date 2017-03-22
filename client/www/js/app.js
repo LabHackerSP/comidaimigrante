@@ -14,6 +14,7 @@ var Frm7 = new Framework7({
    modalTemplate: $('#popover-template').html(),
    template7Pages: true,
    material: true,
+   smartSelectOpenIn: 'popup',
 });
 // Export selectors engine
 var $$ = Dom7;
