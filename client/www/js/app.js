@@ -89,6 +89,22 @@ var templates = {
     }
     return formatted;
   },
+
+  bandeira: function(bandeira) {
+    var file = 'css/images/flags/'+bandeira+'.png';
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open('GET', file, false);
+    // tenta buscar o arquivo
+    try {
+      httpRequest.send();
+    } catch(exception) {
+      if(exception.name == 'NetworkError'){
+        // joga para bandeira desconhecida se erro
+        file = 'css/images/flags/_unknown.png';
+      }
+    }
+    return file;
+  },
 };
 
 function csrfSafeMethod(method) {
@@ -245,7 +261,7 @@ var SearchButton = L.Control.extend({
 // marker com bandeira
 var FlagIcon = function(flag, size) {
   return new L.Icon({
-    iconUrl: 'css/images/flags/'+flag+'.png',
+    iconUrl: templates.bandeira(flag),
     iconSize:     [size, size],
     iconAnchor:   [size/2, size/2],
     popupAnchor:  [size/2, -4]
@@ -332,7 +348,7 @@ var map = {
   // caching de ícones
   flagIcon: function(flag) {
     if(!(flag in map.flag)) {
-      var size = 48;
+      var size = 32;
       map.flag[flag] = FlagIcon(flag, size);
     }
     return map.flag[flag];

@@ -189,7 +189,7 @@
                       {{#each objects}}
                       <li>
                         <a class="item-content" href="#index" onClick="app.loadRestaurantPopover({{id}})">
-                          <div class="item-media"><img src="css/images/flags/{{origem.bandeira}}.png"/></div>
+                          <div class="item-media"><img src="{{js 'templates.bandeira(this.origem.bandeira)'}}"/></div>
                           <div class="item-inner">
                             <div class="item-title">{{nome}}</div>
                             <div class="item-subtitle">{{endereco}}</div>
@@ -215,7 +215,7 @@
             <div class="popover-inner">
               <div class="content-block info-content">
                 <div class="info-left">
-                  <img src="css/images/flags/{{origem.bandeira}}.png"/>
+                  <img src="{{js 'templates.bandeira(this.origem.bandeira)'}}"/>
                 </div>
                 <div class="info-left">
                   <p class="info-nome">{{nome}}</p>
