@@ -192,7 +192,7 @@ class RestauranteResource(ModelResource):
     cidade = fields.ForeignKey(CidadeResource, 'cidade', full=True, use_in='detail')
     comida = fields.ManyToManyField(ComidaResource, 'comida', full=True, use_in='detail')
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
-    horarios = fields.ToManyField(HorarioResource, attribute='restaurante', full=True, null=True, use_in='detail')
+    horarios = fields.ToManyField(HorarioResource, attribute='horario_set', full=True, null=True, use_in='detail')
     eventos = fields.ToManyField(EventoResource, attribute='evento_set', full=True, null=True, use_in='detail')
     user = fields.ForeignKey(UserResource, 'user', use_in='detail')
     class Meta:
@@ -242,7 +242,6 @@ class RestauranteResource(ModelResource):
 
     # grava qual usuário criou o restaurante
     def hydrate_user(self, bundle):
-        print(bundle.request)
         user = User.objects.get(pk=bundle.request.user.pk)
         bundle.obj.user = user
         return bundle
