@@ -152,13 +152,16 @@ var app = {
             }
         }
     });
+
+    setTimeout(function() {
+        navigator.splashscreen.hide();
+    }, 2000);
   },
 
   onDocumentReady: function() {
     moment.locale('pt-br');
     map.init();
     user.downloadProfile();
-    navigator.splashscreen.hide();
   },
 
   onBackKeyDown: function() {
