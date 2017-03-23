@@ -3,7 +3,7 @@
  * 2016 Labhacker
  */
 
-DEBUG = true;
+DEBUG = false;
 SERVER = "https://comidaimigrante.labhacker.org.br"
 if(DEBUG) SERVER = "http://127.0.0.1:8000"
 
@@ -305,7 +305,12 @@ var map = {
     searchbutton.addTo(map.object);
 
   	map.object.addLayer(layer);
-    map.dot = L.marker([0, 0]).addTo(map.object);
+    var userIcon = L.icon({
+      'iconUrl' : 'css/images/userIcon.png',
+      'iconSize' : [31,37]
+    });
+
+    map.dot = L.marker([0, 0], { icon :userIcon}).addTo(map.object);
     // geopos de são paulo
   	map.object.setView(new L.LatLng(-23.5, -46.6),50);
 
