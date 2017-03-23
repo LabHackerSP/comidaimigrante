@@ -158,6 +158,7 @@ var app = {
     moment.locale('pt-br');
     map.init();
     user.downloadProfile();
+    navigator.splashscreen.hide();
   },
 
   onBackKeyDown: function() {
