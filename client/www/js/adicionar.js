@@ -79,6 +79,7 @@ Frm7.onPageInit('busca-end', function(page) {
 });
 
 var addForm = {
+  data: {},
   results: [],
 
   openStreetSearch: function() {
@@ -116,7 +117,7 @@ var addForm = {
   resultAddress: function(id) {
     var obj = addForm.results[id];
     console.log(obj);
-    // TODO: fix this
+    /* TODO: fix this
     try {
       var rua = $.grep(obj.address_components, function(e){ return e.types.indexOf('route') >= 0; })[0].long_name;
       var num = $.grep(obj.address_components, function(e){ return e.types.indexOf('street_number') >= 0; })[0].long_name;
@@ -124,11 +125,11 @@ var addForm = {
       var formatted_address = rua + ", " + num + " - " + bairro;
     } catch (e) {
       var formatted_address = obj.formatted_address;
-    }
+    }*/
     formData = {
       'lat': obj.geometry.location.lat,
       'long': obj.geometry.location.lng,
-      'endereco': formatted_address
+      'endereco': $("#search-addr-input").val()
     };
     Frm7.formFromData("#add-form", formData);
     mainView.router.back();
@@ -150,6 +151,7 @@ var addForm = {
     });
 
     console.log(data);
+    addForm.data = data;
 
     /*$.post(url, data,
       function(data) {
@@ -164,7 +166,18 @@ var addForm = {
       contentType: 'application/json',
       data: JSON.stringify(data),
       dataType: 'json',
-      processData: false
+      processData: false,
+      success: addForm.sendOK,
+      error: addForm.sendFail
     })
+  },
+
+  sendOK: function() {
+    alert("O restaurante " + addForm.data.nome + "foi enviado com sucesso e aguarda moderação.");
+    mainView.router.back();
+  },
+
+  sendFail: function() {
+    alert("Ocorreu um erro ao tentar enviar o restaurante!");
   },
 };
