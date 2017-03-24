@@ -82,6 +82,10 @@
 .info-left {
   float: left;
 }
+.info-right {
+  float: right;
+  width: 80%;
+}
 .info-content > * > img {
   margin-right: 0.2em;
   max-width: 48px;
