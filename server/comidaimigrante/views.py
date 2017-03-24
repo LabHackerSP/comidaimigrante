@@ -74,6 +74,7 @@ def forms(request):
 
     data = {
         'forms' : [
+            # parâmetros: nome de campo, nome de display, ícone material, tipo de input, [escolhas]
             formObject('nome', 'Nome', 'info', 'string'),
             formObject('endereco', 'Endereço', 'location_on', 'address'),
             formObject('lat', '', '', 'float', hidden = True),
@@ -81,7 +82,7 @@ def forms(request):
             formObject('telefone', 'Telefone', 'phone', 'tel'),
             formObject('origem', 'Origem', 'flag', 'select', [origem.nome for origem in origens]),
             formObject('comida', 'Tipo de comida', 'local_dining', 'multiple', [comida.tag for comida in comidas]),
-            formObject('regiao', 'Região', 'regiao', 'select', [regiao.regiao for regiao in regioes]),
+            formObject('regiao', 'Região', 'map', 'select', [regiao.regiao for regiao in regioes]),
             formObject('preco_min', 'Preço mínimo', 'attach_money', 'float'),
             formObject('preco_max', 'Preço máximo', 'attach_money', 'float'),
             formObject('link', 'Link (opcional)', 'link', 'url'),
