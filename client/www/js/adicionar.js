@@ -149,6 +149,8 @@ var addForm = {
     data.flags.forEach(function(part, index, arr) {
       arr[index] = resourcize(part, 'flags');
     });
+    if(data.preco_min = "") data.preco_min = 0;
+    if(data.preco_max = "") data.preco_max = 0;
 
     console.log(data);
     addForm.data = data;
@@ -167,17 +169,18 @@ var addForm = {
       data: JSON.stringify(data),
       dataType: 'json',
       processData: false,
-      success: addForm.sendOK,
-      error: addForm.sendFail
+      complete: addForm.sendCheck
     })
   },
 
-  sendOK: function() {
-    alert("O restaurante " + addForm.data.nome + "foi enviado com sucesso e aguarda moderação.");
-    mainView.router.back();
-  },
-
-  sendFail: function() {
-    alert("Ocorreu um erro ao tentar enviar o restaurante!");
+  sendCheck: function(data) {
+    //created
+    if (data.status == 201) {
+      alert("O restaurante " + addForm.data.nome + "foi enviado com sucesso e aguarda moderação.");
+      mainView.router.back();
+    // qualquer outro código
+    } else {
+      alert("Ocorreu um erro ao tentar enviar o restaurante!");
+    }
   },
 };
