@@ -3,10 +3,6 @@
  * 2016 Labhacker
  */
 
-DEBUG = false;
-SERVER = "https://comidaimigrante.labhacker.org.br"
-if(DEBUG) SERVER = "http://127.0.0.1:8000"
-
 // Initialize your app
 var Frm7 = new Framework7({
    //swipePanel: 'left'
@@ -141,7 +137,7 @@ var app = {
     //app.receivedEvent('deviceready');
     document.addEventListener('backbutton', app.onBackKeyDown, false);
     if (cordova.platformId == 'android') {
-      StatusBar.backgroundColorByHexString("#1C81CE");
+      StatusBar.backgroundColorByHexString("#8E3523");
       //StatusBar.backgroundColorByHexString("#1C81CE");
     }
 

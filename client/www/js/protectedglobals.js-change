@@ -1,4 +1,6 @@
-DEBUG = false;
+DEBUG = true;
+
+SERVER = "URL de servidor aqui"
 
 var keys = {
   gmaps: "PREENCHA SUA KEY AQUI",
