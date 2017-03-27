@@ -39,6 +39,11 @@ Frm7.onPageInit('adicionar', function(page) {
     }
   });
 
+  //limpa local no mapa quando endereço muda
+  $('#add-endereco').change(function() {
+    addForm.invalidaMapa();
+  });
+
   // atualiza valor visual de slider
   $$('input[type="range"]').on('input change', function(){
     $('#badge-'+this.name).html(this.value);
@@ -54,6 +59,8 @@ Frm7.onPageInit('adicionar', function(page) {
     rules: {
       nome: 'required',
       endereco: 'required',
+      lat: 'required',
+      long: 'required',
       telefone: {
         required: false,
         minlength: 10,
@@ -71,6 +78,16 @@ Frm7.onPageInit('adicionar', function(page) {
         error.insertAfter(element);
       }
     },
+    focusInvalid: false,
+    invalidHandler: function(form, validator) { // scroll para primeiro campo invláido
+      if (!validator.numberOfInvalids()) return;
+      var elem = $(validator.errorList[0].element).parent().parent().parent().parent();
+      console.log(elem);
+      $$('.page-content').scrollTop(
+        elem.position().top, // posição do primeiro erro
+        500 // tempo em milis
+      );
+    }
   });
 });
 
@@ -81,11 +98,15 @@ Frm7.onPageInit('busca-end', function(page) {
 var addForm = {
   data: {},
   results: [],
+  mapaValido: false,
 
   openStreetSearch: function() {
+    if(!$("#add-endereco").valid()) return;
+    var search = $("#add-endereco").val();
     mainView.router.load({
       url: 'busca-end.html'
     });
+    addForm.searchAddress(search);
   },
 
   // busca por endereço
@@ -103,11 +124,11 @@ var addForm = {
   },
 
   // busca por endereço
-  searchAddress: function() {
+  searchAddress: function(search) {
     Frm7.showIndicator();
     var api = "https://maps.googleapis.com/maps/api/geocode/json?region=br";
     var key = "&key=" + keys.gmaps;
-    var search = $("#search-addr-input").val();
+    if(!search) search = $("#search-addr-input").val();
     var query = "&address=" + search;
     var url = api + key + query;
     $.getJSON(url, addForm.parseSearchAddress, data.fail);
@@ -117,7 +138,7 @@ var addForm = {
   resultAddress: function(id) {
     var obj = addForm.results[id];
     console.log(obj);
-    /* TODO: fix this
+    /* TODO: fix this */
     try {
       var rua = $.grep(obj.address_components, function(e){ return e.types.indexOf('route') >= 0; })[0].long_name;
       var num = $.grep(obj.address_components, function(e){ return e.types.indexOf('street_number') >= 0; })[0].long_name;
@@ -125,19 +146,45 @@ var addForm = {
       var formatted_address = rua + ", " + num + " - " + bairro;
     } catch (e) {
       var formatted_address = obj.formatted_address;
-    }*/
+    }
     formData = {
       'lat': obj.geometry.location.lat,
       'long': obj.geometry.location.lng,
-      'endereco': $("#search-addr-input").val()
     };
     Frm7.formFromData("#add-form", formData);
+    addForm.validaMapa();
     mainView.router.back();
+  },
+
+  // usuário escolheu resultado no gmaps
+  validaMapa: function() {
+    $('#add-endereco-button').removeClass('button-fail');
+    $('#add-endereco-button').addClass('button-ok');
+    addForm.mapaValido = true;
+  },
+
+  // usuário mudou endereço, gmaps não é mais válido
+  invalidaMapa: function() {
+    $('#add-endereco-button').removeClass('button-ok');
+    $('#add-endereco-button').addClass('button-fail');
+    var formData = {
+      'lat': 0,
+      'long': 0,
+    };
+    Frm7.formFromData("#add-form", formData);
+    addForm.mapaValido = false;
   },
 
   // POST
   sendData: function() {
-    if (!$('#add-form').valid()) return false
+    if (!$('#add-form').valid()) return false;
+    if (!addForm.mapaValido) {
+      $$('.page-content').scrollTop(
+        $('#add-endereco-button').position().top, // posição do primeiro erro
+        500 // tempo em milis
+      );
+      return false;
+    }
     var api = "/api/restaurante/";
     var url = SERVER + api;
     var data = Frm7.formToData('#add-form');

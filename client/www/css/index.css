@@ -132,3 +132,24 @@
 .no-margin {
   margin: 0;
 }
+
+.button-single {
+  width: 50%;
+  margin: auto;
+}
+.button-ok {
+  background: #080 !important;
+}
+.button-ok::after {
+  content: ' check';
+  font-family: 'Material Icons';
+  text-transform: none;
+}
+.button-fail {
+  background: #800 !important;
+}
+.button-fail::after {
+  content: ' close';
+  font-family: 'Material Icons';
+  text-transform: none;
+}

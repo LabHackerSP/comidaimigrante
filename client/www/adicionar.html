@@ -5,7 +5,8 @@
       <div>Criar novo restaurante</div>
     </div>
   </div>
-  <div class="page-content" style="height:100%;">
+  <div class="page-content">
+    <br/><br/>
     <form id="add-form" class="list-block">
       <ul>
         {{#each forms}}
@@ -25,9 +26,6 @@
             <div class="item-content">
               <div class="item-media"><i class="icon material-icons">{{icon}}</i></div>
               <div class="item-inner"
-                {{#js_compare "this.type == 'address'"}}
-                onClick="addForm.openStreetSearch();"
-                {{/js_compare}}
                 {{#js_compare "this.type == 'image'"}}
                 onClick="addForm.openGallery();"
                 {{/js_compare}}
@@ -45,7 +43,20 @@
                   <input name="{{name}}" id="add-{{name}}" type="text" data-error="error-{{name}}">
                   {{/js_compare}}
                   {{#js_compare "this.type == 'address'"}}
-                  <input name="{{name}}" id="add-{{name}}" type="text" data-error="error-{{name}}" readonly="readonly">
+                  <input name="{{name}}" id="add-{{name}}" type="text" data-error="error-{{name}}">
+                <!--</div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="icon material-icons">map</i></div>
+              <div class="item-inner" onClick="addForm.openStreetSearch();">
+                <div class="item-title label">Local no mapa
+                  <span class="error" id="error-mapa"></span>
+                </div>
+                <div class="item-input">
+                  <input name="mapa" id="add-map" type="text" data-error="error-mapa" readonly="readonly">-->
                   {{/js_compare}}
                   {{#js_compare "this.type == 'slider'"}}
                   <div class="range-slider">
@@ -79,12 +90,17 @@
           {{#js_compare "this.type == 'multiple'"}}
           </a>
           {{/js_compare}}
+          {{#js_compare "this.type == 'address'"}}
+          <p>
+            <a href="#" onClick="addForm.openStreetSearch();" class="button-single button button-fill button-raised" id="add-{{name}}-button">Confirmar endereço</a>
+          </p>
+          {{/js_compare}}
         </li>
       {{/each}}
       </ul>
     </form>
-    <p class="buttons-row">
-      <a href="#" onClick="addForm.sendData();" class="button button-fill button-raised">Enviar</a>
+    <p>
+      <a href="#" onClick="addForm.sendData();" class="button-single button button-fill button-raised">Enviar</a>
     </p>
   </div>
 </div>
