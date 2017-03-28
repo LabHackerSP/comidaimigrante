@@ -2,7 +2,8 @@
  * Comida de (I)migrante
  * 2016 Labhacker
  */
-
+SERVER = 'https://devcomidaimigrante.labhacker.org.br';
+DEBUG = true
 // Initialize your app
 var Frm7 = new Framework7({
    //swipePanel: 'left'
@@ -290,8 +291,8 @@ var map = {
   	var url = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'
 
     opt = {
-      minZoom: 14,
-      maxZoom: 17,
+      minZoom: 13,
+      maxZoom: 18,
       attribution: "Tiles &copy; Esri &mdash;",
     };
   	var layer = new L.TileLayer(url, opt);
@@ -310,6 +311,12 @@ var map = {
       'iconSize' : [31,37]
     });
 
+    map.markerClusters = L.markerClusterGroup({
+      spiderfyDistanceMultiplier: 1.5,
+      showCoverageOnHover: false,
+      maxClusterRadius: 10,
+    });
+    map.markerClusters.freezeAtZoom(18);   
     map.dot = L.marker([0, 0], { icon :userIcon}).addTo(map.object);
     // geopos de são paulo
   	map.object.setView(new L.LatLng(-23.5, -46.6),50);
@@ -319,6 +326,7 @@ var map = {
     map.object.on('moveend', function(e) {
       map.showSearchButton();
     });
+
   },
 
   // finds gps, sets marker and pans camera to it
@@ -383,10 +391,11 @@ var data = {
 
   addList: function(obj) {
     if(!(obj.id in data.list)) {
-      obj.marker = L.marker([obj.lat, obj.long], {icon: map.flagIcon(obj.origem.bandeira)}).addTo(map.object);
+      obj.marker = L.marker([obj.lat, obj.long], {icon: map.flagIcon(obj.origem.bandeira)});
       obj.marker.on('click', map.clickMarker);
       obj.marker.id = obj.id;
       data.list[obj.id] = obj;
+      map.markerClusters.addLayer(obj.marker);
     }
   },
 
@@ -400,7 +409,7 @@ var data = {
     $$('.leaflet-marker-icon').on('click', function() {
       console.log(this);
     });
-
+    map.object.addLayer( map.markerClusters );
     Frm7.hideIndicator();
   },
 
