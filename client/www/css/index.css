@@ -26,9 +26,17 @@
 }
 
 .search-button {
+  width: 48px;
+  height: 48px;
+  color: #fff !important;
+  margin-top: 1em !important;
+}
+
+
+.search-button-old {
   position: absolute;
   margin-top: -7em !important;
-  width: 11em;
+  width: 8em;
   height: 3em;
   border-radius: 2em;
   z-index: 1500;

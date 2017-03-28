@@ -254,10 +254,15 @@ var SearchButton = L.Control.extend({
     var a = L.DomUtil.create('a');
     a.href = '#';
     a.id = 'map-search-button';
-    a.classList = 'map-top-button button-fill search-button search-button-hide';
+    //a.classList = 'map-top-button button-fill search-button search-button-hide';
+    a.classList = 'floating-button map-top-button search-button'
 
-    a.appendChild(document.createTextNode('Buscar nesse local'));
-    L.DomEvent.addListener(a, 'click', data.download);
+    var i = document.createElement('i');
+    i.classList = 'material-icons'
+    i.appendChild(document.createTextNode('search'));
+    a.appendChild(i);
+    
+    L.DomEvent.addListener(a, 'click', app.openSearch);
 
     return a;
   },
@@ -302,7 +307,7 @@ var map = {
     gpsbutton.addTo(map.object);
 
     // botão busca
-    var searchbutton = new SearchButton({position:'bottomleft'});
+    var searchbutton = new SearchButton({position:'bottomright'});
     searchbutton.addTo(map.object);
 
   	map.object.addLayer(layer);
@@ -323,8 +328,8 @@ var map = {
 
     //map.centerOnGPS();
     data.download();
+    map.showSearchButton();
     map.object.on('moveend', function(e) {
-      //map.showSearchButton();
     });
 
   },
