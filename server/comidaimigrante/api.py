@@ -4,7 +4,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag, Regiao, Evento
 
 from tastypie.authorization import Authorization
-from tastypie.authentication import BasicAuthentication
+from tastypie.authentication import BasicAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.validation import FormValidation
 from django import forms
@@ -45,7 +45,7 @@ class urlencodeSerializer(Serializer):
 class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name']
         allowed_methods = ['get', 'post']
         resource_name = 'user'
         serializer = urlencodeSerializer()
@@ -134,11 +134,13 @@ class HorarioResource(ModelResource):
 
 class EventoResource(ModelResource):
     restaurante = fields.ForeignKey('comidaimigrante.api.RestauranteResource', 'restaurante')
-
+    user = fields.ForeignKey('comidaimigrante.api.UserResource', 'user', full=True)
     class Meta:
         queryset = Evento.objects.all()
         include_resource_uri = False
-
+        authentication = CustomAuthentication()
+        authorization = Authorization()
+    
 
 class OrigemResource(ModelResource):
     class Meta:

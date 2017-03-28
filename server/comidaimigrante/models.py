@@ -1,4 +1,5 @@
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 from django.db import models
 from django.contrib.admin import widgets
 from django.contrib.auth.models import User
@@ -80,7 +81,7 @@ class Evento(models.Model):
     restaurante = models.ForeignKey(Restaurante)
     sinopse = models.TextField()
     user = models.ForeignKey(User, default=1)
-    data = models.DateTimeField(auto_now=True)
+    data = models.DateTimeField(default=timezone.now)
     autorizado = models.BooleanField(default=False)    
     
     def __str__(self):
