@@ -2,8 +2,6 @@
  * Comida de (I)migrante
  * 2016 Labhacker
  */
-SERVER = 'https://devcomidaimigrante.labhacker.org.br';
-DEBUG = true
 // Initialize your app
 var Frm7 = new Framework7({
    //swipePanel: 'left'
