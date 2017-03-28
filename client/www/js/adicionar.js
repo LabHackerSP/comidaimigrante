@@ -196,8 +196,8 @@ var addForm = {
     data.flags.forEach(function(part, index, arr) {
       arr[index] = resourcize(part, 'flags');
     });
-    if(data.preco_min = "") data.preco_min = 0;
-    if(data.preco_max = "") data.preco_max = 0;
+    if(data.preco_min == "") data.preco_min = 0;
+    if(data.preco_max == "") data.preco_max = 0;
 
     console.log(data);
     addForm.data = data;
