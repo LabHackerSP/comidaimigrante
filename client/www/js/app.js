@@ -319,12 +319,12 @@ var map = {
     map.markerClusters.freezeAtZoom(18);   
     map.dot = L.marker([0, 0], { icon :userIcon}).addTo(map.object);
     // geopos de são paulo
-  	map.object.setView(new L.LatLng(-23.5, -46.6),50);
+  	map.object.setView(new L.LatLng(-23.547934, -46.632708), 50).setZoom(13);
 
-    map.centerOnGPS();
-
+    //map.centerOnGPS();
+    data.download();
     map.object.on('moveend', function(e) {
-      map.showSearchButton();
+      //map.showSearchButton();
     });
 
   },
@@ -344,7 +344,7 @@ var map = {
     map.dot.update();
 
     // fetch closest restaurants when location is found
-    data.download();
+    //data.download();
   },
 
   clickMarker: function(e) {
@@ -463,7 +463,8 @@ var data = {
     var longtop = bounds._southWest.lng;
     var latbottom = bounds._northEast.lat;
     var longbottom = bounds._northEast.lng;
-    var query = "&lat__gte=" + lattop + "&long__gte=" + longtop + "&lat__lte=" + latbottom + "&long_lte=" + longbottom;
+    //var query = "&lat__gte=" + lattop + "&long__gte=" + longtop + "&lat__lte=" + latbottom + "&long_lte=" + longbottom;
+    var query = "&limit=997";
     var url = SERVER + api + query;
     $.getJSON(url, data.parseList, data.fail);
   },
