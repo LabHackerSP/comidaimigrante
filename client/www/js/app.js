@@ -326,7 +326,7 @@ var map = {
     // geopos de são paulo
   	map.object.setView(new L.LatLng(-23.547934, -46.632708), 50).setZoom(13);
 
-    //map.centerOnGPS();
+    map.centerOnGPS();
     data.download();
     map.showSearchButton();
     map.object.on('moveend', function(e) {
@@ -338,7 +338,8 @@ var map = {
   centerOnGPS: function() {
     map.object.locate({
       enableHighAccuracy:true,
-      setView:true
+      setView:true,
+      maxZoom:13,
     });
     map.object.on('locationfound', map.updateDot);
   },
