@@ -1,0 +1,35 @@
+<div data-page="telefone" class="page no-navbar">
+  <div class="subnavbar">
+    <div class="left">
+      <a href="#" class="link icon-only back"><i class="icon icon-back"></i></a>
+      <div>Telefone</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="content-block">
+      <br/><br/>
+      <p>Para utilizar a função Visitaço, precisamos do seu número de telefone.</p>
+      <p>Por favor, digite-o abaixo.</p>
+    </div>
+    <form id="tel-form" class="list-block">
+      <ul>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon material-icons">phone</i></div>
+            <div class="item-inner">
+              <div class="item-title label">Telefone
+                <span class="error" id="error-tel"></span>
+              </div>
+              <div class="item-input">
+                <input name="tel" id="edit-tel" type="tel" data-error="error-tel">
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </form>
+    <p>
+      <a href="#" onClick="telForm.sendData();" class="button-single button button-fill button-raised">Enviar</a>
+    </p>
+  </div>
+</div>

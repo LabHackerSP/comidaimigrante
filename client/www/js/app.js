@@ -259,7 +259,7 @@ var SearchButton = L.Control.extend({
     i.classList = 'material-icons'
     i.appendChild(document.createTextNode('search'));
     a.appendChild(i);
-    
+
     L.DomEvent.addListener(a, 'click', app.openSearch);
 
     return a;
@@ -319,7 +319,7 @@ var map = {
       showCoverageOnHover: false,
       maxClusterRadius: 10,
     });
-    map.markerClusters.freezeAtZoom(18);   
+    map.markerClusters.freezeAtZoom(18);
     map.dot = L.marker([0, 0], { icon :userIcon}).addTo(map.object);
     // geopos de são paulo
   	map.object.setView(new L.LatLng(-23.547934, -46.632708), 50).setZoom(13);
@@ -601,6 +601,13 @@ var user = {
     var html = templates.leftPanel(user.profile);
     $("#left-panel").html(html);
     Frm7.hideIndicator();
+
+    // if username (phone hash) is blank, send user to phone input screen
+    if(user.profile.user == "") {
+      mainView.router.load({
+        url: 'telefone.html'
+      });
+    }
   },
 };
 
