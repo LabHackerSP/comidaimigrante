@@ -547,7 +547,12 @@ var user = {
 
   login: function(app) {
     var url = SERVER + '/accounts/'+app+'/login/';
-    user.browser = window.inAppBrowserXwalk.open(url, user.options);
+    if (window.cordova) {
+      user.browser = window.inAppBrowserXwalk.open(url, user.options);  
+    }
+    else {
+      user.browser = window.open(url, user.options);  
+    }
     user.browser.addEventListener("loadstop", function (e) {
       // if the user is redirected to the profile page, close this window and update info
       if(e.url.search("/accounts/profile") > 0) {
