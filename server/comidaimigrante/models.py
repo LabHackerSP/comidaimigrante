@@ -3,6 +3,9 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.admin import widgets
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from server import settings
 
 # Create your models here.
@@ -21,6 +24,20 @@ class StringField(models.TextField):
     def formfield(self, **kwargs):
         kwargs['widget'] = widgets.AdminTextInputWidget
         return super(StringField, self).formfield(**kwargs)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='profile')
+    phonehash = models.CharField(max_length=10, blank=True)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
 
 class Cidade(models.Model):
     cidade = StringField()

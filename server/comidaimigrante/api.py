@@ -1,11 +1,12 @@
 from geopy.distance import vincenty
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag, Regiao, Evento
+from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag, Regiao, Evento, UserProfile
 
 from tastypie.authorization import Authorization
 from tastypie.authentication import BasicAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization
+from tastypie.exceptions import Unauthorized
 from tastypie.validation import FormValidation
 from django import forms
 from django.contrib.auth.models import Permission
@@ -22,77 +23,6 @@ from tastypie.utils import trailing_slash
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
-
-class urlencodeSerializer(Serializer):
-    formats = ['json', 'xml', 'yaml', 'plist', 'urlencode']
-    content_types = {
-    'json': 'application/json',
-    'xml': 'application/xml',
-    'yaml': 'text/yaml',
-    'plist': 'application/x-plist',
-    'urlencode': 'application/x-www-form-urlencoded',
-    }
-
-    def from_urlencode(self, data,options=None):
-        """ handles basic formencoded url posts """
-        qs = dict((k, v if len(v)>1 else v[0] )
-        for k, v in parse_qs(data).items())
-        return qs
-
-        def to_urlencode(self,content):
-            pass
-
-class UserResource(ModelResource):
-    class Meta:
-        queryset = User.objects.all()
-        fields = ['first_name', 'last_name']
-        allowed_methods = ['get', 'post']
-        resource_name = 'user'
-        serializer = urlencodeSerializer()
-
-    def override_urls(self):
-        return [
-            url(r"^(?P<resource_name>%s)/login%s$" %
-                (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('login'), name="api_login"),
-            url(r'^(?P<resource_name>%s)/logout%s$' %
-                (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('logout'), name='api_logout'),
-        ]
-
-    def login(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
-
-        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
-
-        username = data.get('username', '')
-        password = data.get('password', '')
-
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                return self.create_response(request, {
-                    'success': True
-                })
-            else:
-                return self.create_response(request, {
-                    'success': False,
-                    'reason': 'disabled',
-                    }, HttpForbidden )
-        else:
-            return self.create_response(request, {
-                'success': False,
-                'reason': 'incorrect',
-                }, HttpUnauthorized )
-
-    def logout(self, request, **kwargs):
-        self.method_check(request, allowed=['get'])
-        if request.user and request.user.is_authenticated():
-            logout(request)
-            return self.create_response(request, { 'success': True })
-        else:
-            return self.create_response(request, { 'success': False }, HttpUnauthorized)
 
 class CustomAuthentication(BasicAuthentication):
     """
@@ -115,12 +45,52 @@ class CustomAuthorization(DjangoAuthorization):
         return True
 
     def create_list(self, object_list, bundle):
-        # aqui o objeto é criado, deve estar logado
-        return object_list
+        if (bundle.request.user.is_superuser or bundle.obj.user == bundle.request.user):
+            return True
+        else:
+            raise Unauthorized("All your base are belong to us.")
 
     def update_detail(self, object_list, bundle):
-        # aqui o objeto é editado, deve ser admin ou mesmo usuário que criou
-        return True
+        print(bundle.request.user)
+        if (bundle.request.user.is_superuser or bundle.obj.user == bundle.request.user):
+            return True
+        else:
+            raise Unauthorized("All your base are belong to us.")
+
+
+class urlencodeSerializer(Serializer):
+    formats = ['json', 'xml', 'yaml', 'plist', 'urlencode']
+    content_types = {
+    'json': 'application/json',
+    'xml': 'application/xml',
+    'yaml': 'text/yaml',
+    'plist': 'application/x-plist',
+    'urlencode': 'application/x-www-form-urlencoded',
+    }
+
+    def from_urlencode(self, data,options=None):
+        """ handles basic formencoded url posts """
+        qs = dict((k, v if len(v)>1 else v[0] )
+        for k, v in parse_qs(data).items())
+        return qs
+
+        def to_urlencode(self,content):
+            pass
+
+class ProfileResource(ModelResource):
+    class Meta:
+        queryset = UserProfile.objects.all()
+
+class UserResource(ModelResource):
+    class Meta:
+        queryset = User.objects.all()
+        fields = ['first_name', 'last_name', 'username']
+        allowed_list_methods = ['get']
+        allowed_detail_methods = ['get','put']
+        resource_name = 'user'
+        serializer = urlencodeSerializer()
+        authentication = CustomAuthentication()
+        authorization = CustomAuthorization()
 
 class HorarioResource(ModelResource):
     class Meta:
