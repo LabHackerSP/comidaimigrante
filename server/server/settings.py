@@ -121,7 +121,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_ADAPTER = 'comidaimigrante.account.adapter.SocialAccountAdapter'
-AUTH_USER_MODEL = 'comidaimigrante.models.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

@@ -20,14 +20,24 @@ WEEKDAYS = [
   (7, _("Domingo")),
 ]
 
-# usuário com campo custom
-class User(AbstractUser):
-    phonehash = models.TextField(blank=True)
-
 class StringField(models.TextField):
     def formfield(self, **kwargs):
         kwargs['widget'] = widgets.AdminTextInputWidget
         return super(StringField, self).formfield(**kwargs)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='profile')
+    phonehash = models.CharField(max_length=10, blank=True)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
 
 class Cidade(models.Model):
     cidade = StringField()
@@ -38,7 +48,7 @@ class Cidade(models.Model):
 
 class Regiao(models.Model):
     regiao = StringField(primary_key=True)
-
+    
     def __str__(self):
         return self.regiao
 
@@ -89,8 +99,8 @@ class Evento(models.Model):
     sinopse = models.TextField()
     user = models.ForeignKey(User, default=1)
     data = models.DateTimeField(default=timezone.now)
-    autorizado = models.BooleanField(default=False)
-
+    autorizado = models.BooleanField(default=False)    
+    
     def __str__(self):
         return self.nome
 
