@@ -3,7 +3,7 @@ from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag, Regiao, Evento, UserProfile
 
-from tastypie.authorization import Authorization
+from tastypie.authorization import Authorization, ReadOnlyAuthorization
 from tastypie.authentication import BasicAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.exceptions import Unauthorized
@@ -13,7 +13,6 @@ from django.contrib.auth.models import Permission
 
 from urllib.parse import parse_qs
 from tastypie.serializers import Serializer
-
 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -29,30 +28,63 @@ class CustomAuthentication(BasicAuthentication):
     Authenticates everyone if the request is GET otherwise performs
     BasicAuthentication.
     """
-
     def is_authenticated(self, request, **kwargs):
         if request.method == 'GET': # Permite leitura sem autenticação
             return True
         return super(CustomAuthentication, self).is_authenticated(request, **kwargs)
 
-class CustomAuthorization(DjangoAuthorization):
-    # sempre deixa ler lista
-    def read_list(self, object_list, bundle):
-        return object_list
-
-    # sempre deixa ler objeto
-    def read_detail(self, object_list, bundle):
+class RestauranteAuthorization(ReadOnlyAuthorization):
+    def create_detail(self, object_list, bundle):
         return True
 
-    def create_list(self, object_list, bundle):
-        if (bundle.request.user.is_superuser or bundle.obj.user == bundle.request.user):
+    def update_detail(self, object_list, bundle):
+        if bundle.request.user.is_superuser or bundle.obj.user == bundle.request.user:
             return True
-        else:
-            raise Unauthorized("All your base are belong to us.")
+
+    def create_list(self, object_list, bundle):
+        allowed = []
+        for horario in object_list:
+            restaurante = Restaurante.objects.get(pk=horario.restaurante.pk)
+            if restaurante.user == bundle.request.user:
+                allowed.append(horario)
+        return allowed
+
+class HorarioAuthorization(ReadOnlyAuthorization):
+    def create_list(self, object_list, bundle):
+        allowed = []
+        for horario in object_list:
+            restaurante = Restaurante.objects.get(pk=horario.restaurante.pk)
+            if restaurante.user == bundle.request.user:
+                allowed.append(horario)
+        return allowed
+
+    def create_detail(self, object_list, bundle):
+        return bundle.obj.user == bundle.request.user
+
+    def update_list(self, object_list, bundle):
+        allowed = []
+
+        # Since they may not all be saved, iterate over them.
+        for obj in object_list:
+            if obj.user == bundle.request.user:
+                allowed.append(obj)
+
+        return allowed
 
     def update_detail(self, object_list, bundle):
-        print(bundle.request.user)
-        if (bundle.request.user.is_superuser or bundle.obj.user == bundle.request.user):
+        return bundle.obj.user == bundle.request.user
+
+    def delete_list(self, object_list, bundle):
+        # Sorry user, no deletes for you!
+        raise Unauthorized("Sorry, no deletes.")
+
+    def delete_detail(self, object_list, bundle):
+        raise Unauthorized("Sorry, no deletes.")
+
+class UserAuthorization(ReadOnlyAuthorization):
+    def update_detail(self, object_list, bundle):
+        updated_user = User.objects.get(pk=bundle.obj.pk)
+        if (bundle.request.user.is_superuser or updated_user == bundle.request.user):
             return True
         else:
             raise Unauthorized("All your base are belong to us.")
@@ -77,11 +109,22 @@ class urlencodeSerializer(Serializer):
         def to_urlencode(self,content):
             pass
 
-class ProfileResource(ModelResource):
+class BaseResource(ModelResource):
+    def obj_create(self, bundle, **kwargs):
+        bundle.obj = self._meta.object_class()
+
+        for key, value in kwargs.items():
+            setattr(bundle.obj, key, value)
+
+        bundle = self.full_hydrate(bundle) # hydrate before authorize, not after
+        self.authorized_create_detail(self.get_object_list(bundle.request), bundle)
+        return self.save(bundle)
+
+class ProfileResource(BaseResource):
     class Meta:
         queryset = UserProfile.objects.all()
 
-class UserResource(ModelResource):
+class UserResource(BaseResource):
     class Meta:
         queryset = User.objects.all()
         fields = ['first_name', 'last_name', 'username']
@@ -90,9 +133,9 @@ class UserResource(ModelResource):
         resource_name = 'user'
         serializer = urlencodeSerializer()
         authentication = CustomAuthentication()
-        authorization = CustomAuthorization()
+        authorization = UserAuthorization()
 
-class HorarioResource(ModelResource):
+class HorarioResource(BaseResource):
     class Meta:
         queryset = Horario.objects.all()
 
@@ -102,7 +145,7 @@ class HorarioResource(ModelResource):
         bundle.data['to_hour'] = bundle.obj.to_hour
         return bundle
 
-class EventoResource(ModelResource):
+class EventoResource(BaseResource):
     restaurante = fields.ForeignKey('comidaimigrante.api.RestauranteResource', 'restaurante')
     user = fields.ForeignKey('comidaimigrante.api.UserResource', 'user', full=True)
     class Meta:
@@ -112,17 +155,17 @@ class EventoResource(ModelResource):
         authorization = Authorization()
     
 
-class OrigemResource(ModelResource):
+class OrigemResource(BaseResource):
     class Meta:
         queryset = Origem.objects.all()
         include_resource_uri = False
 
-class RegiaoResource(ModelResource):
+class RegiaoResource(BaseResource):
     class Meta:
         queryset = Regiao.objects.all()
-        include_resource_uri = False
+        include_resource_uri = True
 
-class CidadeResource(ModelResource):
+class CidadeResource(BaseResource):
     class Meta:
         queryset = Cidade.objects.all()
         include_resource_uri = False
@@ -130,24 +173,24 @@ class CidadeResource(ModelResource):
 class ComidaForm(forms.Form):
     comida = forms.CharField(max_length=20)
 
-class ComidaResource(ModelResource):
+class ComidaResource(BaseResource):
     class Meta:
         queryset = Comida.objects.all()
         authentication = CustomAuthentication()
-        authorization = CustomAuthorization()
+        authorization = Authorization()
         validation=FormValidation(form_class=ComidaForm)
 
 class FlagForm(forms.Form):
     flag = forms.CharField(max_length=20)
 
-class FlagResource(ModelResource):
+class FlagResource(BaseResource):
     class Meta:
         queryset = Flag.objects.all()
         filtering = {
             'flag': ALL
         }
         authentication = CustomAuthentication()
-        authorization = CustomAuthorization()
+        authorization = Authorization()
         validation=FormValidation(form_class=FlagForm)
 
 class RestauranteForm(forms.Form):
@@ -155,7 +198,7 @@ class RestauranteForm(forms.Form):
     ## nome = forms.CharField(min_length=20)
     pass
 
-class RestauranteResource(ModelResource):
+class RestauranteResource(BaseResource):
     link = fields.CharField(attribute='link', use_in='detail')
     sinopse = fields.CharField(attribute='sinopse', use_in='detail')
     telefone = fields.CharField(attribute='telefone', use_in='detail')
@@ -166,10 +209,10 @@ class RestauranteResource(ModelResource):
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
     horarios = fields.ToManyField(HorarioResource, attribute='horario_set', full=True, null=True, use_in='detail')
     eventos = fields.ToManyField(EventoResource, attribute='evento_set', full=True, null=True, use_in='detail')
-    user = fields.ForeignKey(UserResource, 'user', use_in='detail')
+    user = fields.ForeignKey(UserResource, 'user', use_in='detail', null=True)
     class Meta:
-        #authentication = CustomAuthentication()
-        authorization = Authorization()
+        authentication = CustomAuthentication()
+        authorization = RestauranteAuthorization()
         validation=FormValidation(form_class=RestauranteForm)
         queryset = Restaurante.objects.filter(autorizado = True)
         resource_name = 'restaurante'
@@ -214,8 +257,10 @@ class RestauranteResource(ModelResource):
 
     # grava qual usuário criou o restaurante
     def hydrate_user(self, bundle):
-        user = User.objects.get(pk=bundle.request.user.pk)
-        bundle.obj.user = user
+        if bundle.request.method == 'POST':
+            bundle.obj.user = User.objects.get(pk=bundle.request.user.pk)
+        elif bundle.request.method == 'PUT':
+            bundle.obj.user = Restaurante.objects.get(pk=bundle.obj.pk).user
         return bundle
 
     #dá a distância de cada resultado comparado a um ponto
