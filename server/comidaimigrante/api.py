@@ -4,7 +4,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from comidaimigrante.models import Restaurante, Cidade, Origem, Comida, Horario, Flag, Regiao, Evento, UserProfile
 
 from tastypie.authorization import Authorization, ReadOnlyAuthorization
-from tastypie.authentication import SessionAuthentication, Authentication
+from tastypie.authentication import BasicAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.exceptions import Unauthorized
 from tastypie.validation import FormValidation
@@ -23,7 +23,7 @@ from tastypie.utils import trailing_slash
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-class CustomAuthentication(SessionAuthentication):
+class CustomAuthentication(BasicAuthentication):
     """
     Authenticates everyone if the request is GET otherwise performs
     BasicAuthentication.
