@@ -29,66 +29,50 @@ class CustomAuthentication(SessionAuthentication):
     BasicAuthentication.
     """
     def is_authenticated(self, request, **kwargs):
-        if request.method == 'GET': # Permite leitura sem autenticação
+        """
+        Checks to make sure the user is logged in & has a Django session.
+        """
+        # Cargo-culted from Django 1.3/1.4's ``django/middleware/csrf.py``.
+        # We can't just use what's there, since the return values will be
+        # wrong.
+        # We also can't risk accessing ``request.POST``, which will break with
+        # the serialized bodies.
+        if request.method in ('GET', 'HEAD', 'OPTIONS', 'TRACE'):
             return True
-        return super(CustomAuthentication, self).is_authenticated(request, **kwargs)
+
+        return request.user.is_authenticated()
 
 class RestauranteAuthorization(ReadOnlyAuthorization):
     def create_detail(self, object_list, bundle):
-        return True
-
-    def update_detail(self, object_list, bundle):
-        if bundle.request.user.is_superuser or bundle.obj.user == bundle.request.user:
+        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
             return True
 
-    def create_list(self, object_list, bundle):
-        allowed = []
-        for horario in object_list:
-            restaurante = Restaurante.objects.get(pk=horario.restaurante.pk)
-            if restaurante.user == bundle.request.user:
-                allowed.append(horario)
-        return allowed
+    def update_detail(self, object_list, bundle):
+        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
+            return True
 
 class HorarioAuthorization(ReadOnlyAuthorization):
     def create_list(self, object_list, bundle):
         allowed = []
         for horario in object_list:
             restaurante = Restaurante.objects.get(pk=horario.restaurante.pk)
-            if restaurante.user == bundle.request.user:
+            if bundle.request.user.is_staff or restaurante.user == bundle.request.user:
                 allowed.append(horario)
         return allowed
 
-    def create_detail(self, object_list, bundle):
-        return bundle.obj.user == bundle.request.user
-
-    def update_list(self, object_list, bundle):
+    def patch_list(self, object_list, bundle):
         allowed = []
-
-        # Since they may not all be saved, iterate over them.
-        for obj in object_list:
-            if obj.user == bundle.request.user:
-                allowed.append(obj)
-
+        for horario in object_list:
+            restaurante = Restaurante.objects.get(pk=horario.restaurante.pk)
+            if bundle.request.user.is_staff or restaurante.user == bundle.request.user:
+                allowed.append(horario)
         return allowed
-
-    def update_detail(self, object_list, bundle):
-        return bundle.obj.user == bundle.request.user
-
-    def delete_list(self, object_list, bundle):
-        # Sorry user, no deletes for you!
-        raise Unauthorized("Sorry, no deletes.")
-
-    def delete_detail(self, object_list, bundle):
-        raise Unauthorized("Sorry, no deletes.")
 
 class UserAuthorization(ReadOnlyAuthorization):
     def update_detail(self, object_list, bundle):
         updated_user = User.objects.get(pk=bundle.obj.pk)
-        if (bundle.request.user.is_superuser or updated_user == bundle.request.user):
+        if (bundle.request.user.is_staff or updated_user == bundle.request.user):
             return True
-        else:
-            raise Unauthorized("All your base are belong to us.")
-
 
 class urlencodeSerializer(Serializer):
     formats = ['json', 'xml', 'yaml', 'plist', 'urlencode']
@@ -110,6 +94,10 @@ class urlencodeSerializer(Serializer):
             pass
 
 class BaseResource(ModelResource):
+    class Meta:
+        authentication = CustomAuthentication()
+        authorization = ReadOnlyAuthorization()
+
     def obj_create(self, bundle, **kwargs):
         bundle.obj = self._meta.object_class()
 
@@ -132,7 +120,6 @@ class UserResource(BaseResource):
         allowed_detail_methods = ['get','put']
         resource_name = 'user'
         serializer = urlencodeSerializer()
-        authentication = CustomAuthentication()
         authorization = UserAuthorization()
 
 class HorarioResource(BaseResource):
@@ -151,15 +138,12 @@ class EventoResource(BaseResource):
     class Meta:
         queryset = Evento.objects.all()
         include_resource_uri = False
-        authentication = CustomAuthentication()
-        authorization = Authorization()
-    
 
 class OrigemResource(BaseResource):
     class Meta:
         queryset = Origem.objects.all()
         include_resource_uri = False
-
+    
 class RegiaoResource(BaseResource):
     class Meta:
         queryset = Regiao.objects.all()
@@ -177,7 +161,7 @@ class ComidaResource(BaseResource):
     class Meta:
         queryset = Comida.objects.all()
         authentication = CustomAuthentication()
-        authorization = Authorization()
+        authorization = ReadOnlyAuthorization()
         validation=FormValidation(form_class=ComidaForm)
 
 class FlagForm(forms.Form):
@@ -190,7 +174,7 @@ class FlagResource(BaseResource):
             'flag': ALL
         }
         authentication = CustomAuthentication()
-        authorization = Authorization()
+        authorization = ReadOnlyAuthorization()
         validation=FormValidation(form_class=FlagForm)
 
 class RestauranteForm(forms.Form):

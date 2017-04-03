@@ -35,6 +35,8 @@ def profile(request):
         'admin': user.is_staff,
     }
 
+
+
     if data['authenticated']:
         rotate_token(request)
         data['csrf_token'] = get_token(request)
@@ -42,7 +44,7 @@ def profile(request):
     try:
         data['first_name'] = user.first_name
         data['last_name'] = user.last_name
-        data['avatar_url'] = user.socialaccount_set.all[0].get_avatar_url
+        data['extra'] = user.socialaccount_set.extra_data
     except:
         pass
 

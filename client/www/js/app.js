@@ -141,11 +141,12 @@ var app = {
     }
 
     $.ajaxSetup({
+        xhrFields: {
+          withCredentials: true
+        },
         beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
-            }
-        }
+            xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+        },
     });
 
     setTimeout(function() {
@@ -596,6 +597,7 @@ var user = {
       method: 'GET',
       crossDomain: true,
       success: user.parseProfile,
+      xhrFields: { withCredentials: true },
     })
   },
 
