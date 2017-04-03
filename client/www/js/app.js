@@ -179,7 +179,7 @@ var app = {
     return true;
   },
 
-  // opens picker modal with restaurant info
+  // opens restaurant detail page
   loadRestaurant: function(uuid) {
     var obj = data.objects[uuid];
     //map.panTo(obj.lat, obj.long);
@@ -193,6 +193,7 @@ var app = {
     });
   },
 
+  // opens picker modal with restaurant info
   loadRestaurantPopover: function(uuid) {
     var obj = data.list[uuid];
     map.panTo(obj.lat, obj.long);
@@ -548,10 +549,10 @@ var user = {
   login: function(app) {
     var url = SERVER + '/accounts/'+app+'/login/';
     if (window.cordova) {
-      user.browser = window.inAppBrowserXwalk.open(url, user.options);  
+      user.browser = window.inAppBrowserXwalk.open(url, user.options);
     }
     else {
-      user.browser = window.open(url, user.options);  
+      user.browser = window.open(url, user.options);
     }
     user.browser.addEventListener("loadstop", function (e) {
       // if the user is redirected to the profile page, close this window and update info

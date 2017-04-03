@@ -96,6 +96,8 @@ Frm7.onPageInit('busca-end', function(page) {
 });
 
 var addForm = {
+  editar: false,
+  id: null,
   data: {},
   results: [],
   mapaValido: false,
@@ -138,7 +140,6 @@ var addForm = {
   resultAddress: function(id) {
     var obj = addForm.results[id];
     console.log(obj);
-    /* TODO: fix this */
     try {
       var rua = $.grep(obj.address_components, function(e){ return e.types.indexOf('route') >= 0; })[0].long_name;
       var num = $.grep(obj.address_components, function(e){ return e.types.indexOf('street_number') >= 0; })[0].long_name;
@@ -178,9 +179,9 @@ var addForm = {
   // POST
   sendData: function() {
     if (!$('#add-form').valid()) return false;
-    if (!addForm.mapaValido) {
+    if (!addForm.mapaValido) { // validação dos campos ocultos lat long
       $$('.page-content').scrollTop(
-        $('#add-endereco-button').position().top, // posição do primeiro erro
+        $('#add-endereco-button').position().top, // posição do botão de endereço
         500 // tempo em milis
       );
       return false;
@@ -209,9 +210,13 @@ var addForm = {
       },
       "json"
     );*/
+
+    if(addForm.editar) { var type = 'PUT'; }
+    else { var type = 'POST'; }
+
     $.ajax({
       url: url,
-      type: 'POST',
+      type: type,
       contentType: 'application/json',
       data: JSON.stringify(data),
       dataType: 'json',
@@ -221,12 +226,13 @@ var addForm = {
   },
 
   sendCheck: function(data) {
-    //created
-    if (data.status == 201) {
+    if (data.status == 201) { // created
       alert("O restaurante " + addForm.data.nome + "foi enviado com sucesso e aguarda moderação.");
       mainView.router.back();
-    // qualquer outro código
-    } else {
+    } else if (data.status == 204) { // edited
+      alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
+      app.loadRestaurant(addForm.id);
+    } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o restaurante!");
     }
   },
