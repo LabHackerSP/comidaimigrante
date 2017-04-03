@@ -221,7 +221,13 @@ var addForm = {
       data: JSON.stringify(data),
       dataType: 'json',
       processData: false,
-      complete: addForm.sendCheck
+      complete: addForm.sendCheck,
+      xhrFields: {
+          withCredentials: true
+        },
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+        }
     })
   },
 
