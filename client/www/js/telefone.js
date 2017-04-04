@@ -68,7 +68,7 @@ var telForm = {
       data: JSON.stringify(data),
       dataType: 'json',
       processData: false,
-      complete: addForm.sendCheck
+      complete: telForm.sendCheck
     });
   },
 

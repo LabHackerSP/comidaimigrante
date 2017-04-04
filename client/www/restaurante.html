@@ -91,6 +91,34 @@
         </li>
         {{/link}}
       </ul>
+    
+      {{#if eventos.length}}
+        <div class="content-block-title"><h2>Visitaços</h2><br/>
+        <a href="#">crie um visitaço</a></div>
+        <div class="list-block accordion-list">
+        <ul>
+          {{#each eventos}}
+            <li class="accordion-item">
+              <a class="item-content item-link">
+              <div class="item-media"><i class="icon material-icons">lock</i></div>
+              <div class="item-inner">
+                <div class="item-title">
+                  {{this.nome}}<br />
+                  <i>{{this.user.first_name}} {{this.user.last_name}}<br />
+                  {{js "templates.dataVisitaco(this.data)"}}</i>
+                </div>
+              </div>
+              </a>
+              <div class="accordion-item-content">
+                <div class="content-block">
+                  {{this.sinopse}}aaaa
+                </div>
+            </div>
+            </li>
+          {{/each}}
+        </ul>
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>

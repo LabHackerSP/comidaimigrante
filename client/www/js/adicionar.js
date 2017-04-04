@@ -232,8 +232,9 @@ var addForm = {
   },
 
   sendCheck: function(data) {
-    if (data.status == 201) { // created
-      alert("O restaurante " + addForm.data.nome + "foi enviado com sucesso e aguarda moderação.");
+    //created
+    if (data.status == 201) {
+      alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
       mainView.router.back();
     } else if (data.status == 204) { // edited
       alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");

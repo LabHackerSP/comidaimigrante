@@ -10,6 +10,7 @@ var Frm7 = new Framework7({
    template7Pages: true,
    material: true,
    smartSelectOpenIn: 'popup',
+   cache: false
 });
 // Export selectors engine
 var $$ = Dom7;
@@ -39,6 +40,11 @@ var templates = {
   popover: Template7.compile($$('#popover-template').html()),
   leftPanel: Template7.compile($$('#left-panel-template').html()),
 
+  
+  dataVisitaco: function (data) {
+  	data = new Date(data)
+  	return data.getDate() + '/' + data.getMonth() + '/' + data.getFullYear() + ' às ' + data.getHours() + ':' + data.getMinutes();
+  },
   // hoje true = aberto/fechado hoje
   // hoje false = lista de parágrafos com horários
   formataHorario: function(horarios, hoje) {
