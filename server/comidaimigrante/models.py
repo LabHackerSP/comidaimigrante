@@ -99,7 +99,9 @@ class Evento(models.Model):
     sinopse = models.TextField()
     user = models.ForeignKey(User, default=1)
     data = models.DateTimeField(default=timezone.now)
-    autorizado = models.BooleanField(default=False)    
+    autorizado = models.BooleanField(default=False)
+    privado = models.BooleanField(default=False)
+    visitors = models.ManyToManyField(User, related_name='visitors')
     
     def __str__(self):
         return self.nome

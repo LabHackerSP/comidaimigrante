@@ -135,9 +135,9 @@ class HorarioResource(BaseResource):
 class EventoResource(BaseResource):
     restaurante = fields.ForeignKey('comidaimigrante.api.RestauranteResource', 'restaurante')
     user = fields.ForeignKey('comidaimigrante.api.UserResource', 'user', full=True)
+    visitors = fields.ManyToManyField('comidaimigrante.api.UserResource', 'visitors', full=True, use_in='detail')
     class Meta:
         queryset = Evento.objects.all()
-        include_resource_uri = False
 
 class OrigemResource(BaseResource):
     class Meta:
