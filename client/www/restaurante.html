@@ -92,9 +92,10 @@
         {{/link}}
       </ul>
     
-      {{#if eventos.length}}
+      
         <div class="content-block-title"><h2>Visitaços</h2><br/>
         <a href="#">crie um visitaço</a></div>
+        {{#if eventos.length}}
         <div class="list-block accordion-list">
         <ul>
           {{#each eventos}}
@@ -118,6 +119,8 @@
           {{/each}}
         </ul>
         </div>
+      {{else}}
+        <div class="item-content">Não existem visitaços cadastrados.</div>
       {{/if}}
     </div>
   </div>
