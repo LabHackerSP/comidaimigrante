@@ -100,7 +100,7 @@
           {{#each eventos}}
             <li class="accordion-item">
               <a class="item-content item-link">
-              <div class="item-media"><i class="icon material-icons">lock</i></div>
+              <div class="item-media">{{#if this.privado}}<i class="icon material-icons">lock</i>{{/if}}</div>
               <div class="item-inner">
                 <div class="item-title">
                   {{this.nome}}<br />
@@ -111,7 +111,7 @@
               </a>
               <div class="accordion-item-content">
                 <div class="content-block">
-                  {{this.sinopse}}aaaa
+                  {{this.sinopse}}
                 </div>
             </div>
             </li>
