@@ -89,7 +89,7 @@ def forms(request):
             formObject('preco_max', 'Preço máximo (opcional)', 'attach_money', 'float'),
             formObject('link', 'Link (opcional)', 'link', 'url'),
             formObject('sinopse', 'Sinopse', 'info', 'resizable'),
-            formObject('foto', 'Foto (opcional)', 'add_a_photo', 'image'),
+            #formObject('foto', 'Foto (opcional)', 'add_a_photo', 'image'),
             formObject('flags', 'Flags (opcional)', 'list', 'multiple', [flag.flag for flag in flags])
         ]
     }
