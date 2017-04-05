@@ -55,10 +55,10 @@ var telForm = {
     var url = SERVER + api;
 
     var tel = $('#edit-tel').val();
-    var hash = tel.substr(tel.length - 8); // hash dos últimos 8 dígitos
-    console.log(tel);
+    var hash = SHA1(tel.substr(tel.length - 8)); // hash dos últimos 8 dígitos
+    console.log(hash);
     var data = {
-      username: tel
+      username: hash
     };
 
     $.ajax({
