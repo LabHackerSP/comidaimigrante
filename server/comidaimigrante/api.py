@@ -145,7 +145,7 @@ class OrigemResource(BaseResource):
     class Meta:
         queryset = Origem.objects.all()
         include_resource_uri = False
-    
+
 class RegiaoResource(BaseResource):
     class Meta:
         queryset = Regiao.objects.all()
@@ -201,6 +201,7 @@ class RestauranteResource(BaseResource):
         authorization = RestauranteAuthorization()
         validation=FormValidation(form_class=RestauranteForm)
         queryset = Restaurante.objects.filter(autorizado = True)
+        allowed_detail_methods = ['get','put']
         resource_name = 'restaurante'
         excludes = ('autorizado')
         filtering = {
