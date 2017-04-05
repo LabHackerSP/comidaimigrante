@@ -40,7 +40,7 @@ var templates = {
   popover: Template7.compile($$('#popover-template').html()),
   leftPanel: Template7.compile($$('#left-panel-template').html()),
 
-  
+
   dataVisitaco: function (data) {
   	data = new Date(data)
   	return data.getDate() + '/' + data.getMonth() + '/' + data.getFullYear() + ' às ' + data.getHours() + ':' + data.getMinutes();
@@ -209,16 +209,18 @@ var app = {
     console.log(popover);
   },
 
-  openAddForm: function() {
+  openAddForm: function(id) {
     if(!user.profile.admin) {
       alert("Você não pode executar essa ação!");
       return;
     }
     if($.isEmptyObject(data.forms)) { data.downloadGeneric(app.openAddForm, 'forms'); }
     else {
+      var forms = data.forms;
+      if(id != undefined) forms['id'] = id;
       mainView.router.load({
         url: 'adicionar.html',
-        context: data.forms,
+        context: forms,
       });
     }
   },

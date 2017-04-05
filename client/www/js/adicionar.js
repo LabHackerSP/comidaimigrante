@@ -89,6 +89,21 @@ Frm7.onPageInit('adicionar', function(page) {
       );
     }
   });
+
+  // limpa form
+  $('#add-form').trigger('reset');
+
+  // carrega objeto do restaurante se for editar
+  if(page.context.id != undefined) {
+    addForm.id = page.context.id;
+    addForm.editar = true;
+    var obj = data.objects[addForm.id];
+    obj.origem = obj.origem.nome;
+    Frm7.formFromData("#add-form", obj);
+  } else {
+    addForm.id = null;
+    addForm.editar = false;
+  }
 });
 
 Frm7.onPageInit('busca-end', function(page) {
@@ -186,8 +201,15 @@ var addForm = {
       );
       return false;
     }
+
     var api = "/api/restaurante/";
+    if(addForm.editar) {
+      var type = 'PUT';
+      api = api + addForm.id + '/';
+    }
+    else { var type = 'POST'; }
     var url = SERVER + api;
+
     var data = Frm7.formToData('#add-form');
     data.origem = resourcize(data.origem, 'origem');
     data.regiao = resourcize(data.regiao, 'regiao');
@@ -210,9 +232,6 @@ var addForm = {
       },
       "json"
     );*/
-
-    if(addForm.editar) { var type = 'PUT'; }
-    else { var type = 'POST'; }
 
     $.ajax({
       url: url,
