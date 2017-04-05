@@ -21,6 +21,8 @@ from django.conf.urls import url
 from tastypie.utils import trailing_slash
 
 from django.contrib.auth import get_user_model
+from django.utils import timezone
+
 User = get_user_model()
 
 class CustomAuthentication(SessionAuthentication):
@@ -192,7 +194,7 @@ class RestauranteResource(BaseResource):
     comida = fields.ManyToManyField(ComidaResource, 'comida', full=True, use_in='detail')
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
     horarios = fields.ToManyField(HorarioResource, attribute='horario_set', full=True, null=True, use_in='detail')
-    eventos = fields.ToManyField(EventoResource, attribute='evento_set', full=True, null=True, use_in='detail')
+    eventos = fields.ToManyField(EventoResource, attribute=lambda bundle: Evento.objects.filter(data__gte=timezone.now()), full=True, null=True, use_in='detail')
     user = fields.ForeignKey(UserResource, 'user', use_in='detail', null=True)
     class Meta:
         authentication = CustomAuthentication()

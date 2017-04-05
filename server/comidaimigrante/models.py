@@ -98,7 +98,7 @@ class Evento(models.Model):
     restaurante = models.ForeignKey(Restaurante)
     sinopse = models.TextField()
     user = models.ForeignKey(User, default=1)
-    data = models.DateTimeField(default=timezone.now)
+    data = models.DateTimeField()
     autorizado = models.BooleanField(default=False)
     privado = models.BooleanField(default=False)
     visitors = models.ManyToManyField(User, related_name='visitors')
