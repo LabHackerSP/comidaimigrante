@@ -48,7 +48,7 @@ class Cidade(models.Model):
 
 class Regiao(models.Model):
     regiao = StringField(primary_key=True)
-    
+
     def __str__(self):
         return self.regiao
 
@@ -77,8 +77,8 @@ class Restaurante(models.Model):
     regiao = models.ForeignKey(Regiao)
     cidade = models.ForeignKey(Cidade, default=1)
     sinopse = models.TextField()
-    lat = models.DecimalField(max_digits=9, decimal_places=7)
-    long = models.DecimalField(max_digits=9, decimal_places=7)
+    lat = models.DecimalField(max_digits=10, decimal_places=7)
+    long = models.DecimalField(max_digits=10, decimal_places=7)
     telefone = models.CharField(blank=True, max_length=11)
     origem = models.ForeignKey(Origem)
     foto = models.ImageField(blank=True, upload_to='fotos')
@@ -102,7 +102,7 @@ class Evento(models.Model):
     autorizado = models.BooleanField(default=False)
     privado = models.BooleanField(default=False)
     visitors = models.ManyToManyField(User, related_name='visitors')
-    
+
     def __str__(self):
         return self.nome
 
