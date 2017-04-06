@@ -217,7 +217,7 @@ var addForm = {
       arr[index] = resourcize(part, 'comida');
     });
     data.flags.forEach(function(part, index, arr) {
-      arr[index] = resourcize(part, 'flags');
+      arr[index] = resourcize(part, 'flag');
     });
     if(data.preco_min == "") data.preco_min = 0;
     if(data.preco_max == "") data.preco_max = 0;
