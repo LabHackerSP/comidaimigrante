@@ -214,7 +214,7 @@ var app = {
       alert("Você não pode executar essa ação!");
       return;
     }
-    if($.isEmptyObject(data.forms)) { data.downloadGeneric(app.openAddForm, 'forms'); }
+    if($.isEmptyObject(data.forms)) { data.downloadGeneric(app.openAddForm, 'forms', id); }
     else {
       var forms = data.forms;
       if(id != undefined) forms['id'] = id;
@@ -438,10 +438,10 @@ var data = {
   },
 
   // parser metadados
-  parseGeneric: function(callback, target) {
+  parseGeneric: function(callback, target, args) {
     return function(json) {
       data[target] = json;
-      callback();
+      callback(args);
       Frm7.hideIndicator();
     }
   },
@@ -497,12 +497,12 @@ var data = {
   },
 
   // fetch metadata
-  downloadGeneric: function(callback, target) {
+  downloadGeneric: function(callback, target, args) {
     if($.isEmptyObject(data[target])) {
       Frm7.showIndicator();
       var api = "/api/" + target;
       var url = SERVER + api;
-      $.getJSON(url, data.parseGeneric(callback, target), data.fail);
+      $.getJSON(url, data.parseGeneric(callback, target, args), data.fail);
     } else {
       callback();
     }
