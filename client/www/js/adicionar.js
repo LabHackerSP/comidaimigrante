@@ -211,6 +211,7 @@ var addForm = {
     var url = SERVER + api;
 
     var data = Frm7.formToData('#add-form');
+
     data.origem = resourcize(data.origem, 'origem');
     data.regiao = resourcize(data.regiao, 'regiao');
     data.comida.forEach(function(part, index, arr) {
@@ -250,14 +251,15 @@ var addForm = {
     })
   },
 
-  sendCheck: function(data) {
+  sendCheck: function(d) {
     //created
-    if (data.status == 201) {
+    if (d.status == 201) {
       alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
       mainView.router.back();
-    } else if (data.status == 204) { // edited
+    } else if (d.status == 204) { // edited
       alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
-      app.loadRestaurant(addForm.id);
+      delete data.objects[addForm.id];
+      data.downloadSingle(addForm.id);
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o restaurante!");
     }
