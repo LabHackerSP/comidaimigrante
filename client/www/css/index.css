@@ -87,6 +87,10 @@
   -moz-transform: scale(1) translateX(-50%) translateY(-50%) !important;
 }
 
+.title-right{
+  float: right;
+  text-align: right;
+}
 .info-left {
   float: left;
 }
@@ -139,6 +143,24 @@
 
 .no-margin {
   margin: 0;
+}
+
+.clean-fieldset {
+  border: none;
+  padding: 0;
+}
+.bottom-border {
+  border-bottom: 1px !important;
+  border-bottom-style: solid !important;
+  border-bottom-color: #BBB !important;
+}
+.height-36 {
+  min-height: 36px !important;
+  height: 36px;
+  line-height: 36px;
+}
+.margin-16 {
+  margin: 0 16px;
 }
 
 .button-single {

@@ -99,6 +99,50 @@
       {{/each}}
       </ul>
     </form>
+
+    <div class="content-block-title">
+      <div class="info-left">Horários</div>
+      <div class="title-right">
+        <i class="material-icons">add_circle_outline</i>
+      </div>
+    </div>
+    <form id="add-horarios" class="list-block">
+      <ul>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon material-icons">watch_later</i></div>
+            <div class="item-inner">
+              <fieldset class="clean-fieldset">
+                <div class="row">
+                  <input name="id" type="hidden">
+                  <div class="col-25"><input class="bottom-border" name="from_hour" type='time'></div>
+                  <div class="col-25"><input class="bottom-border" name="to_hour" type='time'></div>
+                  <div class="col-50">
+                    <a href="#" class="smart-select">
+                      <select name="weekday" multiple='multiple'>
+                        <option value=1>Segunda</option>
+                        <option value=2>Terça</option>
+                        <option value=3>Quarta</option>
+                        <option value=4>Quinta</option>
+                        <option value=5>Sexta</option>
+                        <option value=6>Sábado</option>
+                        <option value=7>Domingo</option>
+                      </select>
+                      <div class="item-content bottom-border height-36">
+                          <div class="smart-select-value">Segunda</div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="item-after"><i class="material-icons margin-16">remove_circle_outline</i></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </form>
+
     <p>
       <a href="#" onClick="addForm.sendData();" class="button-single button button-fill button-raised">Enviar</a>
     </p>
