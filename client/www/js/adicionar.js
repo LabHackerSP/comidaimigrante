@@ -43,7 +43,7 @@ horarioTemplate = '<div class="item-content">\
                   </div>\
                 </div>\
               </fieldset>\
-              <div class="item-after"><i onClick="addForm.removeHorario(this);" class="material-icons">remove_circle_outline</i></div>\
+              <div class="item-after"><i onClick="addForm.horarioRemove(this);" class="material-icons">remove_circle_outline</i></div>\
             </div>\
           </div>';
 
@@ -120,26 +120,7 @@ Frm7.onPageInit('adicionar', function(page) {
     }
   });
 
-  // limpa form
-  $('#add-form').trigger('reset');
-
-  // carrega objeto do restaurante se for editar
-  if(page.context.id != undefined) {
-    addForm.id = page.context.id;
-    addForm.editar = true;
-    var obj = data.objects[addForm.id];
-    obj.origem = obj.origem.nome;
-    Frm7.formFromData("#add-form", obj);
-
-    var horarios = obj.horarios;
-    for(key in horarios) {
-      addForm.addHorario(horarios[key]);
-    }
-
-  } else {
-    addForm.id = null;
-    addForm.editar = false;
-  }
+  addForm.init(page);
 });
 
 Frm7.onPageInit('busca-end', function(page) {
@@ -147,11 +128,36 @@ Frm7.onPageInit('busca-end', function(page) {
 });
 
 var addForm = {
-  editar: false,
-  id: null,
-  data: {},
-  results: [],
-  mapaValido: false,
+  init: function(page) {
+    addForm.data = {};
+    addForm.results = [];
+    addForm.mapaValido = false;
+    addForm.horarioPatch = {
+      objects: [],
+      deleted_objects: []
+    };
+
+    // limpa form
+    $('#add-form').trigger('reset');
+
+    // carrega objeto do restaurante se for editar
+    if(page.context.id != undefined) {
+      addForm.id = page.context.id;
+      addForm.editar = true;
+      var obj = data.objects[addForm.id];
+      obj.origem = obj.origem.nome;
+      Frm7.formFromData("#add-form", obj);
+
+      var horarios = obj.horarios;
+      for(key in horarios) {
+        addForm.horarioAdd(horarios[key]);
+      }
+
+    } else {
+      addForm.id = null;
+      addForm.editar = false;
+    }
+  },
 
   openStreetSearch: function() {
     if(!$("#add-endereco").valid()) return;
@@ -286,39 +292,100 @@ var addForm = {
     })
   },
 
-  formCheck: function(data) {
-    if (data.status == 201) { // created
-      alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
-      // TODO: aqui deve chamar o patch para horário
-      mainView.router.back();
-    } else if (data.status == 204) { // edited
-      alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
-      delete data.objects[addForm.id];
-      data.downloadSingle(addForm.id);
+  formCheck: function(d) {
+    if (d.status == 201) { // created
+      // aqui deve chamar o patch para horário
+      addForm.horarioSend();
+      //alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
+      //mainView.router.back();
+    } else if (d.status == 204) { // edited
+      // aqui deve chamar o patch para horário
+      addForm.horarioSend();
+      //alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
+      //delete data.objects[addForm.id];
+      //data.downloadSingle(addForm.id);
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o restaurante!");
     }
   },
 
   // novo horário na lista
-  addHorario: function(data) {
+  horarioAdd: function(data) {
     var pai = document.getElementById('list-horarios');
     var elem = document.createElement('li');
     elem.innerHTML = horarioTemplate;
     pai.appendChild(elem);
     // popula com horario
-    $(elem).find('input[name$="id"]').val(data.id);
-    $(elem).find('input[name$="from_hour"]').val(data.from_hour);
-    $(elem).find('input[name$="to_hour"]').val(data.to_hour);
-    $(elem).find('select[name$="weekday"]').val(data.weekday);
-    Frm7.initSmartSelects(elem);
+    if(data) {
+      $(elem).find('input[name$="id"]').val(data.id);
+      $(elem).find('input[name$="from_hour"]').val(data.from_hour);
+      $(elem).find('input[name$="to_hour"]').val(data.to_hour);
+      $(elem).find('select[name$="weekday"]').val(data.weekday);
+      Frm7.initSmartSelects(elem); // isso atualiza o texto no select
+    }
   },
 
   // remove aquele horário da lista
-  removeHorario: function(elem) {
+  horarioRemove: function(elem) {
     // isto pega o <li> referente ao botão pressionado
     var li = $(elem).parent().parent().parent().parent();
+    // se formset deste elemento tem id, adiciona para lista de ids removidos
+    var id = li.find('input[name$="id"]').val();
+    if(id) addForm.horarioPatch.deleted_objects.push(resourcize(id,'horario'));
     li.remove();
-    // TODO: se formset deste elemento tem id, adiciona para lista de ids removidos
+  },
+
+  horarioSend: function() {
+    var horario_list = $('#list-horarios').find('fieldset');
+    for(var key = 0; key < horario_list.length; key++) {
+      var fields = $(horario_list[key]);
+      // se não tem id, ou seja, se não é novo
+      if(!fields.find('input[name$="id"]').val()) {
+        // criamos o objeto
+        var obj = {
+          from_hour: fields.find('input[name$="from_hour"]').val(),
+          to_hour: fields.find('input[name$="to_hour"]').val(),
+          weekday: fields.find('select[name$="weekday"]').val(),
+        }
+        // e adicionamos ao patch
+        addForm.horarioPatch.objects.push(obj);
+      }
+    }
+    console.log(addForm.horarioPatch);
+
+    var api = "/api/horario/";
+    var url = SERVER + api;
+
+    $.ajax({
+      url: url,
+      type: 'PATCH',
+      contentType: 'application/json',
+      data: JSON.stringify(addForm.horarioPatch),
+      dataType: 'json',
+      processData: false,
+      complete: addForm.horarioCheck,
+      xhrFields: {
+          withCredentials: true
+        },
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+        }
+    })
+  },
+
+  horarioCheck: function(d) {
+    console.log(d.status);
+    if (d.status == 0) { // TODO: não sei qual o código de sucesso para patch
+      if(addForm.editar) {
+        alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
+        delete data.objects[addForm.id];
+        data.downloadSingle(addForm.id);
+      } else {
+        alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
+        mainView.router.back();
+      }
+    } else { // qualquer outro código
+      alert("Ocorreu um erro ao tentar enviar o restaurante!");
+    }
   },
 };
