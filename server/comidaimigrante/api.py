@@ -129,6 +129,7 @@ class HorarioResource(BaseResource):
         queryset = Horario.objects.all()
 
     def dehydrate(self, bundle):
+        bundle.data['id'] = bundle.obj.id
         bundle.data['weekday'] = bundle.obj.weekday
         bundle.data['from_hour'] = bundle.obj.from_hour
         bundle.data['to_hour'] = bundle.obj.to_hour
