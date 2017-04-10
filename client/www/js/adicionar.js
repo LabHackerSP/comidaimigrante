@@ -19,6 +19,34 @@ var searchAddrTemplate = '{{#if meta.total_count}}\
         </div>\
         {{/if}}';
 
+horarioTemplate = '<div class="item-content">\
+            <div class="item-media"><i class="icon material-icons">watch_later</i></div>\
+            <div class="item-inner">\
+              <fieldset class="clean-fieldset">\
+                <div class="row">\
+                  <input name="id" type="hidden">\
+                  <div class="col-25"><input class="bottom-border" name="from_hour" type="time"></div>\
+                  <div class="col-25"><input class="bottom-border" name="to_hour" type="time"></div>\
+                  <div class="col-50">\
+                    <a href="#" class="smart-select">\
+                      <select name="weekday" multiple="multiple">\
+                        <option value=1 data-display-as="Seg">Segunda</option>\
+                        <option value=2 data-display-as="Ter">Terça</option>\
+                        <option value=3 data-display-as="Qua">Quarta</option>\
+                        <option value=4 data-display-as="Qui">Quinta</option>\
+                        <option value=5 data-display-as="Sex">Sexta</option>\
+                        <option value=6 data-display-as="Sáb">Sábado</option>\
+                        <option value=7 data-display-as="Dom">Domingo</option>\
+                      </select>\
+                      <div class="item-after bottom-border height-36"></div>\
+                    </a>\
+                  </div>\
+                </div>\
+              </fieldset>\
+              <div class="item-after"><i onClick="addForm.removeHorario(this);" class="material-icons">remove_circle_outline</i></div>\
+            </div>\
+          </div>';
+
 var resourcize = function(name, resource) {
   //return '/api/' + resource + '/' + encodeURIComponent(name) + '/';
   return '/api/' + resource + '/' + name + '/';
@@ -192,7 +220,7 @@ var addForm = {
   },
 
   // POST
-  sendData: function() {
+  formSend: function() {
     if (!$('#add-form').valid()) return false;
     if (!addForm.mapaValido) { // validação dos campos ocultos lat long
       $$('.page-content').scrollTop(
@@ -211,7 +239,6 @@ var addForm = {
     var url = SERVER + api;
 
     var data = Frm7.formToData('#add-form');
-
     data.origem = resourcize(data.origem, 'origem');
     data.regiao = resourcize(data.regiao, 'regiao');
     data.comida.forEach(function(part, index, arr) {
@@ -241,7 +268,7 @@ var addForm = {
       data: JSON.stringify(data),
       dataType: 'json',
       processData: false,
-      complete: addForm.sendCheck,
+      complete: addForm.formCheck,
       xhrFields: {
           withCredentials: true
         },
@@ -251,17 +278,34 @@ var addForm = {
     })
   },
 
-  sendCheck: function(d) {
-    //created
-    if (d.status == 201) {
+  formCheck: function(data) {
+    if (data.status == 201) { // created
       alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
+      // TODO: aqui deve chamar o patch para horário
       mainView.router.back();
-    } else if (d.status == 204) { // edited
+    } else if (data.status == 204) { // edited
       alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
       delete data.objects[addForm.id];
       data.downloadSingle(addForm.id);
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o restaurante!");
     }
+  },
+
+  // novo horário na lista
+  addHorario: function(data) {
+    var pai = document.getElementById('list-horarios');
+    var elem = document.createElement('li');
+    //newElement.setAttribute('id', elementId);
+    elem.innerHTML = horarioTemplate;
+    pai.appendChild(elem);
+    // TODO: popula com horario
+  },
+
+  // remove aquele horário da lista
+  removeHorario: function(elem) {
+    // TODO: if formset has id, add to deleted elems
+    var li = $(elem).parent().parent().parent().parent();
+    li.remove();
   },
 };
