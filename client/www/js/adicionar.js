@@ -53,6 +53,8 @@ var resourcize = function(name, resource) {
 };
 
 Frm7.onPageInit('adicionar', function(page) {
+  addForm.page = page;
+
   // input mask para telefone
   $('#add-telefone').inputmask({
     'mask': '(99) [X]9999-9999',
@@ -128,6 +130,12 @@ Frm7.onPageInit('adicionar', function(page) {
     var obj = data.objects[addForm.id];
     obj.origem = obj.origem.nome;
     Frm7.formFromData("#add-form", obj);
+
+    var horarios = obj.horarios;
+    for(key in horarios) {
+      addForm.addHorario(horarios[key]);
+    }
+
   } else {
     addForm.id = null;
     addForm.editar = false;
@@ -296,16 +304,21 @@ var addForm = {
   addHorario: function(data) {
     var pai = document.getElementById('list-horarios');
     var elem = document.createElement('li');
-    //newElement.setAttribute('id', elementId);
     elem.innerHTML = horarioTemplate;
     pai.appendChild(elem);
-    // TODO: popula com horario
+    // popula com horario
+    $(elem).find('input[name$="id"]').val(data.id);
+    $(elem).find('input[name$="from_hour"]').val(data.from_hour);
+    $(elem).find('input[name$="to_hour"]').val(data.to_hour);
+    $(elem).find('select[name$="weekday"]').val(data.weekday);
+    Frm7.initSmartSelects(elem);
   },
 
   // remove aquele horário da lista
   removeHorario: function(elem) {
-    // TODO: if formset has id, add to deleted elems
+    // isto pega o <li> referente ao botão pressionado
     var li = $(elem).parent().parent().parent().parent();
     li.remove();
+    // TODO: se formset deste elemento tem id, adiciona para lista de ids removidos
   },
 };
