@@ -19,12 +19,42 @@ var searchAddrTemplate = '{{#if meta.total_count}}\
         </div>\
         {{/if}}';
 
+horarioTemplate = '<div class="item-content">\
+            <div class="item-media"><i class="icon material-icons">watch_later</i></div>\
+            <div class="item-inner">\
+              <fieldset class="clean-fieldset">\
+                <div class="row">\
+                  <input name="id" type="hidden">\
+                  <div class="col-25"><input class="bottom-border" name="from_hour" type="time"></div>\
+                  <div class="col-25"><input class="bottom-border" name="to_hour" type="time"></div>\
+                  <div class="col-50">\
+                    <a href="#" class="smart-select">\
+                      <select name="weekday" multiple="multiple">\
+                        <option value=1 data-display-as="Seg">Segunda</option>\
+                        <option value=2 data-display-as="Ter">Terça</option>\
+                        <option value=3 data-display-as="Qua">Quarta</option>\
+                        <option value=4 data-display-as="Qui">Quinta</option>\
+                        <option value=5 data-display-as="Sex">Sexta</option>\
+                        <option value=6 data-display-as="Sáb">Sábado</option>\
+                        <option value=7 data-display-as="Dom">Domingo</option>\
+                      </select>\
+                      <div class="item-after bottom-border height-36"></div>\
+                    </a>\
+                  </div>\
+                </div>\
+              </fieldset>\
+              <div class="item-after"><i onClick="addForm.horarioRemove(this);" class="material-icons">remove_circle_outline</i></div>\
+            </div>\
+          </div>';
+
 var resourcize = function(name, resource) {
   //return '/api/' + resource + '/' + encodeURIComponent(name) + '/';
   return '/api/' + resource + '/' + name + '/';
 };
 
 Frm7.onPageInit('adicionar', function(page) {
+  addForm.page = page;
+
   // input mask para telefone
   $('#add-telefone').inputmask({
     'mask': '(99) [X]9999-9999',
@@ -90,20 +120,7 @@ Frm7.onPageInit('adicionar', function(page) {
     }
   });
 
-  // limpa form
-  $('#add-form').trigger('reset');
-
-  // carrega objeto do restaurante se for editar
-  if(page.context.id != undefined) {
-    addForm.id = page.context.id;
-    addForm.editar = true;
-    var obj = data.objects[addForm.id];
-    obj.origem = obj.origem.nome;
-    Frm7.formFromData("#add-form", obj);
-  } else {
-    addForm.id = null;
-    addForm.editar = false;
-  }
+  addForm.init(page);
 });
 
 Frm7.onPageInit('busca-end', function(page) {
@@ -111,11 +128,36 @@ Frm7.onPageInit('busca-end', function(page) {
 });
 
 var addForm = {
-  editar: false,
-  id: null,
-  data: {},
-  results: [],
-  mapaValido: false,
+  init: function(page) {
+    addForm.data = {};
+    addForm.results = [];
+    addForm.mapaValido = false;
+    addForm.horarioPatch = {
+      objects: [],
+      deleted_objects: []
+    };
+
+    // limpa form
+    $('#add-form').trigger('reset');
+
+    // carrega objeto do restaurante se for editar
+    if(page.context.id != undefined) {
+      addForm.id = page.context.id;
+      addForm.editar = true;
+      var obj = data.objects[addForm.id];
+      obj.origem = obj.origem.nome;
+      Frm7.formFromData("#add-form", obj);
+
+      var horarios = obj.horarios;
+      for(key in horarios) {
+        addForm.horarioAdd(horarios[key]);
+      }
+
+    } else {
+      addForm.id = null;
+      addForm.editar = false;
+    }
+  },
 
   openStreetSearch: function() {
     if(!$("#add-endereco").valid()) return;
@@ -192,7 +234,7 @@ var addForm = {
   },
 
   // POST
-  sendData: function() {
+  formSend: function() {
     if (!$('#add-form').valid()) return false;
     if (!addForm.mapaValido) { // validação dos campos ocultos lat long
       $$('.page-content').scrollTop(
@@ -211,7 +253,6 @@ var addForm = {
     var url = SERVER + api;
 
     var data = Frm7.formToData('#add-form');
-
     data.origem = resourcize(data.origem, 'origem');
     data.regiao = resourcize(data.regiao, 'regiao');
     data.comida.forEach(function(part, index, arr) {
@@ -241,7 +282,7 @@ var addForm = {
       data: JSON.stringify(data),
       dataType: 'json',
       processData: false,
-      complete: addForm.sendCheck,
+      complete: addForm.formCheck,
       xhrFields: {
           withCredentials: true
         },
@@ -251,15 +292,98 @@ var addForm = {
     })
   },
 
-  sendCheck: function(d) {
-    //created
-    if (d.status == 201) {
-      alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
-      mainView.router.back();
+  formCheck: function(d) {
+    if (d.status == 201) { // created
+      // aqui deve chamar o patch para horário
+      addForm.horarioSend();
+      //alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
+      //mainView.router.back();
     } else if (d.status == 204) { // edited
-      alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
-      delete data.objects[addForm.id];
-      data.downloadSingle(addForm.id);
+      // aqui deve chamar o patch para horário
+      addForm.horarioSend();
+      //alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
+      //delete data.objects[addForm.id];
+      //data.downloadSingle(addForm.id);
+    } else { // qualquer outro código
+      alert("Ocorreu um erro ao tentar enviar o restaurante!");
+    }
+  },
+
+  // novo horário na lista
+  horarioAdd: function(data) {
+    var pai = document.getElementById('list-horarios');
+    var elem = document.createElement('li');
+    elem.innerHTML = horarioTemplate;
+    pai.appendChild(elem);
+    // popula com horario
+    if(data) {
+      $(elem).find('input[name$="id"]').val(data.id);
+      $(elem).find('input[name$="from_hour"]').val(data.from_hour);
+      $(elem).find('input[name$="to_hour"]').val(data.to_hour);
+      $(elem).find('select[name$="weekday"]').val(data.weekday);
+      Frm7.initSmartSelects(elem); // isso atualiza o texto no select
+    }
+  },
+
+  // remove aquele horário da lista
+  horarioRemove: function(elem) {
+    // isto pega o <li> referente ao botão pressionado
+    var li = $(elem).parent().parent().parent().parent();
+    // se formset deste elemento tem id, adiciona para lista de ids removidos
+    var id = li.find('input[name$="id"]').val();
+    if(id) addForm.horarioPatch.deleted_objects.push(resourcize(id,'horario'));
+    li.remove();
+  },
+
+  horarioSend: function() {
+    var horario_list = $('#list-horarios').find('fieldset');
+    for(var key = 0; key < horario_list.length; key++) {
+      var fields = $(horario_list[key]);
+      // se não tem id, ou seja, se não é novo
+      if(!fields.find('input[name$="id"]').val()) {
+        // criamos o objeto
+        var obj = {
+          from_hour: fields.find('input[name$="from_hour"]').val(),
+          to_hour: fields.find('input[name$="to_hour"]').val(),
+          weekday: fields.find('select[name$="weekday"]').val(),
+        }
+        // e adicionamos ao patch
+        addForm.horarioPatch.objects.push(obj);
+      }
+    }
+    console.log(addForm.horarioPatch);
+
+    var api = "/api/horario/";
+    var url = SERVER + api;
+
+    $.ajax({
+      url: url,
+      type: 'PATCH',
+      contentType: 'application/json',
+      data: JSON.stringify(addForm.horarioPatch),
+      dataType: 'json',
+      processData: false,
+      complete: addForm.horarioCheck,
+      xhrFields: {
+          withCredentials: true
+        },
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+        }
+    })
+  },
+
+  horarioCheck: function(d) {
+    console.log(d.status);
+    if (d.status == 0) { // TODO: não sei qual o código de sucesso para patch
+      if(addForm.editar) {
+        alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
+        delete data.objects[addForm.id];
+        data.downloadSingle(addForm.id);
+      } else {
+        alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
+        mainView.router.back();
+      }
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o restaurante!");
     }

@@ -99,8 +99,20 @@
       {{/each}}
       </ul>
     </form>
+
+    <div class="content-block-title">
+      <div class="info-left">Horários</div>
+      <div class="title-right">
+        <i onClick="addForm.horarioAdd();" class="material-icons">add_circle_outline</i>
+      </div>
+    </div>
+    <form id="add-horarios" class="list-block">
+      <ul id="list-horarios">
+      </ul>
+    </form>
+
     <p>
-      <a href="#" onClick="addForm.sendData();" class="button-single button button-fill button-raised">Enviar</a>
+      <a href="#" onClick="addForm.formSend();" class="button-single button button-fill button-raised">Enviar</a>
     </p>
   </div>
 </div>
