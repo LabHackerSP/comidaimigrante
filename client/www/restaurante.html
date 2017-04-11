@@ -92,35 +92,36 @@
         {{/link}}
       </ul>
 
-
-        <div class="content-block-title"><h2>Visitaços</h2><br/>
-        <a href="#">crie um visitaço</a></div>
-        {{#if eventos.length}}
-        <div class="list-block accordion-list">
-        <ul>
-          {{#each eventos}}
-            <li class="accordion-item">
-              <a class="item-content item-link">
-              <div class="item-media">{{#if this.privado}}<i class="icon material-icons">lock</i>{{/if}}</div>
-              <div class="item-inner">
-                <div class="item-title">
-                  {{this.nome}}<br />
-                  <i>{{this.user.first_name}} {{this.user.last_name}}<br />
-                  {{js "templates.dataVisitaco(this.data)"}}</i>
-                </div>
-              </div>
-              </a>
-              <div class="accordion-item-content">
-                <div class="content-block">
-                  {{this.sinopse}}
-                </div>
-            </div>
-            </li>
-          {{/each}}
-        </ul>
+      <div class="content-block-title">
+        <div class="info-left">Visitaços</div>
+        <div class="title-right">
+          <i onClick="" class="material-icons">add_circle_outline</i>
+        </div>
+      </div>
+      {{#if eventos.length}}
+        <div class="list-block media-list">
+          <ul>
+            {{#each eventos}}
+              <li>
+                <a href="#" class="item-link item-content"> <!-- linkar para página do visitaço -->
+                  <div class="item-media"><img src="..." width="80"></div> <!-- profile pic -->
+                  <div class="item-inner">
+                    <div class="item-title-row">
+                      <div class="item-title">{{this.nome}}</div>
+                      {{#if this.privado}}
+                        <div class="item-after"><i class="icon material-icons">lock</i></div>
+                      {{/if}}
+                    </div>
+                    <div class="item-subtitle">{{this.user.first_name}} {{this.user.last_name}}</div>
+                    <div class="item-text">{{js "templates.dataVisitaco(this.data)"}}</div>
+                  </div>
+                </a>
+              </li>
+            {{/each}}
+          </ul>
         </div>
       {{else}}
-        <div class="item-content">Não existem visitaços cadastrados.</div>
+        <div class="content-block">Não existem visitaços cadastrados.</div>
       {{/if}}
     </div>
   </div>
