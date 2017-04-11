@@ -46,4 +46,6 @@
     <plugin name="cordova-plugin-backbutton" spec="~0.3.0" />
     <plugin name="com.shoety.cordova.plugin.inappbrowserxwalk" spec="https://github.com/FrEaKmAn/cordova-plugin-inappbrowserxwalk" />
     <plugin name="cordova-plugin-splashscreen" spec="https://github.com/apache/cordova-plugin-splashscreen.git" />
+    <plugin name="cordova-plugin-geolocation" spec="~2.4.1" />
+    <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
 </widget>
