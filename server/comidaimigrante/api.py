@@ -54,6 +54,9 @@ class RestauranteAuthorization(ReadOnlyAuthorization):
             return True
 
 class HorarioAuthorization(ReadOnlyAuthorization):
+    class Meta:
+        allowed_list_methods = ['get', 'patch', 'post', 'put']
+
     def create_list(self, object_list, bundle):
         allowed = []
         for horario in object_list:
