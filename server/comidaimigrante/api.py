@@ -100,16 +100,6 @@ class BaseResource(ModelResource):
         authentication = CustomAuthentication()
         authorization = ReadOnlyAuthorization()
 
-    def obj_create(self, bundle, **kwargs):
-        bundle.obj = self._meta.object_class()
-
-        for key, value in kwargs.items():
-            setattr(bundle.obj, key, value)
-
-        bundle = self.full_hydrate(bundle) # hydrate before authorize, not after
-        self.authorized_create_detail(self.get_object_list(bundle.request), bundle)
-        return self.save(bundle)
-
 class ProfileResource(BaseResource):
     class Meta:
         queryset = UserProfile.objects.all()
@@ -123,6 +113,17 @@ class UserResource(BaseResource):
         resource_name = 'user'
         serializer = urlencodeSerializer()
         authorization = UserAuthorization()
+
+    def obj_create(self, bundle, **kwargs):
+            bundle.obj = self._meta.object_class()
+
+            for key, value in kwargs.items():
+                setattr(bundle.obj, key, value)
+
+            bundle = self.full_hydrate(bundle) # hydrate before authorize, not after
+            self.authorized_create_detail(self.get_object_list(bundle.request), bundle)
+            return self.save(bundle)
+
 
 class HorarioResource(BaseResource):
     class Meta:
@@ -194,7 +195,7 @@ class RestauranteResource(BaseResource):
     comida = fields.ManyToManyField(ComidaResource, 'comida', full=True, use_in='detail')
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
     horarios = fields.ToManyField(HorarioResource, attribute='horario_set', full=True, null=True, use_in='detail')
-    eventos = fields.ToManyField(EventoResource, attribute=lambda bundle: Evento.objects.filter(data__gte=timezone.now()), full=True, null=True, use_in='detail')
+    eventos = fields.ToManyField(EventoResource, attribute='evento_set', full=True, null=True, use_in='detail')
     user = fields.ForeignKey(UserResource, 'user', use_in='detail', null=True)
     class Meta:
         authentication = CustomAuthentication()
