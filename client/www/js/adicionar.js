@@ -144,7 +144,8 @@ var addForm = {
     if(page.context.id != undefined) {
       addForm.id = page.context.id;
       addForm.editar = true;
-      var obj = data.objects[addForm.id];
+      // clona objeto pra evitar alterações
+      var obj = JSON.parse(JSON.stringify(data.objects[addForm.id]));
       obj.origem = obj.origem.nome;
       Frm7.formFromData("#add-form", obj);
 
@@ -341,19 +342,20 @@ var addForm = {
       var fields = $(horario_list[key]);
       // se não tem id, ou seja, se não é novo
       if(!fields.find('input[name$="id"]').val()) {
-        // criamos o objeto
+        // encontramos todos os dias selecionados
         weekdaylist = fields.find('select[name$="weekday"]').val()
         for (wd in weekdaylist) {
+          // criamos o objeto para cada dia na linha de horário
           var obj = {
             from_hour: fields.find('input[name$="from_hour"]').val(),
             to_hour: fields.find('input[name$="to_hour"]').val(),
             weekday: weekdaylist[wd],
             restaurante : '/api/restaurante/9/', //ESTA HARDCODED CAGADO - TROCAR URGENTE
           }
+          // e adicionamos ao patch
           addForm.horarioPatch.objects.push(obj);
         }
-        // e adicionamos ao patch
-        
+
       }
     }
     console.log(addForm.horarioPatch);
@@ -379,9 +381,9 @@ var addForm = {
   },
 
   horarioCheck: function(d) {
-    if (d.status == 202) { // TODO: não sei qual o código de sucesso para patch
+    if (d.status == 202) { // patch com sucesso
       if(addForm.editar) {
-        alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
+        alert("O restaurante " + addForm.data.nome + " foi editado com sucesso.");
         delete data.objects[addForm.id];
         data.downloadSingle(addForm.id);
       } else {
