@@ -217,6 +217,7 @@ var app = {
     if($.isEmptyObject(data.forms)) { data.downloadGeneric(app.openAddForm, 'forms', id); }
     else {
       var forms = data.forms;
+      forms['id'] = null;
       if(id != undefined) forms['id'] = id;
       mainView.router.load({
         url: 'adicionar.html',
