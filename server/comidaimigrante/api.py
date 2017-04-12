@@ -25,6 +25,8 @@ from django.utils import timezone
 
 User = get_user_model()
 
+
+
 class CustomAuthentication(SessionAuthentication):
     """
     Authenticates everyone if the request is GET otherwise performs
@@ -44,6 +46,7 @@ class CustomAuthentication(SessionAuthentication):
 
         return request.user.is_authenticated()
 
+
 class RestauranteAuthorization(ReadOnlyAuthorization):
     def create_detail(self, object_list, bundle):
         if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
@@ -53,11 +56,18 @@ class RestauranteAuthorization(ReadOnlyAuthorization):
         if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
             return True
 
+
 class HorarioAuthorization(ReadOnlyAuthorization):
-    class Meta:
-        allowed_list_methods = ['get', 'patch', 'post', 'put']
+    def create_detail(self, object_list, bundle):
+        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
+            return True
+
+    def delete_detail(self, object_list, bundle):
+        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
+            return True
 
     def create_list(self, object_list, bundle):
+        print("post")
         allowed = []
         for horario in object_list:
             restaurante = Restaurante.objects.get(pk=horario.restaurante.pk)
@@ -65,7 +75,8 @@ class HorarioAuthorization(ReadOnlyAuthorization):
                 allowed.append(horario)
         return allowed
 
-    def patch_list(self, object_list, bundle):
+    def update_list(self, object_list, bundle):
+        print("hakuna matata")
         allowed = []
         for horario in object_list:
             restaurante = Restaurante.objects.get(pk=horario.restaurante.pk)
@@ -129,8 +140,13 @@ class UserResource(BaseResource):
 
 
 class HorarioResource(BaseResource):
+    restaurante = fields.ForeignKey('comidaimigrante.api.RestauranteResource', 'restaurante')
+
+
     class Meta:
         queryset = Horario.objects.all()
+        authorization = HorarioAuthorization()
+        allowed_list_methods = ['get', 'patch', 'post', 'put', 'delete']
 
     def dehydrate(self, bundle):
         bundle.data['id'] = bundle.obj.id
