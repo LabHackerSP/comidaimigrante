@@ -479,7 +479,7 @@ var data = {
     var latbottom = bounds._northEast.lat;
     var longbottom = bounds._northEast.lng;
     //var query = "&lat__gte=" + lattop + "&long__gte=" + longtop + "&lat__lte=" + latbottom + "&long_lte=" + longbottom;
-    var query = "&limit=997";
+    var query = "&limit=997&autorizado=true";
     var url = SERVER + api + query;
     $.getJSON(url, data.parseList, data.fail);
   },
@@ -517,13 +517,14 @@ var data = {
     var origem = $("#search-filter-origem").val();
     var comida = $("#search-filter-comida").val();
     var regiao = $("#search-filter-regiao").val();
+    var default_query = "&limit=997&autorizado=true";
     var query = $.param(cleanupParam({
       'nome__contains': nome,
       'origem': origem,
       'comida': comida,
       'regiao': regiao,
     }));
-    var url = SERVER + api + query;
+    var url = SERVER + api + query + default_query;
     $.getJSON(url, data.parseSearchName, data.fail);
   },
 };
