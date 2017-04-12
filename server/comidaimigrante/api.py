@@ -221,11 +221,11 @@ class RestauranteResource(BaseResource):
         authentication = CustomAuthentication()
         authorization = RestauranteAuthorization()
         validation=FormValidation(form_class=RestauranteForm)
-        queryset = Restaurante.objects.filter(autorizado = True)
+        queryset = Restaurante.objects.all()
         allowed_detail_methods = ['get','put']
         resource_name = 'restaurante'
-        excludes = ('autorizado')
         filtering = {
+            "autorizado" : ('exact',),
             "lat": ('lte','gte',),
             "long": ('lte','gte',),
             "nome": ('like','contains',),
