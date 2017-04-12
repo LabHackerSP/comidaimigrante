@@ -342,13 +342,18 @@ var addForm = {
       // se não tem id, ou seja, se não é novo
       if(!fields.find('input[name$="id"]').val()) {
         // criamos o objeto
-        var obj = {
-          from_hour: fields.find('input[name$="from_hour"]').val(),
-          to_hour: fields.find('input[name$="to_hour"]').val(),
-          weekday: fields.find('select[name$="weekday"]').val(),
+        weekdaylist = fields.find('select[name$="weekday"]').val()
+        for (wd in weekdaylist) {
+          var obj = {
+            from_hour: fields.find('input[name$="from_hour"]').val(),
+            to_hour: fields.find('input[name$="to_hour"]').val(),
+            weekday: weekdaylist[wd],
+            restaurante : '/api/restaurante/9/', //ESTA HARDCODED CAGADO - TROCAR URGENTE
+          }
+          addForm.horarioPatch.objects.push(obj);
         }
         // e adicionamos ao patch
-        addForm.horarioPatch.objects.push(obj);
+        
       }
     }
     console.log(addForm.horarioPatch);
@@ -374,8 +379,7 @@ var addForm = {
   },
 
   horarioCheck: function(d) {
-    console.log(d.status);
-    if (d.status == 0) { // TODO: não sei qual o código de sucesso para patch
+    if (d.status == 202) { // TODO: não sei qual o código de sucesso para patch
       if(addForm.editar) {
         alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
         delete data.objects[addForm.id];
