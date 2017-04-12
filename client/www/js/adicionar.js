@@ -285,21 +285,25 @@ var addForm = {
       processData: false,
       complete: addForm.formCheck,
       xhrFields: {
-          withCredentials: true
-        },
-        beforeSend: function(xhr, settings) {
-            xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
-        }
+        withCredentials: true
+      },
+      beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+      }
     })
   },
 
   formCheck: function(d) {
     if (d.status == 201) { // created
+      // se criado, URI é dada no header Location
+      addForm.restauranteURI = d.getResponseHeader('Location');
       // aqui deve chamar o patch para horário
       addForm.horarioSend();
       //alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
       //mainView.router.back();
     } else if (d.status == 204) { // edited
+      // se editado, URI é gerada a partir do id sabido
+      addForm.restauranteURI = resourcize(addForm.id,'restaurante');
       // aqui deve chamar o patch para horário
       addForm.horarioSend();
       //alert("O restaurante " + addForm.data.nome + "foi editado com sucesso.");
@@ -350,7 +354,7 @@ var addForm = {
             from_hour: fields.find('input[name$="from_hour"]').val(),
             to_hour: fields.find('input[name$="to_hour"]').val(),
             weekday: weekdaylist[wd],
-            restaurante : '/api/restaurante/9/', //ESTA HARDCODED CAGADO - TROCAR URGENTE
+            restaurante: addForm.restauranteURI
           }
           // e adicionamos ao patch
           addForm.horarioPatch.objects.push(obj);
@@ -372,11 +376,11 @@ var addForm = {
       processData: false,
       complete: addForm.horarioCheck,
       xhrFields: {
-          withCredentials: true
-        },
-        beforeSend: function(xhr, settings) {
-            xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
-        }
+        withCredentials: true
+      },
+      beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+      }
     })
   },
 
