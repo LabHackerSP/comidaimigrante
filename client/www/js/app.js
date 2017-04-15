@@ -621,7 +621,7 @@ var user = {
     Frm7.hideIndicator();
 
     // if username (phone hash) is blank, send user to phone input screen
-    if(user.profile.authenticated && user.profile.user == "") {
+    if(user.profile.authenticated && user.profile.user.indexOf('@') != -1) {
       mainView.router.load({
         url: 'telefone.html'
       });
