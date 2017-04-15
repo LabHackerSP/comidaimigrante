@@ -37,11 +37,3 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         # if it does, connect this new social login to the existing user
         user = email_address.user
         sociallogin.connect(request, user)
-
-    def save_user(self, request, user, form, commit=False):
-        data = form.cleaned_data
-        user.username = data['email']  # username not in use
-        user.email = data['email']
-
-        user.save()
-        return user
