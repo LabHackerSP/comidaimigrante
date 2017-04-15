@@ -1,5 +1,6 @@
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from allauth.account.adapter import get_adapter as get_account_adapter
 from allauth.account.utils import user_email, user_field, user_username
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
@@ -39,27 +40,17 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         user = email_address.user
         sociallogin.connect(request, user)
 
-    def populate_user(self, request, sociallogin, data):
+    def save_user(self, request, sociallogin, form=None):
         """
-        Hook that can be used to further populate the user instance.
-        For convenience, we populate several common fields.
-        Note that the user instance being populated represents a
-        suggested User instance that represents the social user that is
-        in the process of being logged in.
-        The User instance need not be completely valid and conflict
-        free. For example, verifying whether or not the username
-        already exists, is not a responsibility.
+        Saves a newly signed up social login. In case of auto-signup,
+        the signup form is not available.
         """
-        username = data.get('email')
-        first_name = data.get('first_name')
-        last_name = data.get('last_name')
-        email = data.get('email')
-        name = data.get('name')
-        random_string = '@' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
-        user = sociallogin.user
-        user_username(user, username or random_string)
-        user_email(user, valid_email_or_none(email) or '')
-        name_parts = (name or '').partition(' ')
-        user_field(user, 'first_name', first_name or name_parts[0])
-        user_field(user, 'last_name', last_name or name_parts[2])
-        return user
+        u = sociallogin.user
+        u.set_unusable_password()
+        if form:
+            get_account_adapter().save_user(request, u, form)
+        else:
+            get_account_adapter().populate_username(request, u)
+        u.username = u.email
+        sociallogin.save(request)
+        return u
