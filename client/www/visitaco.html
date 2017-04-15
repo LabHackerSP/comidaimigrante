@@ -1,0 +1,69 @@
+<div class="page with-subnavbar no-navbar" data-page="visitaco">
+  <div class="subnavbar">
+    <div class="left">
+      <a href="#" class="link icon-only back"><i class="icon icon-back"></i></a>
+      <div>{{nome}}</div>
+    </div>
+  </div>
+  <!-- botão de entrar no visitaço
+  <a href="#" id="edit-restaurante" class="floating-button color-pink hidden" onClick="app.openAddForm({{id}})">
+    <i class="material-icons">edit</i>
+  </a>
+  -->
+  <div class="page-content" style="height:100%;">
+    <div class="list-block">
+      <ul>
+        <li class="item-content">
+          <div class="item-media"><i class="icon material-icons">person</i></div>
+          <div class="item-inner">
+            <div class="item-title">
+              {{user.first_name}} {{user.last_name}}
+            </div>
+          </div>
+        </li>
+        <li class="item-content">
+          <div class="item-media"><i class="icon material-icons">local_dining</i></div>
+          <div class="item-inner">
+            <div class="item-title">
+              <!-- link restaurante -->
+            </div>
+          </div>
+        </li>
+        <li class="item-content">
+          <div class="item-media"><i class="icon material-icons">watch_later</i></div>
+          <div class="item-inner">
+            <div class="item-title">
+              {{js "templates.dataVisitaco(this.data)"}}
+            </div>
+          </div>
+        </li>
+        <li class="item-content">
+          <div class="item-media"><i class="icon material-icons">info</i></div>
+          <div class="item-inner item-desc">
+            {{sinopse}}
+          </div>
+        </li>
+      </ul>
+
+      <div class="content-block-title">Visitantes</div>
+      {{#if visitors.length}}
+        <div class="list-block media-list">
+          <ul>
+            {{#each visitors}}
+              <li class="item-content">
+                <div class="item-media"><img src="..." width="80"></div> <!-- profile pic -->
+                <div class="item-inner">
+                  <div class="item-title-row">
+                    <div class="item-title">{{this.user.first_name}} {{this.user.last_name}}</div>
+                  </div>
+                </div>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      {{else}}
+        <div class="content-block">Não existem outros visitantes neste visitaço.</div>
+      {{/if}}
+    </div>
+  </div>
+</div>
