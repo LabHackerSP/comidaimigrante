@@ -5,12 +5,25 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import rotate_token, get_token
 from django.shortcuts import render
-from comidaimigrante.models import Cidade, Origem, Comida, Flag, Regiao
+from comidaimigrante.models import Cidade, Origem, Comida, Flag, Regiao, Evento
 import json
 
 # Create your views here.
 def index(request):
     return render(request, 'views/home.html')
+
+
+def visit(request, evento, choice):
+    evento = Evento.objects.filter(pk=evento)
+    CHOICES = ['add', 'remove']
+    if evento and request.user and choice in CHOICES:
+        if choice == 'add':
+            evento[0].visitors.add(request.user)
+        elif choice == 'remove':
+            evento[0].visitors.remove(request.user)
+        return HttpResponse(201)
+    else:
+        return HttpResponse('Evento not found.')
 
 def meta(request):
     origens = Origem.objects.all()
