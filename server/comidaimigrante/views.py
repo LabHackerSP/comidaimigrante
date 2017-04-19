@@ -16,14 +16,16 @@ def index(request):
 def visit(request, evento, choice):
     evento = Evento.objects.filter(pk=evento)
     CHOICES = ['add', 'remove']
+    response = HttpResponse()
     if evento and request.user and choice in CHOICES:
         if choice == 'add':
             evento[0].visitors.add(request.user)
         elif choice == 'remove':
             evento[0].visitors.remove(request.user)
-        return HttpResponse(201)
+        response.status_code = 204
     else:
-        return HttpResponse('Evento not found.')
+        response.status_code = 400
+    return response
 
 def meta(request):
     origens = Origem.objects.all()
