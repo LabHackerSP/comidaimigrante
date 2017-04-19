@@ -5,11 +5,17 @@
       <div>{{nome}}</div>
     </div>
   </div>
-  <!-- botão de entrar no visitaço
-  <a href="#" id="edit-restaurante" class="floating-button color-pink hidden" onClick="app.openAddForm({{id}})">
-    <i class="material-icons">edit</i>
-  </a>
-  -->
+  {{#js_compare "user.authenticated"}}
+    {{#js_compare "visitaco.userInEvent()"}}
+      <a href="#" id="edit-restaurante" class="floating-button color-pink hidden" onClick="visitaco.part()">
+        <i class="material-icons">remove</i>
+      </a>
+    {{/else}}
+      <a href="#" id="edit-restaurante" class="floating-button color-pink hidden" onClick="visitaco.join()">
+        <i class="material-icons">add</i>
+      </a>
+    {{/js_compare}}
+  {{/js_compare}}
   <div class="page-content" style="height:100%;">
     <div class="list-block">
       <ul>
