@@ -200,6 +200,20 @@ var app = {
     });
   },
 
+  // opens restaurant event (visitaço) detail page
+  loadRestaurantEvent: function(rid, eid) {
+    var obj = data.objects[rid].eventos[eid];
+    //map.panTo(obj.lat, obj.long);
+    //var html = templates.picker(obj);
+    //$("#picker-info").html(html);
+    //Frm7.pickerModal("#picker-info");
+    console.log(obj);
+    mainView.router.load({
+      url: 'visitaco.html',
+      context: obj,
+    });
+  },
+
   // opens picker modal with restaurant info
   loadRestaurantPopover: function(uuid) {
     var obj = data.list[uuid];

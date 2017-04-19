@@ -92,7 +92,6 @@
         {{/link}}
       </ul>
 
-      <!---
       <div class="content-block-title">
         <div class="info-left">Visitaços</div>
         <div class="title-right">
@@ -104,8 +103,8 @@
           <ul>
             {{#each eventos}}
               <li>
-                <a href="#" class="item-link item-content"> //linkar para página do visitaço
-                  <div class="item-media"><img src="..." width="80"></div> //profile pic
+                <a onClick="app.loadRestaurantEvent({{../id}}, {{@index}});" href="#" class="item-link item-content"> <!--linkar para página do visitaço-->
+                  <div class="item-media"><img src="..." width="80"></div> <!--profile pic-->
                   <div class="item-inner">
                     <div class="item-title-row">
                       <div class="item-title">{{this.nome}}</div>
@@ -123,7 +122,7 @@
         </div>
       {{else}}
         <div class="content-block">Não existem visitaços cadastrados.</div>
-      {{/if}}-->
+      {{/if}}
     </div>
   </div>
 </div>
