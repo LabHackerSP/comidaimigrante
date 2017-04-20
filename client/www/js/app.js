@@ -207,7 +207,7 @@ var app = {
     //var html = templates.picker(obj);
     //$("#picker-info").html(html);
     //Frm7.pickerModal("#picker-info");
-    console.log(obj);
+    obj.key = eid;
     mainView.router.load({
       url: 'visitaco.html',
       context: obj,

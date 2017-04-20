@@ -5,16 +5,9 @@
       <div>{{nome}}</div>
     </div>
   </div>
-  {{#js_compare "user.authenticated"}}
-    {{#js_compare "visitaco.userInEvent()"}}
-      <a href="#" id="edit-restaurante" class="floating-button color-pink hidden" onClick="visitaco.send('remove')">
-        <i class="material-icons">remove</i>
-      </a>
-    {{/else}}
-      <a href="#" id="edit-restaurante" class="floating-button color-pink hidden" onClick="visitaco.send('add')">
-        <i class="material-icons">add</i>
-      </a>
-    {{/js_compare}}
+  {{#js_compare "user.profile.authenticated"}}
+    <div id="botao-visitar">
+    </div>
   {{/js_compare}}
   <div class="page-content" style="height:100%;">
     <div class="list-block">
