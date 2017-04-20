@@ -52,5 +52,6 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         else:
             get_account_adapter().populate_username(request, u)
         u.username = u.email
+        u.picture  = "https://graph.facebook.com/"+sociallogin.account.extra_data['id']+"/picture?type=large"
         sociallogin.save(request)
         return u
