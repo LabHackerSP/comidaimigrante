@@ -68,7 +68,13 @@ var telForm = {
       data: JSON.stringify(data),
       dataType: 'json',
       processData: false,
-      complete: telForm.sendCheck
+      complete: telForm.sendCheck,
+      xhrFields: {
+        withCredentials: true
+      },
+      beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+      }
     });
   },
 
