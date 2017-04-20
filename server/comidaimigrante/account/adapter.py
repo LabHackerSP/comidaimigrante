@@ -53,4 +53,13 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
             get_account_adapter().populate_username(request, u)
         u.username = u.email
         sociallogin.save(request)
+
+        try:
+            if sociallogin.account.provider == 'facebook':
+                sociallogin.user.profile.picture  = "https://graph.facebook.com/"+sociallogin.account.extra_data['id']+"/picture?type=large"
+            if sociallogin.account.provider == 'google':
+                sociallogin.user.profile.picture  = sociallogin.account.extra_data['picture']
+            sociallogin.user.profile.save()
+        except:
+            pass
         return u

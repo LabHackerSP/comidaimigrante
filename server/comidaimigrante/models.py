@@ -28,6 +28,7 @@ class StringField(models.TextField):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     phonehash = models.CharField(max_length=10, blank=True)
+    picture = models.URLField(blank=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
