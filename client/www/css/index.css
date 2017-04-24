@@ -183,3 +183,12 @@
   font-family: 'Material Icons';
   text-transform: none;
 }
+
+.hor-50 {
+  width: 49%;
+  display: inline-block;
+}
+.hor-100 {
+  width: 100%;
+  overflow: hidden;
+}

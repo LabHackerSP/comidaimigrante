@@ -22,12 +22,12 @@ var searchAddrTemplate = '{{#if meta.total_count}}\
 horarioTemplate = '<div class="item-content">\
             <div class="item-media"><i class="icon material-icons">watch_later</i></div>\
             <div class="item-inner">\
-              <fieldset class="clean-fieldset">\
-                <div class="row">\
+              <fieldset class="hor-100 clean-fieldset">\
+                <div class="hor-100">\
                   <input name="id" type="hidden">\
-                  <div class="col-25"><input class="bottom-border" name="from_hour" type="time"></div>\
-                  <div class="col-25"><input class="bottom-border" name="to_hour" type="time"></div>\
-                  <div class="col-50">\
+                  <div class="hor-50"><input class="bottom-border" name="from_hour" type="time"></div>\
+                  <div class="hor-50"><input class="bottom-border" name="to_hour" type="time"></div>\
+                  <div class="hor-100">\
                     <a href="#" class="smart-select">\
                       <select name="weekday" multiple="multiple">\
                         <option value=1 data-display-as="Seg">Segunda</option>\
