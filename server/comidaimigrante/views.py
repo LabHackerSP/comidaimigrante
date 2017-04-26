@@ -134,7 +134,7 @@ def formsvisitaco(request):
     regioes = Regiao.objects.all()
 
     data = {
-        'forms' : [
+        'formsvisitaco' : [
             formObject('nome', 'Nome', 'info', 'string'),
             formObject('sinopse', 'Sinopse', 'info', 'resizable'),
             formObject('data', 'Data', 'event', 'timedate')
