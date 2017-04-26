@@ -240,6 +240,19 @@ var app = {
     }
   },
 
+  openVisitacoForm: function(id) {
+    if($.isEmptyObject(data.formsvisitaco)) { data.downloadGeneric(app.openVisitacoForm, 'formsvisitaco', id); }
+    else {
+      var forms = data.formsvisitaco;
+      forms['id'] = null;
+      if(id != undefined) forms['id'] = id;
+      mainView.router.load({
+        url: 'visitaco-add.html',
+        context: forms,
+      });
+    }
+  },
+
   openSearch: function() {
     if($.isEmptyObject(data.meta)) data.downloadGeneric(app.openSearch, 'meta');
     else {
@@ -411,6 +424,7 @@ var data = {
   objects: {},
   meta: {},
   forms: {},
+  formsvisitaco: {},
 
   addObject: function(obj) {
     if(!(obj.id in data.objects)) {
