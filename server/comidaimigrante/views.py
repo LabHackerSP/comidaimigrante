@@ -124,3 +124,30 @@ def forms(request):
     # flags = models.ManyToManyField(Flag, blank=True)
 
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+# por hora hardcoded mas pode ser gerado a partir de modelos
+def formsvisitaco(request):
+
+    origens = Origem.objects.all()
+    flags = Flag.objects.all()
+    comidas = Comida.objects.all()
+    regioes = Regiao.objects.all()
+
+    data = {
+        'forms' : [
+            formObject('nome', 'Nome', 'info', 'string'),
+            formObject('sinopse', 'Sinopse', 'info', 'resizable'),
+            formObject('data', 'Data', 'event', 'timedate')
+        ]
+    }
+
+    # nome = StringField()
+    # restaurante = models.ForeignKey(Restaurante)
+    # sinopse = models.TextField()
+    # user = models.ForeignKey(User, default=1)
+    # data = models.DateTimeField()
+    # autorizado = models.BooleanField(default=False)
+    # privado = models.BooleanField(default=False)
+    # visitors = models.ManyToManyField(User, related_name='visitors')
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
