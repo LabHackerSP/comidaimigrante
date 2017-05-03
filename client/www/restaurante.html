@@ -94,9 +94,11 @@
 
       <div class="content-block-title">
         <div class="info-left">Visitaços</div>
-        <div class="title-right">
-          <i onClick="app.openVisitacoForm({{id}})" class="material-icons">add_circle_outline</i>
-        </div>
+        {{#js_compare "user.profile.authenticated"}}
+          <div class="title-right">
+            <i onClick="app.openVisitacoForm({{id}})" class="material-icons">add_circle_outline</i>
+          </div>
+        {{/js_compare}}
       </div>
       {{#if eventos.length}}
         <div class="list-block media-list">
