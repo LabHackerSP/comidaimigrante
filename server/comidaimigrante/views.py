@@ -4,8 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import rotate_token, get_token
-from django.shortcuts import render
-from comidaimigrante.models import Cidade, Origem, Comida, Flag, Regiao, Evento
+from django.shortcuts import render, redirect
+from comidaimigrante.models import Cidade, Origem, Comida, Flag, Regiao, Evento, User
 import json
 
 # Create your views here.
@@ -26,6 +26,18 @@ def visit(request, evento, choice):
     else:
         response.status_code = 400
     return response
+
+def picture(request, userid):
+    response = HttpResponse()
+    response.status_code = 404    
+    try:
+        picture = User.objects.get(pk=userid).profile.picture
+        if picture:
+            return redirect(picture)
+        else:
+            return response
+    except:
+        return response
 
 def meta(request):
     origens = Origem.objects.all()
