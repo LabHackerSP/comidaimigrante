@@ -137,7 +137,8 @@ def formsvisitaco(request):
         'formsvisitaco' : [
             formObject('nome', 'Nome', 'info', 'string'),
             formObject('sinopse', 'Sinopse', 'info', 'resizable'),
-            formObject('data', 'Data', 'event', 'timedate')
+            formObject('data', 'Data', 'event', 'datetime'),
+            formObject('restaurante', '', '', 'string', hidden = True)
         ]
     }
 
