@@ -52,6 +52,15 @@ var resourcize = function(name, resource) {
   return '/api/' + resource + '/' + name + '/';
 };
 
+var deresourcize = function(uri) {
+  if(uri) {
+    var r = /\d+/;
+    return uri.match(r)[0];
+  } else {
+    return uri;
+  }
+};
+
 Frm7.onPageInit('adicionar', function(page) {
   addForm.page = page;
 
