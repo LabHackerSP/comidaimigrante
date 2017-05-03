@@ -82,7 +82,7 @@ class Restaurante(models.Model):
     long = models.DecimalField(max_digits=10, decimal_places=7)
     telefone = models.CharField(blank=True, max_length=11)
     origem = models.ForeignKey(Origem)
-    foto = models.ImageField(blank=True, upload_to='fotos')
+    #foto = models.ImageField(blank=True, upload_to='fotos')
     link = models.URLField(blank=True)
     preco_min = models.IntegerField(blank=True, null=True)
     preco_max = models.IntegerField(blank=True, null=True)
