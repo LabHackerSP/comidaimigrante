@@ -104,6 +104,10 @@ class Evento(models.Model):
     privado = models.BooleanField(default=False)
     visitors = models.ManyToManyField(User, related_name='visitors', null=True)
 
+
+    class Meta:
+        ordering = ['-data']
+
     def __str__(self):
         return self.nome
 
