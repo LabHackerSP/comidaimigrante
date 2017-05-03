@@ -240,12 +240,14 @@ var app = {
     }
   },
 
-  openVisitacoForm: function(id) {
-    if($.isEmptyObject(data.formsvisitaco)) { data.downloadGeneric(app.openVisitacoForm, 'formsvisitaco', id); }
+  openVisitacoForm: function(rid, key) {
+    if($.isEmptyObject(data.formsvisitaco)) { data.downloadGeneric(app.openVisitacoForm, 'formsvisitaco', rid, key); }
     else {
       var forms = data.formsvisitaco;
-      forms['id'] = null;
-      if(id != undefined) forms['id'] = id;
+      forms['rid'] = null;
+      forms['key'] = null;
+      if(rid != undefined) forms['rid'] = rid;
+      if(key != undefined) forms['key'] = key;
       mainView.router.load({
         url: 'visitaco-add.html',
         context: forms,
@@ -526,12 +528,12 @@ var data = {
   },
 
   // fetch metadata
-  downloadGeneric: function(callback, target, args) {
+  downloadGeneric: function(callback, target, arg1, arg2) {
     if($.isEmptyObject(data[target])) {
       Frm7.showIndicator();
       var api = "/api/" + target;
       var url = SERVER + api;
-      $.getJSON(url, data.parseGeneric(callback, target, args), data.fail);
+      $.getJSON(url, data.parseGeneric(callback, target, arg1, arg2), data.fail);
     } else {
       callback();
     }

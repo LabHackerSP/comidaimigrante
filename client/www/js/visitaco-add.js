@@ -44,15 +44,20 @@ var visitacoForm = {
     $('#add-form').trigger('reset');
 
     // TODO editar evento
-    if(page.context.id != undefined) {
-      visitacoForm.id = page.context.id;
-      //visitacoForm.editar = true;
+    if(page.context.key != undefined) {
+      var eventoobj = data.objects[page.context.rid].eventos[page.context.key];
+      visitacoForm.id = eventoobj.id;
+      visitacoForm.editar = true;
       // clona objeto pra evitar alterações
-      //var obj = JSON.parse(JSON.stringify(data.objects[visitacoForm.id]));
-      //Frm7.formFromData("#visitaco-form", obj);
+      var obj = JSON.parse(JSON.stringify(eventoobj));
+      Frm7.formFromData("#visitaco-form", obj);
     } else {
       visitacoForm.id = null;
-      //visitacoForm.editar = false;
+      visitacoForm.editar = false;
+      formData = {
+        'restaurante': resourcize(page.context.rid, 'restaurante')
+      };
+      Frm7.formFromData("#visitaco-form", formData);
     }
   },
 
@@ -61,15 +66,14 @@ var visitacoForm = {
     if (!$('#visitaco-form').valid()) return false;
 
     var api = "/api/evento/";
-/*    if(visitacoForm.editar) {
+    if(visitacoForm.editar) {
       var type = 'PUT';
       api = api + visitacoForm.id + '/';
-    }*/
+    }
     else { var type = 'POST'; }
     var url = SERVER + api;
 
-    var data = Frm7.formToData('#add-form');
-    data.restaurante = resourcize(visitacoForm.id, 'restaurante')
+    var data = Frm7.formToData('#visitaco-form');
     console.log(data);
     visitacoForm.data = data;
 
@@ -100,20 +104,11 @@ var visitacoForm = {
 
   formCheck: function(d) {
     if (d.status == 201) { // created
-      // se criado, URI é dada no header Location
-      visitacoForm.restauranteURI = d.getResponseHeader('Location');
-      // aqui deve chamar o patch para horário
-      visitacoForm.horarioSend();
-      //alert("O restaurante " + visitacoForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
-      //mainView.router.back();
+      alert("O visitaço " + visitacoForm.data.nome + " foi enviado com sucesso.");
+      mainView.router.back();
     } else if (d.status == 204) { // edited
-      // se editado, URI é gerada a partir do id sabido
-      visitacoForm.restauranteURI = resourcize(visitacoForm.id,'restaurante');
-      // aqui deve chamar o patch para horário
-      visitacoForm.horarioSend();
-      //alert("O restaurante " + visitacoForm.data.nome + "foi editado com sucesso.");
-      //delete data.objects[visitacoForm.id];
-      //data.downloadSingle(visitacoForm.id);
+      alert("O visitaço " + visitacoForm.data.nome + "foi editado com sucesso.");
+      //
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o Visitaço!");
     }

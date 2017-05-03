@@ -14,7 +14,7 @@
             <div class="item-media"><i class="icon material-icons">local_dining</i></div>
             <div class="item-inner">
               <div class="item-title label">Restaurante</div>
-              {{js "data.objects[this.id].nome"}}
+              {{js "data.objects[this.rid].nome"}}
             </div>
           </div>
         </li>
@@ -59,7 +59,7 @@
                   <input name="{{name}}" id="add-{{name}}" type="number" step="any" data-error="error-{{name}}">
                   {{/js_compare}}
                   {{#js_compare "this.type == 'datetime'"}}
-                  <input name="{{name}}" id="add-{{name}}" type="number" step="any" data-error="error-{{name}}">
+                  <input name="{{name}}" id="add-{{name}}" type="datetime-local" data-error="error-{{name}}">
                   {{/js_compare}}
                   {{#js_compare "this.type == 'url'"}}
                   <input name="{{name}}" id="add-{{name}}" type="url" data-error="error-{{name}}">
