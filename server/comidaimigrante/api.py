@@ -56,6 +56,14 @@ class RestauranteAuthorization(ReadOnlyAuthorization):
         if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
             return True
 
+class Eventoauthorization(ReadOnlyAuthorization):
+    def create_detail(self, object_list, bundle):
+        if bundle.request.user.is_staff or bundle.request.user.is_authenticated():
+            return True
+
+    def update_detail(self, object_list, bundle):
+        if bundle.request.user.is_staff or bundle.request.user.is_authenticated():
+            return True
 
 class HorarioAuthorization(ReadOnlyAuthorization):
     def create_detail(self, object_list, bundle):
@@ -160,7 +168,20 @@ class EventoResource(BaseResource):
     user = fields.ForeignKey('comidaimigrante.api.UserResource', 'user', full=True)
     visitors = fields.ManyToManyField('comidaimigrante.api.UserResource', 'visitors', full=True, use_in='detail')
     class Meta:
+        authentication = CustomAuthentication()
+        authorization = EventoAuthorization()
         queryset = Evento.objects.all()
+        allowed_detail_methods = ['get','put']
+        resource_name = 'evento'
+        serializer = urlencodeSerializer()
+
+    # grava qual usuário criou o restaurante
+    def hydrate_user(self, bundle):
+        if bundle.request.method == 'POST':
+            bundle.obj.user = User.objects.get(pk=bundle.request.user.pk)
+        elif bundle.request.method == 'PUT':
+            bundle.obj.user = Restaurante.objects.get(pk=bundle.obj.pk).user
+        return bundle
 
 class OrigemResource(BaseResource):
     class Meta:
