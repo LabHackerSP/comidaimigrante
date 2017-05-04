@@ -52,6 +52,14 @@ var visitacoForm = {
       visitacoForm.editar = true;
       // clona objeto pra evitar alterações
       var obj = JSON.parse(JSON.stringify(eventoobj));
+
+      // converte true/false para checkbox
+      if(obj.privado) {
+        obj.privado = ["on"];
+      } else {
+        obj.privado = [];
+      }
+
       console.log(obj)
       Frm7.formFromData("#visitaco-form", obj);
     } else {
@@ -78,7 +86,7 @@ var visitacoForm = {
 
     var data = Frm7.formToData('#visitaco-form');
 
-    //hack!!
+    // converte checkbox pra true/false
     if(data.privado.length > 0) {
       data.privado = true;
     } else {
