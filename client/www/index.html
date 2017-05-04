@@ -88,7 +88,7 @@
             {{else}}
               <li>
                 <a href="#" class="item-content close-panel" onClick="user.login('facebook');">
-                  <div class="item-media"><img src="css/images/facebook.png"/></div>
+                  <div class="item-media"><img src="css/images/facebook.png" width="29"/></div>
                   <div class="item-inner">
                     <div class="item-title">Login via Facebook</div>
                   </div>
@@ -96,7 +96,7 @@
               </li>
               <li>
                 <a href="#" class="item-content close-panel" onClick="user.login('google');">
-                  <div class="item-media"><img src="css/images/google.png"/></div>
+                  <div class="item-media"><img src="css/images/google.png" width="29"/></div>
                   <div class="item-inner">
                     <div class="item-title">Login via Google</div>
                   </div>
@@ -230,7 +230,7 @@
                       {{#each objects}}
                       <li>
                         <a class="item-content" href="#index" onClick="app.loadRestaurantPopover({{id}})">
-                          <div class="item-media"><img src="{{js 'templates.bandeira(this.origem.bandeira)'}}"/></div>
+                          <div class="item-media"><img src="{{js 'templates.bandeira(this.origem.bandeira)'}}" width="29"/></div>
                           <div class="item-inner">
                             <div class="item-title">{{nome}}</div>
                             <div class="item-subtitle">{{endereco}}</div>
@@ -256,7 +256,7 @@
             <div class="popover-inner">
               <div class="content-block info-content">
                 <div class="info-left">
-                  <img src="{{js 'templates.bandeira(this.origem.bandeira)'}}"/>
+                  <img src="{{js 'templates.bandeira(this.origem.bandeira)'}}" width="48"/>
                 </div>
                 <div class="info-right">
                   <p class="info-nome">{{nome}}</p>

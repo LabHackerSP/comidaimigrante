@@ -132,11 +132,11 @@
   padding: 1em;
 }
 
-.item-media img,
+/*.item-media img,
 .item-title img {
   height: 29px;
   width: 29px;
-}
+}*/
 .item-darker {
   background: #eee;
 }
