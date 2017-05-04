@@ -29,7 +29,7 @@ def visit(request, evento, choice):
 
 def picture(request, userid):
     response = HttpResponse()
-    response.status_code = 404    
+    response.status_code = 404
     try:
         picture = User.objects.get(pk=userid).profile.picture
         if picture:
@@ -150,6 +150,7 @@ def formsvisitaco(request):
             formObject('nome', 'Nome', 'info', 'string'),
             formObject('sinopse', 'Sinopse', 'info', 'resizable'),
             formObject('data', 'Data', 'event', 'datetime'),
+            formObject('privado', 'Privado', 'lock', 'boolean'),
             formObject('restaurante', '', '', 'string', hidden = True)
         ]
     }

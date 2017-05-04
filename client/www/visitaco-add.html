@@ -48,6 +48,10 @@
                   {{#js_compare "this.type == 'tel'"}}
                   <input name="{{name}}" id="visit-{{name}}" type="tel" data-error="error-visit-{{name}}">
                   {{/js_compare}}
+                  {{#js_compare "this.type == 'boolean'"}}
+                  <input name="{{name}}" id="visit-{{name}}" type="checkbox" data-error="error-visit-{{name}}">
+                  <div class="checkbox"></div>
+                  {{/js_compare}}
                   {{#js_compare "this.type == 'select'"}}
                   <select name="{{name}}" id="visit-{{name}}" data-error="error-visit-{{name}}">
                     {{#choices}}
