@@ -102,7 +102,7 @@ class Evento(models.Model):
     data = models.DateTimeField()
     autorizado = models.BooleanField(default=False)
     privado = models.BooleanField(default=False)
-    visitors = models.ManyToManyField(User, related_name='visitors', null=True)
+    visitors = models.ManyToManyField(User, related_name='visitors', blank=True)
 
 
     class Meta:

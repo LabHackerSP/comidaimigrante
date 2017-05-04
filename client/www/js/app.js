@@ -657,6 +657,11 @@ var user = {
       });
     }
   },
+
+  // retorna true se usuário atual pode editar o conteúdo
+  canEdit: function(creatorId) {
+    return user.profile.admin || user.profile.id == creatorId;
+  }
 };
 
 app.initialize();

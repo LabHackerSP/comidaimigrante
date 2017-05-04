@@ -4,10 +4,14 @@
       <a href="#" class="link icon-only back"><i class="icon icon-back"></i></a>
       <div>{{nome}}</div>
     </div>
+    {{#js_compare "user.canEdit(deresourcize(this.user.resource_uri))"}}
+      <div class="right">
+        <a href="#" id="edit-restaurante" class="link icon-only" onClick="app.openAddForm({{id}})">
+          <i class="material-icons">edit</i>
+        </a>
+      </div>
+    {{/js_compare}}
   </div>
-  <a href="#" id="edit-restaurante" class="floating-button color-pink hidden" onClick="app.openAddForm({{id}})">
-    <i class="material-icons">edit</i>
-  </a>
   <div class="page-content" style="height:100%;">
     <div class="list-block">
       <ul>
