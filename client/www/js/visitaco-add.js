@@ -109,10 +109,12 @@ var visitacoForm = {
     if (d.status == 201) { // created
       alert("O visitaço " + visitacoForm.data.nome + " foi enviado com sucesso.");
       delete data.objects[visitacoForm.restaurante];
+      mainView.router.back({pageName: 'index', force: true})
       data.downloadSingle(visitacoForm.restaurante);
     } else if (d.status == 202) { // edited
       alert("O visitaço " + visitacoForm.data.nome + " foi editado com sucesso.");
       delete data.objects[visitacoForm.restaurante];
+      mainView.router.back({pageName: 'index', force: true})
       data.downloadSingle(visitacoForm.restaurante);
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o Visitaço!");

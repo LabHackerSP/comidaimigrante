@@ -398,10 +398,11 @@ var addForm = {
       if(addForm.editar) {
         alert("O restaurante " + addForm.data.nome + " foi editado com sucesso.");
         delete data.objects[addForm.id];
+        mainView.router.back({pageName: 'index', force: true})
         data.downloadSingle(addForm.id);
       } else {
         alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
-        mainView.router.back();
+        mainView.router.back({pageName: 'index', force: true})
       }
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o restaurante!");
