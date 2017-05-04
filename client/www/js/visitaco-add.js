@@ -77,6 +77,13 @@ var visitacoForm = {
     var url = SERVER + api;
 
     var data = Frm7.formToData('#visitaco-form');
+
+    //hack!!
+    if(data.privado.length > 0) {
+      data.privado = true;
+    } else {
+      data.privado = false;
+    }
     console.log(data);
     visitacoForm.data = data;
 
