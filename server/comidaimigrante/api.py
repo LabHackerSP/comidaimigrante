@@ -166,7 +166,7 @@ class HorarioResource(BaseResource):
 class EventoResource(BaseResource):
     restaurante = fields.ForeignKey('comidaimigrante.api.RestauranteResource', 'restaurante')
     user = fields.ForeignKey('comidaimigrante.api.UserResource', 'user', full=True)
-    visitors = fields.ManyToManyField('comidaimigrante.api.UserResource', 'visitors', full=True, use_in='detail')
+    visitors = fields.ToManyField('comidaimigrante.api.UserResource', 'visitors', null=True, full=True, use_in='detail')
     class Meta:
         authentication = CustomAuthentication()
         authorization = EventoAuthorization()
