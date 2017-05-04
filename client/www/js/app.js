@@ -469,10 +469,10 @@ var data = {
   },
 
   // parser metadados
-  parseGeneric: function(callback, target, args) {
+  parseGeneric: function(callback, target, arg1, arg2) {
     return function(json) {
       data[target] = json;
-      callback(args);
+      callback(arg1, arg2);
       Frm7.hideIndicator();
     }
   },
