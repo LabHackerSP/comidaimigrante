@@ -39,23 +39,26 @@ Frm7.onPageInit('visitaco-add', function(page) {
 var visitacoForm = {
   init: function(page) {
     visitacoForm.data = {};
+    visitacoForm.restaurante = page.context.rid;
 
     // limpa form
-    $('#add-form').trigger('reset');
+    $('#visitaco-form').trigger('reset');
 
-    // TODO editar evento
+    // editar evento
+    console.log(page.context);
     if(page.context.key != undefined) {
       var eventoobj = data.objects[page.context.rid].eventos[page.context.key];
       visitacoForm.id = eventoobj.id;
       visitacoForm.editar = true;
       // clona objeto pra evitar alterações
       var obj = JSON.parse(JSON.stringify(eventoobj));
+      console.log(obj)
       Frm7.formFromData("#visitaco-form", obj);
     } else {
       visitacoForm.id = null;
       visitacoForm.editar = false;
       formData = {
-        'restaurante': resourcize(page.context.rid, 'restaurante')
+        'restaurante': resourcize(visitacoForm.restaurante, 'restaurante')
       };
       Frm7.formFromData("#visitaco-form", formData);
     }
@@ -67,7 +70,7 @@ var visitacoForm = {
 
     var api = "/api/evento/";
     if(visitacoForm.editar) {
-      var type = 'PUT';
+      var type = 'PATCH';
       api = api + visitacoForm.id + '/';
     }
     else { var type = 'POST'; }
@@ -105,10 +108,12 @@ var visitacoForm = {
   formCheck: function(d) {
     if (d.status == 201) { // created
       alert("O visitaço " + visitacoForm.data.nome + " foi enviado com sucesso.");
-      mainView.router.back();
-    } else if (d.status == 204) { // edited
-      alert("O visitaço " + visitacoForm.data.nome + "foi editado com sucesso.");
-      //
+      delete data.objects[visitacoForm.restaurante];
+      data.downloadSingle(visitacoForm.restaurante);
+    } else if (d.status == 202) { // edited
+      alert("O visitaço " + visitacoForm.data.nome + " foi editado com sucesso.");
+      delete data.objects[visitacoForm.restaurante];
+      data.downloadSingle(visitacoForm.restaurante);
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o Visitaço!");
     }

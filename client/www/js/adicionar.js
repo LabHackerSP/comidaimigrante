@@ -256,7 +256,7 @@ var addForm = {
 
     var api = "/api/restaurante/";
     if(addForm.editar) {
-      var type = 'PUT';
+      var type = 'PATCH';
       api = api + addForm.id + '/';
     }
     else { var type = 'POST'; }
@@ -310,7 +310,7 @@ var addForm = {
       addForm.horarioSend();
       //alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
       //mainView.router.back();
-    } else if (d.status == 204) { // edited
+    } else if (d.status == 202) { // edited
       // se editado, URI é gerada a partir do id sabido
       addForm.restauranteURI = resourcize(addForm.id,'restaurante');
       // aqui deve chamar o patch para horário
