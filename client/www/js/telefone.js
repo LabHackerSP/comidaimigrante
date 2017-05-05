@@ -22,7 +22,7 @@ Frm7.onPageInit('telefone', function(page) {
     ignore: false,
     rules: {
       tel: {
-        required: false,
+        required: true,
         minlength: 10,
       },
     },
