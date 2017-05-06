@@ -1,0 +1,38 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+      <div class="banner row" style="background-image:linear-gradient(rgba(28,164,104,0.5),rgba(28,164,104,0.5)),url('static/website/img/home-banner.png');">
+          <div class="box container">
+            <img class="logo" src='static/website/img/logo.png' />
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+    	</div>
+
+    	<div class="row principal">
+    		<div class="container">
+          <div class="row titulo">
+            <h1>Conheça os cozinheiros</h1>
+            <hr />
+          </div>
+
+          <div class="row cozinheiros">
+            
+          {% for c in cozinheiros %}
+            <div class="cozinheiro-out col-md-3">
+              <a href="/cozinheiro/{{c.id}}">
+                  <div class="cozinheiro-box" style="background-image:url('{{c.mug.url}}')">
+                    <div class="nome">{{c.nome}}</div>
+                    <div class="estabelecimento">{{c.restaurante.nome}}</div>
+                  </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="row">
+            <a href="#"><img src="/static/website/img/banner.png" /></a>
+          </div>
+
+        </div>
+    	</div>
+{% endblock content %}

@@ -1,0 +1,92 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size:14px;
+}
+
+.menu {
+	height: 60px;
+	background-color: #810a2e;
+}
+
+.nav a {
+	color:#ffffff;
+	text-transform: uppercase;
+	font-size: 1.2em;
+}
+.banner {
+	height: 680px;
+	overflow: hidden;
+	background-color: #1ca468;
+	background-repeat:no-repeat;
+	background-size:cover;
+	color:#ffffff;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+
+.banner .box {
+	text-align: center;
+	margin-top:200px;
+}
+
+.banner .logo {
+	margin-bottom: 30px;
+	height:150px;
+}
+
+.principal {
+	margin-top:30px;
+	margin-bottom: 30px;
+}
+
+.principal .titulo {
+	text-align: center;
+	text-transform: uppercase;
+	color: #810a2e;
+	margin-bottom:30px;
+}
+
+.principal .titulo hr {
+	border-color: inherit;
+}
+
+.cozinheiro-out {
+	margin-bottom:30px;
+}
+
+.cozinheiro-out a {
+	height:100%;
+	width:100%;
+	display:block;
+	color:#ffffff;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+.cozinheiro-box {
+	height:276px;
+	background-repeat: no-repeat;
+}
+
+.cozinheiro-box .nome {
+	font-weight: bold;
+	padding-top:200px;
+}
+
+.banner {
+	text-align: center;
+}
+
+.footer {
+	height: 330px;
+	background-color: #810a2e;
+	color:#ffffff;
+}
+
+.footer .nav {
+	margin-top:40px;
+}
+.footer hr {
+	clear:both;
+}
