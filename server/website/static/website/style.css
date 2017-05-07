@@ -78,6 +78,10 @@ body {
 	text-align: center;
 }
 
+.baixeapp {
+	margin-top: 120px;
+	margin-bottom:30px;
+}
 .footer {
 	height: 330px;
 	background-color: #810a2e;

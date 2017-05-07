@@ -2,10 +2,9 @@
 
 {% block content %}
 
-      <div class="banner row" style="background-image:url('{{cozinheiro.foto.url}}');">
+      <div class="banner row" style="">
           <div class="box container">
-            <h1>{{cozinheiro.nome}}</h1>
-            <p>{{cozinheiro.restaurante.nome}}</p>
+            <h1>{{post.titulo}}</h1>
           </div>
     	</div>
 
@@ -13,7 +12,7 @@
     		<div class="container">
           <div class="row">
             <div class="col-md-8 col-md-offset-2">
-            {{cozinheiro.texto|safe}}
+            {{post.body|safe}}
             </div>
           </div>
           

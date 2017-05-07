@@ -2,21 +2,20 @@
 
 {% block content %}
 
-      <div class="banner row" style="background-image:url('{{cozinheiro.foto.url}}');">
-          <div class="box container">
-            <h1>{{cozinheiro.nome}}</h1>
-            <p>{{cozinheiro.restaurante.nome}}</p>
-          </div>
-    	</div>
-
+      
     	<div class="row principal">
     		<div class="container">
+          {% for p in posts %}
           <div class="row">
             <div class="col-md-8 col-md-offset-2">
-            {{cozinheiro.texto|safe}}
+              <h2>{{p.titulo}}</h2>
+              <p>{{p.data}}</p>
+              <p>{{p.body|truncatewords_html:10|safe}}</p>
+              <a href="/blog/{{p.id}}">Leia mais</a>
             </div>
           </div>
-          
+          <hr />
+          {% endfor %}
           <div class="row baixeapp">
             <a href="#"><img src="/static/website/img/banner.png" /></a>
           </div>

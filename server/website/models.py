@@ -21,3 +21,8 @@ class Cozinheiro(models.Model):
     
     def __str__(self):
         return self.nome
+
+class Post(models.Model):
+    titulo = StringField()
+    body = HTMLField()
+    data = models.DateTimeField()

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'allauth',
     'tinymce',
+    'sorl.thumbnail',
+    'mce_filebrowser',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
@@ -154,3 +156,16 @@ CORS_EXPOSE_HEADERS = ['Location']
 TASTYPIE_DEFAULT_FORMATS = ['json']
 
 DEBUG = True
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'plugins': 'media',
+    'theme_advanced_buttons1': 'bold,italic,underline,fontsizeselect,bullist,numlist,|,media,link,unlink,image',
+    'file_browser_callback': 'mce_filebrowser',
+    'theme_advanced_resizing': True,
+    'theme_advanced_path': False,
+    'relative_urls': False,
+    'width': 640,
+    'height' : 300,
+
+}
