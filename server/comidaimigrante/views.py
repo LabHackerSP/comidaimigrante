@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import rotate_token, get_token
 from django.shortcuts import render, redirect
 from comidaimigrante.models import Cidade, Origem, Comida, Flag, Regiao, Evento, User
+from django.contrib.staticfiles.templatetags.staticfiles import static
 import json
 
 # Create your views here.
@@ -29,13 +30,13 @@ def visit(request, evento, choice):
 
 def picture(request, userid):
     response = HttpResponse()
-    response.status_code = 404
+    response.status_code = 500
     try:
         picture = User.objects.get(pk=userid).profile.picture
         if picture:
             return redirect(picture)
         else:
-            return response
+            return redirect(static('noimage.png'))
     except:
         return response
 
