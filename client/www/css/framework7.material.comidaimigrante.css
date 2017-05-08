@@ -1,21 +1,21 @@
 .page-content, .content-block-title, .list-block .floating-label, .list-block .label {
-  color: #fff;
+  color: #0a4028;
 }
 .list-block input[type="time"], .list-block input[type="number"], .list-block input[type="text"], .list-block input[type="password"], .list-block input[type="search"], .list-block input[type="email"], .list-block input[type="tel"], .list-block input[type="url"], .list-block input[type="date"], .list-block input[type="datetime-local"], .list-block select, .list-block textarea {
-  color: #fff;
+  color: #0a4028;
 }
-.list-block .item-after, .list-block .item-text {
+/*.list-block .item-after, .list-block .item-text {
   color: #ccc;
 }
 .list-block ul::before, .input-field::after, .item-input-field::after, .list-block .item-inner::after, .list-block ul::after {
   background-color: rgba(255,255,255,.12);
-}
+}*/
 
 .theme-comida .page-content {
-  background: #5fa486;
+  background: #fff;
 }
 .theme-comida .page-content .icon {
-  color: #0a4028;
+  color: #0fa486;
 }
 
 .theme-comida .button:not(.button-fill) {
@@ -58,7 +58,7 @@ html:not(.watch-active-state) .theme-comida .button.button-fill:active,
 }
 .color-comida i.icon,
 i.icon.color-comida {
-  color: #810a2e;
+  color: #0fa486;
 }
 i.icon-next.color-comida,
 i.icon-next.theme-comida {
@@ -81,7 +81,7 @@ i.icon-bars.theme-comida {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M3%2018h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z'%20fill%3D'%23810a2e'%2F%3E%3C%2Fsvg%3E");
 }
 .theme-comida a {
-  color: #0a4028;
+  color: #0fa486;
 }
 .theme-comida .navbar,
 .navbar.theme-comida,
