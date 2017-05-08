@@ -1,3 +1,11 @@
+.theme-comida .dark.page-content {
+  color: #fff;
+  background: #0fa486;
+}
+.theme-comida .dark a {
+  color: #0a4028;
+}
+
 .page-content, .content-block-title, .list-block .floating-label, .list-block .label {
   color: #0a4028;
 }
