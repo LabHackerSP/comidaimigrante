@@ -4,7 +4,7 @@
       <a href="#" class="link icon-only back"><i class="icon icon-back"></i></a>
       <div>{{nome}}</div>
     </div>
-    {{#js_compare "user.canEdit(deresourcize(this.user.resource_uri))"}}
+    {{#js_compare "user.canEdit(deresourcize(this.user))"}}
       <div class="right">
         <a href="#" id="edit-restaurante" class="link icon-only" onClick="app.openAddForm({{id}})">
           <i class="material-icons">edit</i>
