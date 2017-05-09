@@ -24,5 +24,17 @@ class Cozinheiro(models.Model):
 
 class Post(models.Model):
     titulo = StringField()
+    slug = StringField()
     body = HTMLField()
     data = models.DateTimeField()
+
+    def __str__(self):
+        return self.titulo
+
+class Pagina(models.Model):
+    titulo = StringField()
+    slug = StringField()
+    body = HTMLField()
+
+    def __str__(self):
+        return self.titulo

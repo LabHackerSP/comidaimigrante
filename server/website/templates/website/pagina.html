@@ -1,0 +1,25 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+      <div class="row" style="">
+          <div class="box container">
+            <h1>{{post.titulo}}</h1>
+          </div>
+    	</div>
+
+    	<div class="row principal">
+    		<div class="container">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+            {{post.body|safe}}
+            </div>
+          </div>
+          
+          <div class="row baixeapp">
+            <a href="#"><img src="/static/website/img/banner.png" /></a>
+          </div>
+
+        </div>
+    	</div>
+{% endblock content %}
