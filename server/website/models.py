@@ -5,6 +5,9 @@ from django.contrib.admin import widgets
 from comidaimigrante.models import Restaurante
 from server import settings
 
+from django.template.defaultfilters import slugify
+
+
 class StringField(models.TextField):
     def formfield(self, **kwargs):
         kwargs['widget'] = widgets.AdminTextInputWidget
@@ -24,7 +27,7 @@ class Cozinheiro(models.Model):
 
 class Post(models.Model):
     titulo = StringField()
-    slug = StringField()
+    slug = models.SlugField(max_length=40, unique=True)
     body = HTMLField()
     data = models.DateTimeField()
 
@@ -33,7 +36,7 @@ class Post(models.Model):
 
 class Pagina(models.Model):
     titulo = StringField()
-    slug = StringField()
+    slug = models.SlugField(max_length=40, unique=True)
     body = HTMLField()
 
     def __str__(self):

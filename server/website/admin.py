@@ -10,10 +10,10 @@ class CozinheiroAdmin(MCEFilebrowserAdmin):
     pass
 
 class PostAdmin(MCEFilebrowserAdmin):
-    pass
+	list_display = ('titulo', 'slug')
 
 class PaginaAdmin(MCEFilebrowserAdmin):
-    pass
+	list_display = ('titulo', 'slug')
 
 admin.site.register(Cozinheiro, CozinheiroAdmin)
 admin.site.register(Post, PostAdmin)
