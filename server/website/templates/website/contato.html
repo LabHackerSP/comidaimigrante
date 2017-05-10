@@ -2,10 +2,9 @@
 
 {% block content %}
 
-      <div class="banner row" style="background-image:url('{{cozinheiro.foto.url}}');">
+      <div class="row" style="">
           <div class="box container">
-            <h1>{{cozinheiro.nome}}</h1>
-            <p>{{cozinheiro.restaurante.nome}}</p>
+            <h1>Contato</h1>
           </div>
     	</div>
 
@@ -13,7 +12,11 @@
     		<div class="container">
           <div class="row">
             <div class="col-md-8 col-md-offset-2">
-            {{cozinheiro.texto|safe}}
+                <form role="form" action="" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Enviar</button>
+                </form>
             </div>
           </div>
           

@@ -1,3 +1,6 @@
+-e git+https://github.com/aisayko/Django-tinymce-filebrowser
+-e git+https://github.com/mariocesar/sorl-thumbnail
+
 Django==1.10.1
 django_allauth==0.31.0
 django_tastypie==0.13.3
