@@ -29,8 +29,6 @@ def visit(request, evento, choice):
     return response
 
 def picture(request, userid):
-    response = HttpResponse()
-    response.status_code = 500
     try:
         picture = User.objects.get(pk=userid).profile.picture
         if picture:
@@ -38,7 +36,7 @@ def picture(request, userid):
         else:
             return redirect(static('noimage.png'))
     except:
-        return response
+        return redirect(static('noimage.png'))
 
 def meta(request):
     origens = Origem.objects.all()
