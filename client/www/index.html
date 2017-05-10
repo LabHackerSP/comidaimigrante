@@ -25,7 +25,7 @@
     <div class="panel panel-left panel-cover" id="left-panel">
       <script id="left-panel-template" type="text/template7">
         <div class="panel-header item-darker">
-          <img src="css/images/logo.svg"/>
+          <img src="css/images/logo-white.svg"/>
         </div>
         <div class="list-block media-list no-margin">
           <ul>
@@ -88,7 +88,7 @@
             {{else}}
               <li>
                 <a href="#" class="item-content close-panel" onClick="user.login('facebook');">
-                  <div class="item-media"><img src="css/images/facebook.png"/></div>
+                  <div class="item-media"><img src="css/images/facebook.png" width="29"/></div>
                   <div class="item-inner">
                     <div class="item-title">Login via Facebook</div>
                   </div>
@@ -96,7 +96,7 @@
               </li>
               <li>
                 <a href="#" class="item-content close-panel" onClick="user.login('google');">
-                  <div class="item-media"><img src="css/images/google.png"/></div>
+                  <div class="item-media"><img src="css/images/google.png" width="29"/></div>
                   <div class="item-inner">
                     <div class="item-title">Login via Google</div>
                   </div>
@@ -230,7 +230,7 @@
                       {{#each objects}}
                       <li>
                         <a class="item-content" href="#index" onClick="app.loadRestaurantPopover({{id}})">
-                          <div class="item-media"><img src="{{js 'templates.bandeira(this.origem.bandeira)'}}"/></div>
+                          <div class="item-media"><img src="{{js 'templates.bandeira(this.origem.bandeira)'}}" width="29"/></div>
                           <div class="item-inner">
                             <div class="item-title">{{nome}}</div>
                             <div class="item-subtitle">{{endereco}}</div>
@@ -256,7 +256,7 @@
             <div class="popover-inner">
               <div class="content-block info-content">
                 <div class="info-left">
-                  <img src="{{js 'templates.bandeira(this.origem.bandeira)'}}"/>
+                  <img src="{{js 'templates.bandeira(this.origem.bandeira)'}}" width="48"/>
                 </div>
                 <div class="info-right">
                   <p class="info-nome">{{nome}}</p>
@@ -294,7 +294,8 @@
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/adicionar.js"></script>
     <script type="text/javascript" src="js/telefone.js"></script>
-    <script type="text/javascript" src="js/restaurante.js"></script>
     <script type="text/javascript" src="js/sobre.js"></script>
+    <script type="text/javascript" src="js/visitaco.js"></script>
+    <script type="text/javascript" src="js/visitaco-add.js"></script>
   </body>
 </html>

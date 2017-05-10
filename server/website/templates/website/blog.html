@@ -1,0 +1,25 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+      
+    	<div class="row principal">
+    		<div class="container">
+          {% for p in posts %}
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+              <h2>{{p.titulo}}</h2>
+              <p>{{p.data}}</p>
+              <p>{{p.body|truncatewords_html:10|safe}}</p>
+              <a href="/blog/{{p.id}}">Leia mais</a>
+            </div>
+          </div>
+          <hr />
+          {% endfor %}
+          <div class="row baixeapp">
+            <a href="https://play.google.com/store/apps/details?id=br.org.labhacker.comidaimigrante"><img src="/static/website/img/banner.png" /></a>
+          </div>
+
+        </div>
+    	</div>
+{% endblock content %}

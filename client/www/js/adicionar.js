@@ -22,12 +22,12 @@ var searchAddrTemplate = '{{#if meta.total_count}}\
 horarioTemplate = '<div class="item-content">\
             <div class="item-media"><i class="icon material-icons">watch_later</i></div>\
             <div class="item-inner">\
-              <fieldset class="clean-fieldset">\
-                <div class="row">\
+              <fieldset class="hor-100 clean-fieldset">\
+                <div class="hor-100">\
                   <input name="id" type="hidden">\
-                  <div class="col-25"><input class="bottom-border" name="from_hour" type="time"></div>\
-                  <div class="col-25"><input class="bottom-border" name="to_hour" type="time"></div>\
-                  <div class="col-50">\
+                  <div class="hor-50"><input class="bottom-border" name="from_hour" type="time"></div>\
+                  <div class="hor-50"><input class="bottom-border" name="to_hour" type="time"></div>\
+                  <div class="hor-100">\
                     <a href="#" class="smart-select">\
                       <select name="weekday" multiple="multiple">\
                         <option value=1 data-display-as="Seg">Segunda</option>\
@@ -50,6 +50,15 @@ horarioTemplate = '<div class="item-content">\
 var resourcize = function(name, resource) {
   //return '/api/' + resource + '/' + encodeURIComponent(name) + '/';
   return '/api/' + resource + '/' + name + '/';
+};
+
+var deresourcize = function(uri) {
+  if(uri) {
+    var r = /\d+/;
+    return uri.match(r)[0];
+  } else {
+    return uri;
+  }
 };
 
 Frm7.onPageInit('adicionar', function(page) {
@@ -247,7 +256,7 @@ var addForm = {
 
     var api = "/api/restaurante/";
     if(addForm.editar) {
-      var type = 'PUT';
+      var type = 'PATCH';
       api = api + addForm.id + '/';
     }
     else { var type = 'POST'; }
@@ -301,7 +310,7 @@ var addForm = {
       addForm.horarioSend();
       //alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
       //mainView.router.back();
-    } else if (d.status == 204) { // edited
+    } else if (d.status == 202) { // edited
       // se editado, URI é gerada a partir do id sabido
       addForm.restauranteURI = resourcize(addForm.id,'restaurante');
       // aqui deve chamar o patch para horário
@@ -389,10 +398,11 @@ var addForm = {
       if(addForm.editar) {
         alert("O restaurante " + addForm.data.nome + " foi editado com sucesso.");
         delete data.objects[addForm.id];
+        mainView.router.back({pageName: 'index', force: true})
         data.downloadSingle(addForm.id);
       } else {
         alert("O restaurante " + addForm.data.nome + " foi enviado com sucesso e aguarda moderação.");
-        mainView.router.back();
+        mainView.router.back({pageName: 'index', force: true})
       }
     } else { // qualquer outro código
       alert("Ocorreu um erro ao tentar enviar o restaurante!");

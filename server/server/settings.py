@@ -28,6 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 INSTALLED_APPS = [
     'comidaimigrante.apps.ComidaimigranteConfig',
+    'website.apps.WebsiteConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +39,9 @@ INSTALLED_APPS = [
     'tastypie',
     'corsheaders',
     'allauth',
+    'tinymce',
+    'sorl.thumbnail',
+    'mce_filebrowser',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
@@ -141,9 +145,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 #CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ('0.0.0.0:8888')
 CORS_ALLOW_CREDENTIALS = True
 CORS_EXPOSE_HEADERS = ['Location']
 TASTYPIE_DEFAULT_FORMATS = ['json']
+
+DEBUG = True
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'plugins': 'media',
+    'theme_advanced_buttons1': 'bold,italic,underline,fontsizeselect,bullist,numlist,|,media,link,unlink,image',
+    'file_browser_callback': 'mce_filebrowser',
+    'theme_advanced_resizing': True,
+    'theme_advanced_path': False,
+    'relative_urls': False,
+    'width': 640,
+    'height' : 300,
+
+}

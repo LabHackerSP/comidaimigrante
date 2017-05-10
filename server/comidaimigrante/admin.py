@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.conf import settings
 from import_export import resources
 
 from import_export.admin import ImportExportModelAdmin
@@ -38,6 +39,13 @@ class RestauranteAdmin(ImportExportModelAdmin):
     list_filter = ('origem', 'regiao', 'autorizado')
     inlines = [HorariosInline]
     resource_class = RestauranteResource
+
+    class Media:
+        js = [
+            'http://code.jquery.com/jquery-1.4.2.min.js', 
+            'http://maps.google.com/maps/api/js?sensor=false', 
+            settings.STATIC_URL +'admin/long-lat-render.js'
+        ]
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user

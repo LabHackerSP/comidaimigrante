@@ -132,13 +132,14 @@
   padding: 1em;
 }
 
-.item-media img,
+/*.item-media img,
 .item-title img {
   height: 29px;
   width: 29px;
-}
+}*/
 .item-darker {
-  background: #eee;
+  background: #810a2e;
+  color: #fff;
 }
 
 .no-margin {
@@ -182,4 +183,13 @@
   content: ' close';
   font-family: 'Material Icons';
   text-transform: none;
+}
+
+.hor-50 {
+  width: 49%;
+  display: inline-block;
+}
+.hor-100 {
+  width: 100%;
+  overflow: hidden;
 }

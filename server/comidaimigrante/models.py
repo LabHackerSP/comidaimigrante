@@ -28,6 +28,7 @@ class StringField(models.TextField):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     phonehash = models.CharField(max_length=10, blank=True)
+    picture = models.URLField(blank=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -81,7 +82,7 @@ class Restaurante(models.Model):
     long = models.DecimalField(max_digits=10, decimal_places=7)
     telefone = models.CharField(blank=True, max_length=11)
     origem = models.ForeignKey(Origem)
-    foto = models.ImageField(blank=True, upload_to='fotos')
+    #foto = models.ImageField(blank=True, upload_to='fotos')
     link = models.URLField(blank=True)
     preco_min = models.IntegerField(blank=True, null=True)
     preco_max = models.IntegerField(blank=True, null=True)
@@ -101,7 +102,11 @@ class Evento(models.Model):
     data = models.DateTimeField()
     autorizado = models.BooleanField(default=False)
     privado = models.BooleanField(default=False)
-    visitors = models.ManyToManyField(User, related_name='visitors')
+    visitors = models.ManyToManyField(User, related_name='visitors', blank=True)
+
+
+    class Meta:
+        ordering = ['-data']
 
     def __str__(self):
         return self.nome

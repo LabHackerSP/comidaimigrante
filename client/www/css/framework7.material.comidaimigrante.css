@@ -1,12 +1,33 @@
+.theme-comida .dark.page-content {
+  color: #fff;
+  background: #0fa486;
+}
+.theme-comida .dark a {
+  color: #0a4028;
+}
+
+.page-content, .content-block-title, .list-block .floating-label, .list-block .label {
+  color: #0a4028;
+}
+.list-block input[type="time"], .list-block input[type="number"], .list-block input[type="text"], .list-block input[type="password"], .list-block input[type="search"], .list-block input[type="email"], .list-block input[type="tel"], .list-block input[type="url"], .list-block input[type="date"], .list-block input[type="datetime-local"], .list-block select, .list-block textarea {
+  color: #0a4028;
+}
+/*.list-block .item-after, .list-block .item-text {
+  color: #ccc;
+}
+.list-block ul::before, .input-field::after, .item-input-field::after, .list-block .item-inner::after, .list-block ul::after {
+  background-color: rgba(255,255,255,.12);
+}*/
+
 .theme-comida .page-content {
-  background: #FFE4B7;
+  background: #fff;
 }
 .theme-comida .page-content .icon {
-  color: #8E3523;
+  color: #0fa486;
 }
 
 .theme-comida .button:not(.button-fill) {
-  color: #8E3523;
+  color: #810a2e;
 }
 .theme-comida .navbar .button:not(.button-fill),
 .theme-comida.navbar .button:not(.button-fill),
@@ -18,7 +39,7 @@
 }
 .theme-comida .button-fill,
 .theme-comida .button.button-fill {
-  background: #8E3523;
+  background: #810a2e;
   color: #fff;
 }
 html:not(.watch-active-state) .theme-comida .button.button-fill:active,
@@ -31,7 +52,7 @@ html:not(.watch-active-state) .theme-comida .button.button-fill:active,
 }
 .progressbar.theme-comida span,
 .theme-comida .progressbar span {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .progressbar-infinite.theme-comida,
 .theme-comida .progressbar-infinite {
@@ -41,34 +62,34 @@ html:not(.watch-active-state) .theme-comida .button.button-fill:active,
 .theme-comida .progressbar-infinite:after,
 .progressbar-infinite.theme-comida:before,
 .theme-comida .progressbar-infinite:before {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .color-comida i.icon,
 i.icon.color-comida {
-  color: #8E3523;
+  color: #0fa486;
 }
 i.icon-next.color-comida,
 i.icon-next.theme-comida {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20fill%3D'%238E3523'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M10%206L8.59%207.41%2013.17%2012l-4.58%204.59L10%2018l6-6z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20fill%3D'%23810a2e'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M10%206L8.59%207.41%2013.17%2012l-4.58%204.59L10%2018l6-6z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
 }
 i.icon-prev.color-comida,
 i.icon-prev.theme-comida {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20fill%3D'%238E3523'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M15.41%207.41L14%206l-6%206%206%206%201.41-1.41L10.83%2012z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20fill%3D'%23810a2e'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M15.41%207.41L14%206l-6%206%206%206%201.41-1.41L10.83%2012z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
 }
 i.icon-back.color-comida,
 i.icon-back.theme-comida {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M20%2011H7.83l5.59-5.59L12%204l-8%208%208%208%201.41-1.41L7.83%2013H20v-2z'%20fill%3D'%238E3523'%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M20%2011H7.83l5.59-5.59L12%204l-8%208%208%208%201.41-1.41L7.83%2013H20v-2z'%20fill%3D'%23810a2e'%2F%3E%3C%2Fsvg%3E");
 }
 i.icon-forward.color-comida,
 i.icon-forward.theme-comida {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M12%204l-1.41%201.41L16.17%2011H4v2h12.17l-5.58%205.59L12%2020l8-8z'%20fill%3D'%238E3523'%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M12%204l-1.41%201.41L16.17%2011H4v2h12.17l-5.58%205.59L12%2020l8-8z'%20fill%3D'%23810a2e'%2F%3E%3C%2Fsvg%3E");
 }
 i.icon-bars.color-comida,
 i.icon-bars.theme-comida {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M3%2018h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z'%20fill%3D'%238E3523'%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M3%2018h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z'%20fill%3D'%23810a2e'%2F%3E%3C%2Fsvg%3E");
 }
 .theme-comida a {
-  color: #8E3523;
+  color: #0fa486;
 }
 .theme-comida .navbar,
 .navbar.theme-comida,
@@ -78,7 +99,7 @@ i.icon-bars.theme-comida {
 .subnavbar.theme-comida,
 .theme-comida .searchbar,
 .searchbar.theme-comida {
-  background-color: #8E3523;
+  background-color: #810a2e;
   color: #fff;
 }
 .theme-comida .label-switch input[type="checkbox"]:checked + .checkbox,
@@ -87,7 +108,7 @@ i.icon-bars.theme-comida {
 }
 .theme-comida .label-switch input[type="checkbox"]:checked + .checkbox:after,
 .label-switch.theme-comida input[type="checkbox"]:checked + .checkbox:after {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida label.label-checkbox,
 label.label-checkbox.theme-comida {
@@ -109,12 +130,12 @@ label.label-checkbox.theme-comida input[type="radio"]:checked ~ .item-after i.ic
 label.label-checkbox.theme-comida input[type="checkbox"]:checked ~ .item-inner i.icon-form-checkbox,
 .theme-comida label.label-checkbox input[type="radio"]:checked ~ .item-inner i.icon-form-checkbox,
 label.label-checkbox.theme-comida input[type="radio"]:checked ~ .item-inner i.icon-form-checkbox {
-  border-color: #8E3523;
-  background-color: #8E3523;
+  border-color: #810a2e;
+  background-color: #810a2e;
 }
 .theme-comida label.label-radio i.icon-form-radio:after,
 label.label-radio.theme-comida i.icon-form-radio:after {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida label.label-radio input[type="checkbox"]:checked + .item-media i.icon-form-radio,
 label.label-radio.theme-comida input[type="checkbox"]:checked + .item-media i.icon-form-radio,
@@ -128,7 +149,7 @@ label.label-radio.theme-comida input[type="radio"]:checked ~ .item-after i.icon-
 label.label-radio.theme-comida input[type="checkbox"]:checked ~ .item-inner i.icon-form-radio,
 .theme-comida label.label-radio input[type="radio"]:checked ~ .item-inner i.icon-form-radio,
 label.label-radio.theme-comida input[type="radio"]:checked ~ .item-inner i.icon-form-radio {
-  border-color: #8E3523;
+  border-color: #810a2e;
 }
 .theme-comida label.label-radio input[type="checkbox"]:checked + .item-media i.icon-form-radio:after,
 label.label-radio.theme-comida input[type="checkbox"]:checked + .item-media i.icon-form-radio:after,
@@ -142,49 +163,49 @@ label.label-radio.theme-comida input[type="radio"]:checked ~ .item-after i.icon-
 label.label-radio.theme-comida input[type="checkbox"]:checked ~ .item-inner i.icon-form-radio:after,
 .theme-comida label.label-radio input[type="radio"]:checked ~ .item-inner i.icon-form-radio:after,
 label.label-radio.theme-comida input[type="radio"]:checked ~ .item-inner i.icon-form-radio:after {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida .focus-state .label,
 .theme-comida .focus-state .floating-label {
-  color: #8E3523;
+  color: #0a4028;
 }
 .theme-comida .item-input-field.focus-state:after,
 .theme-comida .input-field.focus-state:after,
 .theme-comida .item-input-field.not-empty-state:after,
 .theme-comida .input-field.not-empty-state:after {
-  background: #8E3523;
+  background: #0a4028;
 }
 .theme-comida .picker-calendar-day.picker-calendar-day-today span {
-  color: #8E3523;
+  color: #810a2e;
 }
 .theme-comida .picker-calendar-day.picker-calendar-day-selected span {
-  background-color: #8E3523;
+  background-color: #810a2e;
   color: #fff;
 }
 .theme-comida .picker-calendar-day.picker-calendar-day-has-events span:after {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida .picker-header {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida .modal-button {
-  color: #8E3523;
+  color: #810a2e;
 }
 .theme-comida .timeline-horizontal .timeline-item-date,
 .timeline-horizontal.theme-comida .timeline-item-date {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida .timeline-year-title,
 .theme-comida .timeline-month-title {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .swiper-pagination.color-comida .swiper-pagination-bullet-active,
 .theme-comida .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .swiper-pagination.color-comida .swiper-pagination-progressbar,
 .theme-comida .swiper-pagination .swiper-pagination-progressbar {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .swiper-pagination.swiper-pagination-progress.bg-comida {
   background-color: rgba(255, 87, 34, 0.25);
@@ -193,20 +214,20 @@ label.label-radio.theme-comida input[type="radio"]:checked ~ .item-inner i.icon-
 .swiper-container-rtl .swiper-button-prev.color-comida,
 .theme-comida .swiper-button-next,
 .theme-comida .swiper-container-rtl .swiper-button-prev {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%238E3523'%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23810a2e'%2F%3E%3C%2Fsvg%3E");
 }
 .swiper-button-prev.color-comida,
 .swiper-container-rtl .swiper-button-next.color-comida,
 .theme-comida .swiper-button-prev,
 .theme-comida .swiper-container-rtl .swiper-button-next {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%238E3523'%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23810a2e'%2F%3E%3C%2Fsvg%3E");
 }
 .theme-comida .floating-button,
 .theme-comida .speed-dial-buttons a,
 .floating-button.theme-comida,
 .speed-dial-buttons a.theme-comida {
   color: #fff;
-  background: #8E3523;
+  background: #810a2e;
 }
 html:not(.watch-active-state) .theme-comida .floating-button:active,
 html:not(.watch-active-state) .theme-comida .speed-dial-buttons a:active,
@@ -226,48 +247,48 @@ html:not(.watch-active-state) .speed-dial-buttons a.theme-comida:active,
 }
 .theme-comida .range-slider input[type="range"]::-webkit-slider-thumb:before,
 .range-slider.theme-comida input[type="range"]::-webkit-slider-thumb:before {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida .range-slider input[type="range"]::-webkit-slider-thumb,
 .range-slider.theme-comida input[type="range"]::-webkit-slider-thumb {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida .range-slider input[type="range"]::-ms-thumb,
 .range-slider.theme-comida input[type="range"]::-ms-thumb {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida .range-slider input[type="range"]::-ms-fill-lower,
 .range-slider.theme-comida input[type="range"]::-ms-fill-lower {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .theme-comida .range-slider input[type="range"]::-moz-range-thumb,
 .range-slider.theme-comida input[type="range"]::-moz-range-thumb {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .badge.theme-comida {
-  background-color: #8E3523;
+  background-color: #810a2e;
   color: #fff;
 }
 .color-comida {
-  color: #8E3523;
+  color: #810a2e;
 }
 .list-block .item-link.list-button.color-comida,
 .list-block .item-link.color-comida,
 .tabbar a.active.color-comida,
 a.color-comida {
-  color: #8E3523;
+  color: #0a4028;
 }
 .label-switch input[type="checkbox"]:checked + .checkbox.color-comida,
 .label-switch.color-comida input[type="checkbox"]:checked + .checkbox {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .button.color-comida:not(.button-fill),
 .color-comida.buttons-row .button:not(.button-fill) {
-  color: #8E3523 !important;
+  color: #810a2e !important;
 }
 .button.button-fill.bg-comida,
 .button.button-fill.color-comida {
-  background: #8E3523 !important;
+  background: #810a2e !important;
   color: #fff;
 }
 html:not(.watch-active-state) .button.button-fill.bg-comida:active,
@@ -282,7 +303,7 @@ html:not(.watch-active-state) .button.button-fill.color-comida:active,
 }
 .progressbar.color-comida span,
 .progressbar.bg-comida span {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .progressbar-infinite.color-comida,
 .progressbar-infinite.bg-comida {
@@ -292,27 +313,27 @@ html:not(.watch-active-state) .button.button-fill.color-comida:active,
 .progressbar-infinite.bg-comida:after,
 .progressbar-infinite.color-comida:before,
 .progressbar-infinite.bg-comida:before {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .color-comida i.icon,
 i.icon.color-comida {
-  color: #8E3523;
+  color: #810a2e;
 }
 .preloader.color-comida svg circle,
 .preloader.preloader-comida svg circle {
-  stroke: #8E3523;
+  stroke: #810a2e;
 }
 .preloader.color-comida .preloader-inner-gap,
 .preloader.preloader-comida .preloader-inner-gap,
 .preloader.color-comida .preloader-inner-half-circle,
 .preloader.preloader-comida .preloader-inner-half-circle {
-  border-color: #8E3523;
+  border-color: #810a2e;
 }
 .bg-comida,
 a.bg-comida,
 .list-block .swipeout-actions-left a.bg-comida,
 .list-block .swipeout-actions-right a.bg-comida {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 html:not(.watch-active-state) .list-block .bg-comida .item-link:active,
 html:not(.watch-active-state) .list-block a.bg-comida .item-link:active,
@@ -341,7 +362,7 @@ html:not(.watch-active-state) .list-block .item-link.list-block .swipeout-action
   background: #E64A19;
 }
 .border-comida {
-  border-color: #8E3523;
+  border-color: #810a2e;
 }
 .list-block .border-comida.item-inner:after,
 .list-block ul.border-comida:after,
@@ -349,14 +370,14 @@ html:not(.watch-active-state) .list-block .item-link.list-block .swipeout-action
 .list-block .border-comida.item-inner:before,
 .list-block ul.border-comida:before,
 .border-comida:before {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .floating-button.color-comida,
 .speed-dial-buttons a.color-comida,
 .floating-button.bg-comida,
 .speed-dial-buttons a.bg-comida {
   color: #fff;
-  background: #8E3523;
+  background: #810a2e;
 }
 html:not(.watch-active-state) .floating-button.color-comida:active,
 html:not(.watch-active-state) .speed-dial-buttons a.color-comida:active,
@@ -378,21 +399,21 @@ html:not(.watch-active-state) .speed-dial-buttons a.bg-comida:active,
   background-color: rgba(255, 87, 34, 0.3);
 }
 .range-slider.color-comida input[type="range"]::-webkit-slider-thumb:before {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .range-slider.color-comida input[type="range"]::-webkit-slider-thumb {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .range-slider.color-comida input[type="range"]::-ms-thumb {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .range-slider.color-comida input[type="range"]::-ms-fill-lower {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .range-slider.color-comida input[type="range"]::-moz-range-thumb {
-  background-color: #8E3523;
+  background-color: #810a2e;
 }
 .badge.color-comida {
-  background-color: #8E3523;
+  background-color: #810a2e;
   color: #fff;
 }

@@ -4,13 +4,39 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import rotate_token, get_token
-from django.shortcuts import render
-from comidaimigrante.models import Cidade, Origem, Comida, Flag, Regiao
+from django.shortcuts import render, redirect
+from comidaimigrante.models import Cidade, Origem, Comida, Flag, Regiao, Evento, User
+from django.contrib.staticfiles.templatetags.staticfiles import static
 import json
 
 # Create your views here.
 def index(request):
     return render(request, 'views/home.html')
+
+
+def visit(request, evento, choice):
+    evento = Evento.objects.filter(pk=evento)
+    CHOICES = ['add', 'remove']
+    response = HttpResponse()
+    if evento and request.user and choice in CHOICES:
+        if choice == 'add':
+            evento[0].visitors.add(request.user)
+        elif choice == 'remove':
+            evento[0].visitors.remove(request.user)
+        response.status_code = 204
+    else:
+        response.status_code = 400
+    return response
+
+def picture(request, userid):
+    try:
+        picture = User.objects.get(pk=userid).profile.picture
+        if picture:
+            return redirect(picture)
+        else:
+            return redirect(static('noimage.png'))
+    except:
+        return redirect(static('noimage.png'))
 
 def meta(request):
     origens = Origem.objects.all()
@@ -107,5 +133,34 @@ def forms(request):
     # preco = models.IntegerField()
     # comida = models.ManyToManyField(Comida)
     # flags = models.ManyToManyField(Flag, blank=True)
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+# por hora hardcoded mas pode ser gerado a partir de modelos
+def formsvisitaco(request):
+
+    origens = Origem.objects.all()
+    flags = Flag.objects.all()
+    comidas = Comida.objects.all()
+    regioes = Regiao.objects.all()
+
+    data = {
+        'formsvisitaco' : [
+            formObject('nome', 'Nome', 'info', 'string'),
+            formObject('sinopse', 'Sinopse', 'info', 'resizable'),
+            formObject('data', 'Data', 'event', 'datetime'),
+            formObject('privado', 'Privado', 'lock', 'boolean'),
+            formObject('restaurante', '', '', 'string', hidden = True)
+        ]
+    }
+
+    # nome = StringField()
+    # restaurante = models.ForeignKey(Restaurante)
+    # sinopse = models.TextField()
+    # user = models.ForeignKey(User, default=1)
+    # data = models.DateTimeField()
+    # autorizado = models.BooleanField(default=False)
+    # privado = models.BooleanField(default=False)
+    # visitors = models.ManyToManyField(User, related_name='visitors')
 
     return HttpResponse(json.dumps(data), content_type="application/json")

@@ -1,0 +1,26 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+      <div class="banner row" style="background-image:url('{{cozinheiro.foto.url}}');">
+          <div class="box container">
+            <h1>{{cozinheiro.nome}}</h1>
+            <p>{{cozinheiro.restaurante.nome}}</p>
+          </div>
+    	</div>
+
+    	<div class="row principal">
+    		<div class="container">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+            {{cozinheiro.texto|safe}}
+            </div>
+          </div>
+          
+          <div class="row baixeapp">
+            <a href="https://play.google.com/store/apps/details?id=br.org.labhacker.comidaimigrante"><img src="/static/website/img/banner.png" /></a>
+          </div>
+
+        </div>
+    	</div>
+{% endblock content %}

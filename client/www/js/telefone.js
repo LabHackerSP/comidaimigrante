@@ -22,7 +22,7 @@ Frm7.onPageInit('telefone', function(page) {
     ignore: false,
     rules: {
       tel: {
-        required: false,
+        required: true,
         minlength: 10,
       },
     },
@@ -55,8 +55,7 @@ var telForm = {
     var url = SERVER + api;
 
     var tel = $('#edit-tel').val();
-    var hash = SHA1(tel.substr(tel.length - 8)); // hash dos últimos 8 dígitos
-    console.log(hash);
+    var hash = sha1(tel.substr(tel.length - 8)); // hash dos últimos 8 dígitos
     var data = {
       username: hash
     };
@@ -68,7 +67,13 @@ var telForm = {
       data: JSON.stringify(data),
       dataType: 'json',
       processData: false,
-      complete: telForm.sendCheck
+      complete: telForm.sendCheck,
+      xhrFields: {
+        withCredentials: true
+      },
+      beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+      }
     });
   },
 

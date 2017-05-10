@@ -4,15 +4,19 @@
       <a href="#" class="link icon-only back"><i class="icon icon-back"></i></a>
       <div>{{nome}}</div>
     </div>
+    {{#js_compare "user.canEdit(deresourcize(this.user))"}}
+      <div class="right">
+        <a href="#" id="edit-restaurante" class="link icon-only" onClick="app.openAddForm({{id}})">
+          <i class="material-icons">edit</i>
+        </a>
+      </div>
+    {{/js_compare}}
   </div>
-  <a href="#" id="edit-restaurante" class="floating-button color-pink hidden" onClick="app.openAddForm({{id}})">
-    <i class="material-icons">edit</i>
-  </a>
   <div class="page-content" style="height:100%;">
     <div class="list-block">
       <ul>
         <li class="item-content">
-          <div class="item-media"><img src="{{js 'templates.bandeira(this.origem.bandeira)'}}"/></div>
+          <div class="item-media"><img src="{{js 'templates.bandeira(this.origem.bandeira)'}}" width="29"/></div>
           <div class="item-inner">
             <div class="item-title">
               {{origem.nome}}
@@ -92,20 +96,21 @@
         {{/link}}
       </ul>
 
-      <!---
       <div class="content-block-title">
         <div class="info-left">Visitaços</div>
-        <div class="title-right">
-          <i onClick="" class="material-icons">add_circle_outline</i>
-        </div>
+        {{#js_compare "user.profile.authenticated"}}
+          <div class="title-right">
+            <i onClick="app.openVisitacoForm({{id}})" class="material-icons">add_circle_outline</i>
+          </div>
+        {{/js_compare}}
       </div>
       {{#if eventos.length}}
         <div class="list-block media-list">
           <ul>
             {{#each eventos}}
               <li>
-                <a href="#" class="item-link item-content"> //linkar para página do visitaço
-                  <div class="item-media"><img src="..." width="80"></div> //profile pic
+                <a onClick="app.loadRestaurantEvent({{../id}}, {{@index}});" href="#" class="item-link item-content"> <!--linkar para página do visitaço-->
+                  <div class="item-media"><img src='https://devcomidaimigrante.labhacker.org.br/api/picture/{{js "deresourcize(this.user.resource_uri)"}}' width="60"></div> <!--profile pic-->
                   <div class="item-inner">
                     <div class="item-title-row">
                       <div class="item-title">{{this.nome}}</div>
@@ -123,7 +128,7 @@
         </div>
       {{else}}
         <div class="content-block">Não existem visitaços cadastrados.</div>
-      {{/if}}-->
+      {{/if}}
     </div>
   </div>
 </div>

@@ -200,6 +200,20 @@ var app = {
     });
   },
 
+  // opens restaurant event (visitaço) detail page
+  loadRestaurantEvent: function(rid, eid) {
+    var obj = data.objects[rid].eventos[eid];
+    //map.panTo(obj.lat, obj.long);
+    //var html = templates.picker(obj);
+    //$("#picker-info").html(html);
+    //Frm7.pickerModal("#picker-info");
+    obj.key = eid;
+    mainView.router.load({
+      url: 'visitaco.html',
+      context: obj,
+    });
+  },
+
   // opens picker modal with restaurant info
   loadRestaurantPopover: function(uuid) {
     var obj = data.list[uuid];
@@ -221,6 +235,21 @@ var app = {
       if(id != undefined) forms['id'] = id;
       mainView.router.load({
         url: 'adicionar.html',
+        context: forms,
+      });
+    }
+  },
+
+  openVisitacoForm: function(rid, key) {
+    if($.isEmptyObject(data.formsvisitaco)) { data.downloadGeneric(app.openVisitacoForm, 'formsvisitaco', rid, key); }
+    else {
+      var forms = data.formsvisitaco;
+      forms['rid'] = null;
+      forms['key'] = null;
+      if(rid != undefined) forms['rid'] = rid;
+      if(key != undefined) forms['key'] = key;
+      mainView.router.load({
+        url: 'visitaco-add.html',
         context: forms,
       });
     }
@@ -397,6 +426,7 @@ var data = {
   objects: {},
   meta: {},
   forms: {},
+  formsvisitaco: {},
 
   addObject: function(obj) {
     if(!(obj.id in data.objects)) {
@@ -439,10 +469,10 @@ var data = {
   },
 
   // parser metadados
-  parseGeneric: function(callback, target, args) {
+  parseGeneric: function(callback, target, arg1, arg2) {
     return function(json) {
       data[target] = json;
-      callback(args);
+      callback(arg1, arg2);
       Frm7.hideIndicator();
     }
   },
@@ -498,12 +528,12 @@ var data = {
   },
 
   // fetch metadata
-  downloadGeneric: function(callback, target, args) {
+  downloadGeneric: function(callback, target, arg1, arg2) {
     if($.isEmptyObject(data[target])) {
       Frm7.showIndicator();
       var api = "/api/" + target;
       var url = SERVER + api;
-      $.getJSON(url, data.parseGeneric(callback, target, args), data.fail);
+      $.getJSON(url, data.parseGeneric(callback, target, arg1, arg2), data.fail);
     } else {
       callback();
     }
@@ -627,6 +657,11 @@ var user = {
       });
     }
   },
+
+  // retorna true se usuário atual pode editar o conteúdo
+  canEdit: function(creatorId) {
+    return user.profile.admin || user.profile.id == creatorId;
+  }
 };
 
 app.initialize();

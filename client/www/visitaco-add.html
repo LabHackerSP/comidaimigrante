@@ -1,0 +1,85 @@
+<div class="page no-navbar" data-page="visitaco-add">
+  <div class="subnavbar">
+    <div class="left">
+      <a href="#" class="link icon-only back"><i class="icon icon-back"></i></a>
+      <div>Criar novo Visitaço</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <br/><br/>
+    <form id="visitaco-form" class="list-block">
+      <ul>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon material-icons">local_dining</i></div>
+            <div class="item-inner">
+              <div class="item-title label">Restaurante</div>
+              {{js "data.objects[this.rid].nome"}}
+            </div>
+          </div>
+        </li>
+        {{#each formsvisitaco}}
+        <li
+          {{#js_compare "this.hidden == true"}}
+          class="hidden"
+          {{/js_compare}}
+        >
+            <div class="item-content">
+              <div class="item-media"><i class="icon material-icons">{{icon}}</i></div>
+              <div class="item-inner">
+                <div class="item-title label">{{display}}
+                  {{#js_compare "this.type == 'slider'"}}
+                  <span class="badge" id="badge-visit-{{name}}">{{min}}</span>
+                  {{/js_compare}}
+                  <span class="error" id="error-visit-{{name}}"></span>
+                </div>
+                <div class="item-input">
+                  {{#js_compare "this.type == 'string'"}}
+                  <input name="{{name}}" id="visit-{{name}}" type="text" data-error="error-visit-{{name}}">
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'slider'"}}
+                  <div class="range-slider">
+                    <input name="{{name}}" id="visit-{{name}}" type="range" min="{{min}}" max="{{max}}" value="{{min}}" step="1" data-error="error-visit-{{name}}">
+                  </div>
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'resizable'"}}
+                  <textarea name="{{name}}" id="visit-{{name}}" class="resizable" data-error="error-visit-{{name}}"></textarea>
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'tel'"}}
+                  <input name="{{name}}" id="visit-{{name}}" type="tel" data-error="error-visit-{{name}}">
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'boolean'"}}
+                  <label class="label-switch">
+                    <input name="{{name}}" id="visit-{{name}}" type="checkbox" data-error="error-visit-{{name}}">
+                    <div class="checkbox"></div>
+                  </label>
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'select'"}}
+                  <select name="{{name}}" id="visit-{{name}}" data-error="error-visit-{{name}}">
+                    {{#choices}}
+                    <option>{{this}}</option>
+                    {{/choices}}
+                  </select>
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'float'"}}
+                  <input name="{{name}}" id="visit-{{name}}" type="number" step="any" data-error="error-visit-{{name}}">
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'datetime'"}}
+                  <input name="{{name}}" id="visit-{{name}}" type="datetime-local" data-error="error-visit-{{name}}">
+                  {{/js_compare}}
+                  {{#js_compare "this.type == 'url'"}}
+                  <input name="{{name}}" id="visit-{{name}}" type="url" data-error="error-visit-{{name}}">
+                  {{/js_compare}}
+                </div>
+              </div>
+            </div>
+        </li>
+      {{/each}}
+      </ul>
+    </form>
+
+    <p>
+      <a href="#" onClick="visitacoForm.formSend();" class="button-single button button-fill button-raised">Enviar</a>
+    </p>
+  </div>
+</div>
