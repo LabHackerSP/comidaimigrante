@@ -328,15 +328,21 @@ var map = {
   init: function() {
     var opt = {
       zoomControl: false,
+      attributionControl: false,
     };
     map.object = new L.Map('map', opt);
+
+    map.object.addControl(L.control.attribution({
+      position: 'bottomright',
+      prefix: ''
+    }));
 
   	var url = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'
 
     opt = {
       minZoom: 13,
       maxZoom: 18,
-      attribution: "Tiles &copy; Esri &mdash;",
+      attribution: "<a href='http://leafletjs.com/' target='_blank' class='external'>Leaflet</a> | Tiles &copy; <a href='https://esri.github.io/esri-leaflet/' target='_blank' class='external'>Esri</a>",
     };
   	var layer = new L.TileLayer(url, opt);
 
@@ -351,7 +357,8 @@ var map = {
   	map.object.addLayer(layer);
     var userIcon = L.icon({
       'iconUrl' : 'css/images/userIcon.png',
-      'iconSize' : [31,37]
+      'iconSize' : [31,37],
+      'iconAnchor': [15,37]
     });
 
     map.markerClusters = L.markerClusterGroup({
