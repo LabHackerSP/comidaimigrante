@@ -285,6 +285,8 @@ var addForm = {
       "json"
     );*/
 
+    Frm7.showIndicator();
+
     $.ajax({
       url: url,
       type: type,
@@ -319,6 +321,7 @@ var addForm = {
       //delete data.objects[addForm.id];
       //data.downloadSingle(addForm.id);
     } else { // qualquer outro código
+      Frm7.hideIndicator();
       alert("Ocorreu um erro ao tentar enviar o restaurante!");
     }
   },
@@ -394,6 +397,7 @@ var addForm = {
   },
 
   horarioCheck: function(d) {
+    Frm7.hideIndicator();
     if (d.status == 202) { // patch com sucesso
       if(addForm.editar) {
         alert("O restaurante " + addForm.data.nome + " foi editado com sucesso.");

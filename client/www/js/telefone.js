@@ -60,6 +60,8 @@ var telForm = {
       username: hash
     };
 
+    Frm7.showIndicator();
+
     $.ajax({
       url: url,
       type: 'PUT',
@@ -78,6 +80,7 @@ var telForm = {
   },
 
   sendCheck: function(data) {
+    Frm7.hideIndicator();
     //created
     if (data.status == 204) {
       mainView.router.back();
