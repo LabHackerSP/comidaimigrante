@@ -130,8 +130,8 @@ class UserResource(BaseResource):
     class Meta:
         queryset = User.objects.all()
         fields = ['first_name', 'last_name', 'username']
-        allowed_list_methods = ['get']
-        allowed_detail_methods = ['get','put']
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get','put']
         resource_name = 'user'
         serializer = urlencodeSerializer()
         authorization = UserAuthorization()
@@ -154,7 +154,7 @@ class HorarioResource(BaseResource):
     class Meta:
         queryset = Horario.objects.all()
         authorization = HorarioAuthorization()
-        allowed_list_methods = ['get', 'patch', 'post', 'put', 'delete']
+        list_allowed_methods = ['get', 'patch', 'post', 'put', 'delete']
 
     def dehydrate(self, bundle):
         bundle.data['id'] = bundle.obj.id
@@ -171,7 +171,7 @@ class EventoResource(BaseResource):
         authentication = CustomAuthentication()
         authorization = EventoAuthorization()
         queryset = Evento.objects.all()
-        allowed_detail_methods = ['get','patch']
+        detail_allowed_methods = ['get','patch']
         resource_name = 'evento'
         serializer = urlencodeSerializer()
 
@@ -243,7 +243,7 @@ class RestauranteResource(BaseResource):
         authorization = RestauranteAuthorization()
         validation=FormValidation(form_class=RestauranteForm)
         queryset = Restaurante.objects.all()
-        allowed_detail_methods = ['get','patch']
+        detail_allowed_methods = ['get','patch']
         resource_name = 'restaurante'
         filtering = {
             "autorizado" : ('exact',),
