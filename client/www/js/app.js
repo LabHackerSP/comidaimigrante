@@ -142,7 +142,7 @@ var app = {
     //app.receivedEvent('deviceready');
     document.addEventListener('backbutton', app.onBackKeyDown, false);
     if (cordova.platformId == 'android') {
-      StatusBar.backgroundColorByHexString("#8E3523");
+      StatusBar.backgroundColorByHexString("#54051d");
       //StatusBar.backgroundColorByHexString("#1C81CE");
     }
 
