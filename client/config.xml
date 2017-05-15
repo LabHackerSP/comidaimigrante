@@ -36,8 +36,7 @@
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="SplashScreenBackgroundColor" value="0xff810a2e" />
-    <preference name="BackgroundColor" value="0xff8E3523" />
-    <preference name="backgroundColor" value="0xff8E3523" />
+    <preference name="BackgroundColor" value="0xff54051d" />
     <preference name="SplashScreen" value="screen" />
     <preference name="AutoHideSplashScreen" value="false" />
     <plugin name="cordova-plugin-statusbar" spec="~2.2.1" />
