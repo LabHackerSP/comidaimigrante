@@ -49,7 +49,7 @@ class CustomAuthentication(SessionAuthentication):
 
 class RestauranteAuthorization(ReadOnlyAuthorization):
     def create_detail(self, object_list, bundle):
-        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
+        if bundle.request.user.is_staff or bundle.request.user.is_authenticated():
             return True
 
     def update_detail(self, object_list, bundle):
@@ -62,15 +62,19 @@ class EventoAuthorization(ReadOnlyAuthorization):
             return True
 
     def update_detail(self, object_list, bundle):
-        if bundle.request.user.is_staff or bundle.request.user.is_authenticated():
+        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
             return True
 
 class HorarioAuthorization(ReadOnlyAuthorization):
     def create_detail(self, object_list, bundle):
-        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
+        if bundle.request.user.is_staff or bundle.request.user.is_authenticated():
             return True
 
     def delete_detail(self, object_list, bundle):
+        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
+            return True
+
+    def update_detail(self, object_list, bundle):
         if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
             return True
 
@@ -282,15 +286,15 @@ class RestauranteResource(BaseResource):
     # POST sempre não autorizado, necessita moderação
     def hydrate(self, bundle):
         bundle.data['autorizado'] = False
+        if bundle.request.method == 'POST':
+            bundle.data['user'] = User.objects.get(pk=bundle.request.user.pk)
         return bundle
 
     # grava qual usuário criou o restaurante
-    def hydrate_user(self, bundle):
-        if bundle.request.method == 'POST':
-            bundle.obj.user = User.objects.get(pk=bundle.request.user.pk)
-        elif bundle.request.method == 'PATCH':
-            bundle.obj.user = Restaurante.objects.get(pk=bundle.obj.pk).user
-        return bundle
+    #def hydrate_user(self, bundle):
+    #    elif bundle.request.method == 'PATCH':
+    #        bundle.obj.user = Restaurante.objects.get(pk=bundle.obj.pk).user
+    #    return bundle
 
     #dá a distância de cada resultado comparado a um ponto
     def dehydrate(self, bundle):
