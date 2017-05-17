@@ -586,7 +586,7 @@ var user = {
   },
   browser: null,
   options: {
-    toolbarColor: '#8E3523',
+    toolbarColor: '#810a2e',
     toolbarHeight: '50',
     closeButtonText: 'Fechar',
     closeButtonSize: '20',
