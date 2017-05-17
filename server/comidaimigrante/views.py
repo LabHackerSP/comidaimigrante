@@ -13,6 +13,11 @@ import json
 def index(request):
     return render(request, 'views/home.html')
 
+# página em branco para completar login
+def confirm(request):
+    response = HttpResponse()
+    response.status_code = 200
+    return response
 
 def visit(request, evento, choice):
     evento = Evento.objects.filter(pk=evento)

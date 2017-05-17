@@ -125,8 +125,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_ADAPTER = 'comidaimigrante.account.adapter.SocialAccountAdapter'
-LOGIN_REDIRECT_URL = '/accounts/profile'
-LOGOUT_REDIRECT_URL = '/accounts/profile'
+LOGIN_REDIRECT_URL = '/accounts/confirm'
+LOGOUT_REDIRECT_URL = '/accounts/confirm'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

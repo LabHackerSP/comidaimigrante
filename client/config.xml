@@ -9,7 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <allow-navigation href="https://comidaimigrante.labhacker.org.br/*" />
+    <allow-navigation href="https://comidadeimigrante.com.br/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

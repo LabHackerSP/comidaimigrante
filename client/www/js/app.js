@@ -604,7 +604,7 @@ var user = {
     }
     user.browser.addEventListener("loadstop", function (e) {
       // if the user is redirected to the profile page, close this window and update info
-      if(e.url.search("/accounts/profile") > 0) {
+      if(e.url.search("/accounts/confirm") > 0) {
         user.browser.close();
         user.downloadProfile();
       }
