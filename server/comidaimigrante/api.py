@@ -65,6 +65,10 @@ class EventoAuthorization(ReadOnlyAuthorization):
         if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
             return True
 
+    def delete_detail(self, object_list, bundle):
+        if bundle.request.user.is_staff or bundle.obj.user == bundle.request.user:
+            return True
+
 class HorarioAuthorization(ReadOnlyAuthorization):
     def create_detail(self, object_list, bundle):
         if bundle.request.user.is_staff or bundle.request.user.is_authenticated():
