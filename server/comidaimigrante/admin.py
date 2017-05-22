@@ -43,7 +43,7 @@ class RestauranteAdmin(ImportExportModelAdmin):
     class Media:
         js = [
             'https://code.jquery.com/jquery-1.4.2.min.js', 
-            'https://maps.google.com/maps/api/js?sensor=false', 
+            'https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyBG-1bCjAi6gg4irJv_FcT3sGuM9Hta_s8', 
             settings.STATIC_URL +'admin/long-lat-render.js'
         ]
 
