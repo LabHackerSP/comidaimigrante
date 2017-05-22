@@ -177,6 +177,9 @@ class EventoResource(BaseResource):
         queryset = Evento.objects.all()
         detail_allowed_methods = ['get','patch']
         ordering = ['data']
+        filtering = {
+            'data': ALL
+        }
         resource_name = 'evento'
         serializer = urlencodeSerializer()
 
