@@ -175,7 +175,7 @@ class EventoResource(BaseResource):
         authentication = CustomAuthentication()
         authorization = EventoAuthorization()
         queryset = Evento.objects.all()
-        detail_allowed_methods = ['get','patch']
+        detail_allowed_methods = ['get','patch','delete']
         ordering = ['data']
         filtering = {
             'data': ALL
