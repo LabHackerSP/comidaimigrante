@@ -176,8 +176,14 @@ class EventoResource(BaseResource):
         authorization = EventoAuthorization()
         queryset = Evento.objects.all()
         detail_allowed_methods = ['get','patch']
+        ordering = ['data']
         resource_name = 'evento'
         serializer = urlencodeSerializer()
+
+    def dehydrate(self, bundle):
+        #conta visitantes
+        bundle.data['visitor_count'] = bundle.obj.visitors.count()
+        return bundle
 
     # grava qual usuário criou o restaurante
     def hydrate_user(self, bundle):
