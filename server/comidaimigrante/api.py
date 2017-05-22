@@ -23,6 +23,8 @@ from tastypie.utils import trailing_slash
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+from datetime import date
+
 User = get_user_model()
 
 
@@ -253,7 +255,13 @@ class RestauranteResource(BaseResource):
     comida = fields.ManyToManyField(ComidaResource, 'comida', full=True, use_in='detail')
     flags = fields.ManyToManyField(FlagResource, 'flags', full=True, use_in='detail')
     horarios = fields.ToManyField(HorarioResource, attribute='horario_set', full=True, null=True, use_in='detail')
-    eventos = fields.ToManyField(EventoResource, attribute='evento_set', full=True, null=True, use_in='detail')
+    eventos = fields.ToManyField(
+        EventoResource, full=True, null=True, use_in='detail',
+        attribute=lambda bundle: Evento.objects.filter(
+            restaurante=bundle.obj,
+            data__gte=date.today()
+        )
+    )
     user = fields.ForeignKey(UserResource, 'user', use_in='detail', null=True)
     class Meta:
         authentication = CustomAuthentication()
