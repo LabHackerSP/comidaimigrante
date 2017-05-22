@@ -6,6 +6,9 @@
     </div>
     {{#js_compare "user.canEdit(deresourcize(this.user.resource_uri))"}}
       <div class="right">
+        <a href="#" class="link icon-only" onClick="visitaco.delete()">
+          <i class="material-icons">delete</i>
+        </a>
         <a href="#" class="link icon-only" onClick="app.openVisitacoForm({{js "deresourcize(this.restaurante)"}}, {{this.key}})">
           <i class="material-icons">edit</i>
         </a>

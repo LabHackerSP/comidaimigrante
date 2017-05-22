@@ -9,13 +9,15 @@ var botaoAdd = '<a href="#" id="edit-restaurante" class="floating-button color-p
 Frm7.onPageInit('visitaco', function(page) {
   //init
   var r = /\d+/;
-  var rid = page.context.restaurante.match(r); //restaurante id
-  var ekey = page.context.key; // eventos index
-  visitaco.object = data.objects[rid].eventos[ekey];
+  visitaco.rid = page.context.restaurante.match(r); //restaurante id
+  visitaco.ekey = page.context.key; // eventos index
+  visitaco.object = data.objects[visitaco.rid].eventos[visitaco.ekey];
   if(user.profile.authenticated) visitaco.userInEvent();
 });
 
 var visitaco = {
+  rid: undefined,
+  ekey: undefined,
   object: null, // data object to be edited
 
   // send 'add' or 'remove' to event and check response
@@ -88,5 +90,37 @@ var visitaco = {
     }
     $('#botao-visitar').html(botaoAdd);
     return -1;
+  },
+
+  // sends delete request for current event
+  delete: function() {
+    if(confirm("Tem certeza de que deseja excluir este visitaço?")) {
+      var api = "/api/evento/" + visitaco.object.id + "/";
+      var url = SERVER + api;
+
+      $.ajax({
+        url: url,
+        type: 'DELETE',
+        complete: visitaco.deleteCheck,
+        xhrFields: {
+          withCredentials: true
+        },
+        beforeSend: function(xhr, settings) {
+          xhr.setRequestHeader("X-CSRFToken", user.profile.csrf_token);
+        }
+      });
+    }
+  },
+
+  // ajax check
+  deleteCheck: function(d) {
+    if(d.status == 204) {
+      alert("O visitaço " + visitaco.object.nome + " foi excluído com sucesso.");
+      delete data.objects[visitaco.rid];
+      mainView.router.back({pageName: 'index', force: true})
+      data.downloadSingle(visitaco.rid);
+    } else {
+      alert("Ocorreu um erro ao tentar excluir o visitaço.");
+    }
   },
 }
