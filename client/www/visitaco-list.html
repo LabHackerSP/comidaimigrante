@@ -1,0 +1,35 @@
+<div class="page with-subnavbar no-navbar" data-page="visitaco-list">
+  <div class="subnavbar">
+    <div class="left">
+      <a href="#" class="link icon-only back"><i class="icon icon-back"></i></a>
+      <div>Próximos Visitaços</div>
+    </div>
+  </div>
+  <div class="page-content" style="height:100%;">
+  {{#if objects.length}}
+    <div class="list-block media-list">
+      <ul>
+        {{#each objects}}
+          <li>
+            <a onClick="data.downloadEvent({{this.id}});" href="#" class="item-link item-content"> <!--linkar para página do visitaço-->
+              <div class="item-media"><img src='{{js "SERVER"}}/api/picture/{{js "deresourcize(this.user.resource_uri)"}}' width="60"></div> <!--profile pic-->
+              <div class="item-inner">
+                <div class="item-title-row">
+                  <div class="item-title">{{this.nome}}</div>
+                  {{#if this.privado}}
+                    <div class="item-after"><i class="icon material-icons">lock</i></div>
+                  {{/if}}
+                </div>
+                <div class="item-subtitle">{{this.user.first_name}} {{this.user.last_name}}</div>
+                <div class="item-text">{{js "templates.dataVisitaco(this.data)"}}</div>
+              </div>
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{else}}
+    <div class="content-block">Não existem visitaços futuros.</div>
+  {{/if}}
+  </div>
+</div>

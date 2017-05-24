@@ -40,11 +40,11 @@ var templates = {
   popover: Template7.compile($$('#popover-template').html()),
   leftPanel: Template7.compile($$('#left-panel-template').html()),
 
-
   dataVisitaco: function (data) {
   	data = new Date(data)
-  	return data.getDate() + '/' + data.getMonth() + '/' + data.getFullYear() + ' às ' + data.getHours() + ':' + data.getMinutes();
+  	return data.getDate() + '/' + (data.getMonth()+1) + '/' + data.getFullYear() + ' às ' + data.getHours() + ':' + data.getMinutes();
   },
+
   // hoje true = aberto/fechado hoje
   // hoje false = lista de parágrafos com horários
   formataHorario: function(horarios, hoje) {
@@ -201,16 +201,23 @@ var app = {
   },
 
   // opens restaurant event (visitaço) detail page
-  loadRestaurantEvent: function(rid, eid) {
-    var obj = data.objects[rid].eventos[eid];
+  loadRestaurantEvent: function(rid, ekey) {
+    var obj = data.objects[rid].eventos[ekey];
     //map.panTo(obj.lat, obj.long);
     //var html = templates.picker(obj);
     //$("#picker-info").html(html);
     //Frm7.pickerModal("#picker-info");
-    obj.key = eid;
+    obj.key = ekey;
     mainView.router.load({
       url: 'visitaco.html',
       context: obj,
+    });
+  },
+
+  loadGenericTemplate: function(url, json) {
+    mainView.router.load({
+      url: url,
+      context: json,
     });
   },
 
@@ -475,6 +482,18 @@ var data = {
     Frm7.hideIndicator();
   },
 
+  // parser evento
+  parseEvent: function(json) {
+    app.loadGenericTemplate('visitaco.html', json);
+    Frm7.hideIndicator();
+  },
+
+  // parser lista de evento
+  parseEventList: function(json) {
+    app.loadGenericTemplate('visitaco-list.html', json);
+    Frm7.hideIndicator();
+  },
+
   // parser metadados
   parseGeneric: function(callback, target, arg1, arg2) {
     return function(json) {
@@ -532,6 +551,23 @@ var data = {
       var url = SERVER + api;
       $.getJSON(url, data.parseSingle, data.fail);
     }
+  },
+
+  // fetch event from server
+  downloadEvent: function(id) {
+    Frm7.showIndicator();
+    var api = "/api/evento/" + id + "/?format=json";
+    var url = SERVER + api;
+    $.getJSON(url, data.parseEvent, data.fail);
+  },
+
+  // list of upcoming events
+  downloadEventList: function() {
+    Frm7.showIndicator();
+    var today = moment(Date.now()).format('YYYY-MM-DD');
+    var api = "/api/evento/?format=json&order_by=-data&limit=100&data__gte=" + today;
+    var url = SERVER + api;
+    $.getJSON(url, data.parseEventList, data.fail);
   },
 
   // fetch metadata
