@@ -13,6 +13,11 @@ body {
 	text-transform: uppercase;
 	font-size: 1.2em;
 }
+
+.nav li a:hover {
+	background-color: transparent;
+	font-weight: bold;
+}
 .banner {
 	height: 680px;
 	overflow: hidden;
@@ -67,6 +72,8 @@ body {
 .cozinheiro-box {
 	height:276px;
 	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
 }
 
 .cozinheiro-box .nome {
