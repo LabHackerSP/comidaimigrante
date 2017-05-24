@@ -11,7 +11,7 @@
       <ul>
         {{#each objects}}
           <li>
-            <a onClick="data.downloadEvent({{this.id}});" href="#" class="item-link item-content"> <!--linkar para página do visitaço-->
+            <a onClick="data.downloadEvent({{js "deresourcize(this.restaurante)"}}, {{this.id}});" href="#" class="item-link item-content"> <!--linkar para página do visitaço-->
               <div class="item-media"><img src='{{js "SERVER"}}/api/picture/{{js "deresourcize(this.user.resource_uri)"}}' width="60"></div> <!--profile pic-->
               <div class="item-inner">
                 <div class="item-title-row">

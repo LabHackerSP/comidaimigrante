@@ -34,7 +34,7 @@
           <div class="item-media"><i class="icon material-icons">local_dining</i></div>
           <div class="item-inner">
             <div class="item-title">
-              <a href="#" onClick="app.loadRestaurant({{js "deresourcize(this.restaurante)"}})">{{js "data.objects[deresourcize(this.restaurante)].nome"}}</a>
+                <a href="#" onClick="app.loadRestaurant({{this.rid}})">{{js "data.list[this.rid].nome"}}</a>
             </div>
           </div>
         </li>

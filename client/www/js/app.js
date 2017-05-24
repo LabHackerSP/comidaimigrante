@@ -208,10 +208,19 @@ var app = {
     //$("#picker-info").html(html);
     //Frm7.pickerModal("#picker-info");
     obj.key = ekey;
+    obj.rid = rid;
     mainView.router.load({
       url: 'visitaco.html',
       context: obj,
     });
+  },
+
+  loadRestaurantEventID: function(rid, eid) {
+    var r = data.objects[rid];
+    for(i = 0; i < r.eventos.length; i++) {
+      if(r.eventos[i].id == eid) app.loadRestaurantEvent(rid, i);
+    }
+    return false;
   },
 
   loadGenericTemplate: function(url, json) {
@@ -483,9 +492,14 @@ var data = {
   },
 
   // parser evento
-  parseEvent: function(json) {
-    app.loadGenericTemplate('visitaco.html', json);
-    Frm7.hideIndicator();
+  parseEvent: function(rid, eid) {
+    return function(json) {
+      // recebe o restaurante e grava
+      data.addObject(json);
+      // carrega o evento
+      app.loadRestaurantEventID(rid, eid);
+      Frm7.hideIndicator();
+    }
   },
 
   // parser lista de evento
@@ -554,11 +568,11 @@ var data = {
   },
 
   // fetch event from server
-  downloadEvent: function(id) {
+  downloadEvent: function(rid, eid) {
     Frm7.showIndicator();
-    var api = "/api/evento/" + id + "/?format=json";
+    var api = "/api/restaurante/" + rid + "/?format=json";
     var url = SERVER + api;
-    $.getJSON(url, data.parseEvent, data.fail);
+    $.getJSON(url, data.parseEvent(rid, eid), data.fail);
   },
 
   // list of upcoming events
